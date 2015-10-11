@@ -5,7 +5,6 @@ package algorithms.simplejoin;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,11 +40,11 @@ public class Combiner {
         int counterA;
         int counterB;
         init();
+        bufferA = readerA.readLine();
+        bufferB = readerB.readLine();
         while (bufferA != null && bufferB != null) {
             counterA = 0;
             counterB = 0;
-            bufferA = readerA.readLine();
-            bufferB = readerB.readLine();
             while (counterA < blocksize && counterB < blocksize && bufferA != null && bufferB != null) {
                 if (bufferA.compareTo(bufferB) < 0) {
                     counterA++;
@@ -56,14 +55,33 @@ public class Combiner {
                     writer.write(bufferB);
                     bufferB = readerB.readLine();
                 }
+                writer.newLine();
             }
             while (counterA < blocksize && bufferA != null) {
-                
-                
-                
-                
-            }
+                writer.write(bufferA);
+                writer.newLine();
+                counterA++;
+                bufferA = readerA.readLine();
 
+            }
+            while (counterB < blocksize && bufferB != null) {
+                writer.write(bufferB);
+                writer.newLine();
+                counterB++;
+                bufferB = readerB.readLine();
+            }
+            while (bufferA != null) {
+                writer.write(bufferA);
+                writer.newLine();
+                counterA++;
+                bufferA = readerA.readLine();
+            }
+            while (bufferB != null) {
+                writer.write(bufferB);
+                writer.newLine();
+                counterB++;
+                bufferB = readerB.readLine();
+            }    
         }
 
         close();

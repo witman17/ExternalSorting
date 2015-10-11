@@ -6,12 +6,14 @@
  */
 package algorithms.simplejoin;
 
+import com.sun.istack.internal.logging.Logger;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  *
@@ -38,8 +40,9 @@ public class Splitter {
         this.writerB = null;
     }
 
-    public void split(int blocksize) throws IOException {
+    public boolean split(int blocksize) throws IOException {
         String buffer = "Start";
+        boolean oneBlock = true;
         int counter;
         init();
         while (buffer != null) {
@@ -47,17 +50,21 @@ public class Splitter {
             while (counter < blocksize && (buffer = reader.readLine()) != null) {
                 counter++;
                 writerA.write(buffer);
+                writerA.newLine();
             }
-            if (buffer != null) {
-                counter = 0;
-                while (counter < blocksize && (buffer = reader.readLine()) != null) {
-                    counter++;
-                    writerB.write(buffer);
-                }
+            Logger.getLogger(Splitter.class).log(Level.INFO, "Koniec Split - TempA");
+            counter = 0;
+            while (counter < blocksize && (buffer = reader.readLine()) != null) {
+                oneBlock = false;
+                counter++;
+                writerB.write(buffer);
+                writerB.newLine();
             }
+
         }
         this.close();
-
+        Logger.getLogger(Splitter.class).log(Level.INFO, "Koniec Spit");
+        return oneBlock;
     }
 
     private void init() throws FileNotFoundException, IOException {
