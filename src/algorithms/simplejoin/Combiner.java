@@ -70,20 +70,17 @@ public class Combiner {
                 counterB++;
                 bufferB = readerB.readLine();
             }
-            while (bufferA != null) {
-                writer.write(bufferA);
-                writer.newLine();
-                counterA++;
-                bufferA = readerA.readLine();
-            }
-            while (bufferB != null) {
-                writer.write(bufferB);
-                writer.newLine();
-                counterB++;
-                bufferB = readerB.readLine();
-            }    
         }
-
+        while (bufferA != null) {
+            writer.write(bufferA);
+            writer.newLine();
+            bufferA = readerA.readLine();
+        }
+        while (bufferB != null) {
+            writer.write(bufferB);
+            writer.newLine();
+            bufferB = readerB.readLine();
+        }
         close();
     }
 

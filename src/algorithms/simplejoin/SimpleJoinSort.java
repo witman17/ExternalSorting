@@ -34,7 +34,7 @@ public class SimpleJoinSort {
             blocksize *= 2;
         } while (!spriter.split(blocksize));
         Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec Sort");
-        
+        //clean();
     }
     private void clean(){
         File tempA = new File(spriter.getOutputA());

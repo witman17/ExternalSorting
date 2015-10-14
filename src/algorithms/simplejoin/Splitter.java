@@ -52,7 +52,6 @@ public class Splitter {
                 writerA.write(buffer);
                 writerA.newLine();
             }
-            Logger.getLogger(Splitter.class).log(Level.INFO, "Koniec Split - TempA");
             counter = 0;
             while (counter < blocksize && (buffer = reader.readLine()) != null) {
                 oneBlock = false;
@@ -63,7 +62,6 @@ public class Splitter {
 
         }
         this.close();
-        Logger.getLogger(Splitter.class).log(Level.INFO, "Koniec Spit");
         return oneBlock;
     }
 
