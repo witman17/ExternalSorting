@@ -33,7 +33,7 @@ public class SimpleJoinSort {
             combiner.combine(blockSize);
             blockSize *= 2;
         } while (!spriter.split(blockSize));
-        Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec Sort");
+        Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec SimpleSort");
         //clean();
     }
     private void clean(){
