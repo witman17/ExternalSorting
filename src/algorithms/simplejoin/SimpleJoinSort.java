@@ -16,23 +16,23 @@ import java.util.logging.Logger;
  */
 public class SimpleJoinSort {
 
-    private Splitter spriter;
-    private Combiner combiner;
+    private SimpleSplitter spriter;
+    private SimpleCombiner combiner;
 
     public SimpleJoinSort(String source, String sortedFile, String tempA, String tempB) {
-        spriter = new Splitter(source, tempA, tempB);
-        combiner = new Combiner(tempA, tempB, sortedFile);
+        spriter = new SimpleSplitter(source, tempA, tempB);
+        combiner = new SimpleCombiner(tempA, tempB, sortedFile);
 
     }
 
     public void sort() throws IOException {
-        int blocksize = 1;
-        spriter.split(blocksize);
+        int blockSize = 1;
+        spriter.split(blockSize);
         spriter.setInputFile(combiner.getOutput());
         do {
-            combiner.combine(blocksize);
-            blocksize *= 2;
-        } while (!spriter.split(blocksize));
+            combiner.combine(blockSize);
+            blockSize *= 2;
+        } while (!spriter.split(blockSize));
         Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec Sort");
         //clean();
     }

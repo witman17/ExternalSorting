@@ -3,38 +3,33 @@
  */
 package algorithms.simplejoin;
 
+import algorithms.Combiner;
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**
  *
  * @author Witold
  */
-public class Combiner {
+public class SimpleCombiner extends Combiner {
 
-    private String inputA;
+    protected String inputA;
+    protected String InputB;
+    protected BufferedReader readerA;
+    protected BufferedReader readerB;
 
-    private String InputB;
-
-    private String output;
-
-    private BufferedReader readerA;
-    private BufferedReader readerB;
-    private BufferedWriter writer;
-
-    public Combiner(String inputA, String InputB, String output) {
+    public SimpleCombiner(String inputA, String InputB, String output) {
+        super(output);
         this.inputA = inputA;
         this.InputB = InputB;
-        this.output = output;
         readerA = null;
         readerB = null;
-        writer = null;
     }
 
-    public void combine(int blocksize) throws IOException {
+    @Override
+    public void combine(int blockSize) throws IOException {
         String bufferA = "Start";
         String bufferB = "Start";
         int counterA;
@@ -45,7 +40,7 @@ public class Combiner {
         while (bufferA != null && bufferB != null) {
             counterA = 0;
             counterB = 0;
-            while (counterA < blocksize && counterB < blocksize && bufferA != null && bufferB != null) {
+            while (counterA < blockSize && counterB < blockSize && bufferA != null && bufferB != null) {
                 if (bufferA.compareTo(bufferB) < 0) {
                     counterA++;
                     writer.write(bufferA);
@@ -57,14 +52,14 @@ public class Combiner {
                 }
                 writer.newLine();
             }
-            while (counterA < blocksize && bufferA != null) {
+            while (counterA < blockSize && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
                 counterA++;
                 bufferA = readerA.readLine();
 
             }
-            while (counterB < blocksize && bufferB != null) {
+            while (counterB < blockSize && bufferB != null) {
                 writer.write(bufferB);
                 writer.newLine();
                 counterB++;
@@ -84,17 +79,20 @@ public class Combiner {
         close();
     }
 
-    private void init() throws IOException {
+    @Override
+    protected void init() throws IOException {
+        super.init();
         readerA = new BufferedReader(new FileReader(inputA));
         readerB = new BufferedReader(new FileReader(InputB));
-        writer = new BufferedWriter(new FileWriter(output));
     }
 
-    private void close() throws IOException {
+    @Override
+    protected void close() throws IOException {
+        super.close();
         readerA.close();
         readerB.close();
-        writer.close();
-
+        readerA = null;
+        readerB = null;
     }
 
     /**
@@ -103,7 +101,7 @@ public class Combiner {
      * @return the value of output
      */
     public String getOutput() {
-        return output;
+        return outputFile;
     }
 
     /**
@@ -112,7 +110,7 @@ public class Combiner {
      * @param output new value of output
      */
     public void setOutput(String output) {
-        this.output = output;
+        this.outputFile = output;
     }
 
     /**

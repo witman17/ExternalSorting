@@ -6,33 +6,25 @@
  */
 package algorithms.simplejoin;
 
-import com.sun.istack.internal.logging.Logger;
-import java.io.BufferedReader;
+import algorithms.Splitter;
+
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  *
  * @author Witold
  */
-public class Splitter {
+public class SimpleSplitter extends Splitter {
 
-    private String InputFile;
+    protected String OutputA;
+    protected String OutputB;
+    protected BufferedWriter writerA;
+    protected BufferedWriter writerB;
 
-    private String OutputA;
-
-    private String OutputB;
-
-    private BufferedReader reader;
-    private BufferedWriter writerA;
-    private BufferedWriter writerB;
-
-    public Splitter(String InputFile, String OutputA, String OutputB) {
-        this.InputFile = InputFile;
+    public SimpleSplitter(String InputFile, String OutputA, String OutputB) {
+        super(InputFile);
         this.OutputA = OutputA;
         this.OutputB = OutputB;
         this.reader = null;
@@ -40,20 +32,21 @@ public class Splitter {
         this.writerB = null;
     }
 
-    public boolean split(int blocksize) throws IOException {
+    @Override
+    public boolean split(int blockSize) throws IOException {
         String buffer = "Start";
         boolean oneBlock = true;
         int counter;
         init();
         while (buffer != null) {
             counter = 0;
-            while (counter < blocksize && (buffer = reader.readLine()) != null) {
+            while (counter < blockSize && (buffer = reader.readLine()) != null) {
                 counter++;
                 writerA.write(buffer);
                 writerA.newLine();
             }
             counter = 0;
-            while (counter < blocksize && (buffer = reader.readLine()) != null) {
+            while (counter < blockSize && (buffer = reader.readLine()) != null) {
                 oneBlock = false;
                 counter++;
                 writerB.write(buffer);
@@ -65,16 +58,20 @@ public class Splitter {
         return oneBlock;
     }
 
-    private void init() throws FileNotFoundException, IOException {
-        reader = new BufferedReader(new FileReader(InputFile));
+    @Override
+    protected void init() throws IOException {
+        super.init();
         writerA = new BufferedWriter(new FileWriter(OutputA));
         writerB = new BufferedWriter(new FileWriter(OutputB));
     }
 
-    private void close() throws IOException {
-        reader.close();
+    @Override
+    protected void close() throws IOException {
+        super.close();
         writerA.close();
         writerB.close();
+        writerA = null;
+        writerB = null;
     }
 
     /**
@@ -119,7 +116,7 @@ public class Splitter {
      * @return the value of InputFile
      */
     public String getInputFile() {
-        return InputFile;
+        return inputFile;
     }
 
     /**
@@ -128,7 +125,7 @@ public class Splitter {
      * @param InputFile new value of InputFile
      */
     public void setInputFile(String InputFile) {
-        this.InputFile = InputFile;
+        this.inputFile = InputFile;
     }
 
 }
