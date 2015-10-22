@@ -21,8 +21,6 @@ public class NaturalSplitter extends SimpleSplitter {
         boolean changeFile = true;
         boolean oneSeries = true;
         init();
-        //TODO poprawiæ splitter, prawdopodobnie skiepszczone przy seriesReaderze.
-        // konczy serie o jeden znak za wczesnie
         while ((buffer = seriesReader.getSeriesElement()) != null) {
             if (seriesReader.isSeriesEnded()) {
                 changeFile = !changeFile;

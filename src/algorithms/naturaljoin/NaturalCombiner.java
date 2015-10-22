@@ -19,33 +19,24 @@ public class NaturalCombiner extends SimpleCombiner {
     @Override
     public void combine() throws IOException {
         init();
+        //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
         String bufferB = seriesReaderB.getSeriesElement();
         while (bufferA != null && bufferB != null) {
+            // porównanie dwoch elementów serii, przepisanie mniejszego
             do {
                 if (bufferA.compareTo(bufferB) < 0) {
                     writer.write(bufferA);
-                    if (!seriesReaderA.isSeriesEnded())
-                        bufferA = seriesReaderA.getSeriesElement();
+                    bufferA = seriesReaderA.getSeriesElement();
                 } else {
                     writer.write(bufferB);
-                    if (!seriesReaderB.isSeriesEnded())
-                        bufferB = seriesReaderB.getSeriesElement();
+                    bufferB = seriesReaderB.getSeriesElement();
                 }
                 writer.newLine();
-                if (seriesReaderA.isSeriesEnded()) {
-                    writer.write(bufferA);
-                    bufferA = seriesReaderA.getSeriesElement();
-                    writer.newLine();
-                }
-                if (seriesReaderB.isSeriesEnded()) {
-                    writer.write(bufferB);
-                    bufferB = seriesReaderB.getSeriesElement();
-                    writer.newLine();
-                }
 
             }
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded());
+            //dopisanie do pozosta³ych elementów w serri której elementy siê nie skoñczy³y
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
@@ -57,6 +48,7 @@ public class NaturalCombiner extends SimpleCombiner {
                 bufferB = seriesReaderB.getSeriesElement();
             }
         }
+        //dopisanie pozosta³ych elementów w pliku
         while (bufferA != null) {
             writer.write(bufferA);
             writer.newLine();

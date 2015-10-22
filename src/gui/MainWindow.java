@@ -21,8 +21,8 @@ public class MainWindow {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "r.txt", "A.txt", "B.txt");
-        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rX.txt", "AX.txt", "BX.txt");
+        SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
+        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
         try {
             simpleJoinSort.sort();
             naturalJoinSort.sort();
