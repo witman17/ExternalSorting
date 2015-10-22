@@ -19,6 +19,8 @@ public abstract class Combiner {
         writer = null;
     }
 
+    public abstract void combine() throws IOException;
+
     public abstract void combine(int blockSize) throws IOException;
 
     protected void init() throws IOException {

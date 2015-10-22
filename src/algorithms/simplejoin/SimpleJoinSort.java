@@ -16,29 +16,33 @@ import java.util.logging.Logger;
  */
 public class SimpleJoinSort {
 
-    private SimpleSplitter spriter;
-    private SimpleCombiner combiner;
+    protected SimpleSplitter splitter;
+    protected SimpleCombiner combiner;
 
     public SimpleJoinSort(String source, String sortedFile, String tempA, String tempB) {
-        spriter = new SimpleSplitter(source, tempA, tempB);
+        splitter = new SimpleSplitter(source, tempA, tempB);
         combiner = new SimpleCombiner(tempA, tempB, sortedFile);
+    }
+
+    public SimpleJoinSort() {
 
     }
 
     public void sort() throws IOException {
         int blockSize = 1;
-        spriter.split(blockSize);
-        spriter.setInputFile(combiner.getOutput());
+        splitter.split(blockSize);
+        splitter.setInputFile(combiner.getOutput());
         do {
             combiner.combine(blockSize);
             blockSize *= 2;
-        } while (!spriter.split(blockSize));
+        } while (!splitter.split(blockSize));
         Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec SimpleSort");
         //clean();
     }
-    private void clean(){
-        File tempA = new File(spriter.getOutputA());
-        File tempB = new File(spriter.getOutputB());
+
+    protected void clean() {
+        File tempA = new File(splitter.getOutputA());
+        File tempB = new File(splitter.getOutputB());
         tempA.delete();
         tempB.delete();
     }

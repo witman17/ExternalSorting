@@ -27,6 +27,6 @@ public abstract class Splitter {
         reader = null;
     }
 
-    public abstract boolean split(int blockSize) throws IOException;
+    public abstract boolean split() throws IOException;
 
 }

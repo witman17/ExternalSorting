@@ -13,17 +13,18 @@ public class NaturalSplitter extends SimpleSplitter {
 
     public NaturalSplitter(String inputFile, String outputA, String outputB) {
         super(inputFile, outputA, outputB);
-        seriesReader = new SeriesReader();
     }
 
-    @Override
-    public boolean split(int blockSize) throws IOException {
+
+    public boolean split() throws IOException {
         String buffer;
         boolean changeFile = true;
         boolean oneSeries = true;
-        super.init();
-        while ((buffer = seriesReader.getSeriesElement(reader)) != null) {
-            if (seriesReader.ifSeriesEnded) {
+        init();
+        //TODO poprawiæ splitter, prawdopodobnie skiepszczone przy seriesReaderze.
+        // konczy serie o jeden znak za wczesnie
+        while ((buffer = seriesReader.getSeriesElement()) != null) {
+            if (seriesReader.isSeriesEnded()) {
                 changeFile = !changeFile;
                 oneSeries = false;
             }
@@ -37,5 +38,11 @@ public class NaturalSplitter extends SimpleSplitter {
         }
         super.close();
         return oneSeries;
+    }
+
+    @Override
+    protected void init() throws IOException {
+        super.init();
+        seriesReader = new SeriesReader(reader);
     }
 }

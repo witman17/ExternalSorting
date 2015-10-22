@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package gui;
-import algorithms.simplejoin.*;
+
+import algorithms.naturaljoin.NaturalJoinSort;
+import algorithms.simplejoin.SimpleJoinSort;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +22,10 @@ public class MainWindow {
      */
     public static void main(String[] args) {
         SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "r.txt", "A.txt", "B.txt");
+        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rX.txt", "AX.txt", "BX.txt");
         try {
             simpleJoinSort.sort();
+            naturalJoinSort.sort();
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }

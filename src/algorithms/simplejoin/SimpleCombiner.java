@@ -29,6 +29,11 @@ public class SimpleCombiner extends Combiner {
     }
 
     @Override
+    public void combine() throws IOException {
+
+    }
+
+    @Override
     public void combine(int blockSize) throws IOException {
         String bufferA = "Start";
         String bufferB = "Start";

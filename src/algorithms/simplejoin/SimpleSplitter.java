@@ -32,7 +32,6 @@ public class SimpleSplitter extends Splitter {
         this.writerB = null;
     }
 
-    @Override
     public boolean split(int blockSize) throws IOException {
         String buffer = "Start";
         boolean oneBlock = true;
@@ -72,6 +71,11 @@ public class SimpleSplitter extends Splitter {
         writerB.close();
         writerA = null;
         writerB = null;
+    }
+
+    @Override
+    public boolean split() throws IOException {
+        return false;
     }
 
     /**

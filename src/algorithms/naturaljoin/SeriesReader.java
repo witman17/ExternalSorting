@@ -9,17 +9,26 @@ import java.io.IOException;
 public class SeriesReader {
 
 
-    protected boolean ifSeriesEnded;
-    protected String currentBuffer;
-    protected String nextBuffer;
+    private boolean seriesEnded;
+    private String currentBuffer;
+    private String nextBuffer;
+    private BufferedReader reader;
 
-    public SeriesReader() {
+    public SeriesReader(BufferedReader reader) {
+        this.reader = reader;
         currentBuffer = null;
         nextBuffer = null;
-        ifSeriesEnded = false;
+        seriesEnded = false;
     }
 
-    public String getSeriesElement(BufferedReader reader) throws IOException {
+    public String getSeriesElement() throws IOException {
+        if (currentBuffer != null && nextBuffer != null)
+            if (currentBuffer.compareTo(nextBuffer) <= 0)
+                seriesEnded = false;
+            else
+                seriesEnded = true;
+        else
+            seriesEnded = false;
         if (currentBuffer == null && nextBuffer == null) {
             currentBuffer = reader.readLine();
             nextBuffer = reader.readLine();
@@ -28,17 +37,11 @@ public class SeriesReader {
             nextBuffer = reader.readLine();
         }
         //sprawdzanie koñca serii
-        if (currentBuffer != null && nextBuffer != null)
-            if (currentBuffer.compareTo(nextBuffer) < 0)
-                ifSeriesEnded = false;
-            else
-                ifSeriesEnded = true;
-        else
-            ifSeriesEnded = false;
+
         return currentBuffer;
     }
 
-    public boolean isIfSeriesEnded() {
-        return ifSeriesEnded;
+    public boolean isSeriesEnded() {
+        return seriesEnded;
     }
 }
