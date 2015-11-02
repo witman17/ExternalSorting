@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Witold
  */
 public class SimpleJoinSort {
@@ -30,12 +29,13 @@ public class SimpleJoinSort {
 
     public void sort() throws IOException {
         int blockSize = 1;
-        splitter.split(blockSize);
-        splitter.setInputFile(combiner.getOutput());
-        do {
-            combiner.combine(blockSize);
-            blockSize *= 2;
-        } while (!splitter.split(blockSize));
+        if (splitter.split(blockSize) > 1) { // jak false to plik jednoelementowy na wejœciu
+            splitter.setInputFile(combiner.getOutput());
+            do {
+                combiner.combine(blockSize);
+                blockSize *= 2;
+            } while (splitter.split(blockSize) > 1);
+        }
         Logger.getLogger(SimpleJoinSort.class.getName()).log(Level.INFO, "Koniec SimpleSort");
         //clean();
     }

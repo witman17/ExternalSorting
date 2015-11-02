@@ -27,6 +27,6 @@ public abstract class Splitter {
         reader = null;
     }
 
-    public abstract boolean split() throws IOException;
+    public abstract int split() throws IOException;
 
 }

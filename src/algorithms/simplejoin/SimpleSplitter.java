@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *
  * @author Witold
  */
 public class SimpleSplitter extends Splitter {
@@ -32,9 +31,9 @@ public class SimpleSplitter extends Splitter {
         this.writerB = null;
     }
 
-    public boolean split(int blockSize) throws IOException {
+    public int split(int blockSize) throws IOException {
         String buffer = "Start";
-        boolean oneBlock = true;
+        int blocksNumber = 0;
         int counter;
         init();
         while (buffer != null) {
@@ -44,17 +43,20 @@ public class SimpleSplitter extends Splitter {
                 writerA.write(buffer);
                 writerA.newLine();
             }
+            if (counter > 0)
+                blocksNumber++;
             counter = 0;
             while (counter < blockSize && (buffer = reader.readLine()) != null) {
-                oneBlock = false;
                 counter++;
                 writerB.write(buffer);
                 writerB.newLine();
             }
+            if (counter > 0)
+                blocksNumber++;
 
         }
         this.close();
-        return oneBlock;
+        return blocksNumber;
     }
 
     @Override
@@ -74,8 +76,8 @@ public class SimpleSplitter extends Splitter {
     }
 
     @Override
-    public boolean split() throws IOException {
-        return false;
+    public int split() throws IOException {
+        return 0;
     }
 
     /**

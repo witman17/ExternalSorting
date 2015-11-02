@@ -31,14 +31,12 @@ public class SimpleCombiner extends Combiner {
     @Override
     public void combine() throws IOException {
 
+
     }
 
-    @Override
     public void combine(int blockSize) throws IOException {
-        String bufferA = "Start";
-        String bufferB = "Start";
-        int counterA;
-        int counterB;
+        String bufferA, bufferB;
+        int counterA, counterB;
         init();
         bufferA = readerA.readLine();
         bufferB = readerB.readLine();

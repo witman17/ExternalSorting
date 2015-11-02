@@ -21,7 +21,6 @@ public abstract class Combiner {
 
     public abstract void combine() throws IOException;
 
-    public abstract void combine(int blockSize) throws IOException;
 
     protected void init() throws IOException {
         writer = new BufferedWriter(new FileWriter(outputFile));

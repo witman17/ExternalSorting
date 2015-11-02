@@ -18,16 +18,17 @@ public class NaturalJoinSort extends SimpleJoinSort {
 
     @Override
     public void sort() throws IOException {
-        splitter.split();
-        splitter.setInputFile(combiner.getOutput());
-        do {
-            combiner.combine();
-        } while (!splitter.split());
+        if (splitter.split() > 1) { // jak false to plik posortowany na wejściu.
+            splitter.setInputFile(combiner.getOutput());
+            do {
+                combiner.combine();
+            } while (splitter.split() > 1);
+        }
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Koniec NaturalSort");
     }
 
     @Override
     protected void clean() {
-
+        //TODO napisać cleaner
     }
 }

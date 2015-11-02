@@ -15,16 +15,16 @@ public class NaturalSplitter extends SimpleSplitter {
         super(inputFile, outputA, outputB);
     }
 
-
-    public boolean split() throws IOException {
+    @Override
+    public int split() throws IOException {
         String buffer;
         boolean changeFile = true;
-        boolean oneSeries = true;
+        int seriesNumber = 1;
         init();
         while ((buffer = seriesReader.getSeriesElement()) != null) {
             if (seriesReader.isSeriesEnded()) {
                 changeFile = !changeFile;
-                oneSeries = false;
+                seriesNumber++;
             }
             if (changeFile) {
                 writerA.write(buffer);
@@ -35,7 +35,7 @@ public class NaturalSplitter extends SimpleSplitter {
             }
         }
         super.close();
-        return oneSeries;
+        return seriesNumber;
     }
 
     @Override

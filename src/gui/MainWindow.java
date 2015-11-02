@@ -5,6 +5,7 @@
  */
 package gui;
 
+import algorithms.megresort.MergeSort;
 import algorithms.naturaljoin.NaturalJoinSort;
 import algorithms.simplejoin.SimpleJoinSort;
 
@@ -23,9 +24,11 @@ public class MainWindow {
     public static void main(String[] args) {
         SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
         NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
+        MergeSort mergeSort = new MergeSort("s.txt", "rM.txt");
         try {
             simpleJoinSort.sort();
             naturalJoinSort.sort();
+            mergeSort.twoWayMergeSort(5);
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
