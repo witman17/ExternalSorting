@@ -37,13 +37,14 @@ public class MergeSort {
                 tempB.delete();
                 tempOutputs.add(newTemp);
             }
-            clean();
+            clean(tempOutputs.removeFirst());
         }
         Logger.getLogger(MergeSort.class.getName()).log(Level.INFO, "Koniec MergeSort");
     }
 
-    public void clean() {
-        //TODO zrobiæ czyszczenie.
+    public void clean(String result) {
+        File resultFile = new File(result);
+        resultFile.renameTo(new File("rM.txt"));
     }
 
 }
