@@ -11,8 +11,8 @@ import java.util.Collections;
  */
 public class PolyphaseSplitter extends SimpleSplitter {
 
-    protected int blocksNumberA;
-    protected int blocksNumberB;
+    protected int SeriesNumberA;
+    protected int SeriesNumberB;
     protected boolean currentFile;
 
 
@@ -27,8 +27,8 @@ public class PolyphaseSplitter extends SimpleSplitter {
     }
 
     public int split(int blockSize) throws IOException {
+//        TODO wykrywanie sklejania siê serii..
         init();
-        int blocksNumber = 0;
         String buffer = "Start";
         ArrayList<String> bufferList = new ArrayList<>(blockSize);
         while (buffer != null) {
@@ -39,44 +39,56 @@ public class PolyphaseSplitter extends SimpleSplitter {
             }
             Collections.sort(bufferList);
             chooseFile();
-            if (currentFile)
-                for (String buff : bufferList) {
-                    writerA.write(buff);
-                    writerA.newLine();
-                    blocksNumberA++;
+            if (bufferList.size() > 0) {
+                if (currentFile) {
+                    for (String buff : bufferList) {
+                        writerA.write(buff);
+                        writerA.newLine();
+                    }
+                    SeriesNumberA++;
+                } else {
+                    for (String buff : bufferList) {
+                        writerB.write(buff);
+                        writerB.newLine();
+                    }
+                    SeriesNumberB++;
                 }
-            else
-                for (String buff : bufferList) {
-                    writerB.write(buff);
-                    writerB.newLine();
-                    blocksNumberB++;
-                }
-            bufferList.clear();
+                bufferList.clear();
+            }
         }
         close();
-        return blocksNumber;
+        return SeriesNumberA + SeriesNumberB;
     }
 
-    private boolean chooseFile() {
-        if (currentFile && Fibonacci.isFibonacci(blocksNumberA))
-            return !currentFile;
-        if (!currentFile && Fibonacci.isFibonacci(blocksNumberB))
-            return !currentFile;
-        return currentFile;
-
+    private void chooseFile() {
+        if (currentFile) {
+            if (Fibonacci.isFibonacci(SeriesNumberA))
+                currentFile = !currentFile;
+        } else {
+            if (Fibonacci.isFibonacci(SeriesNumberB))
+                currentFile = !currentFile;
+        }
     }
 
 
     @Override
     protected void init() throws IOException {
         super.init();
-        blocksNumberA = 0;
-        blocksNumberB = 0;
+        SeriesNumberA = 0;
+        SeriesNumberB = 0;
         currentFile = true;
     }
 
-//    @Override
-//    protected void close() throws IOException {
-//        super.close();
-//    }
+    @Override
+    protected void close() throws IOException {
+        super.close();
+    }
+
+    public int getSeriesNumberA() {
+        return SeriesNumberA;
+    }
+
+    public int getSeriesNumberB() {
+        return SeriesNumberB;
+    }
 }

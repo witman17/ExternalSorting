@@ -8,18 +8,18 @@ import java.io.IOException;
  * Created by Witold on 2015-10-20.
  */
 public abstract class Splitter {
-    protected String inputFile;
+    protected String input;
     protected BufferedReader reader;
 
     public Splitter() {
     }
 
     public Splitter(String inputFile) {
-        this.inputFile = inputFile;
+        this.input = inputFile;
     }
 
     protected void init() throws IOException {
-        reader = new BufferedReader(new FileReader(inputFile));
+        reader = new BufferedReader(new FileReader(input));
     }
 
     protected void close() throws IOException {

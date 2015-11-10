@@ -16,16 +16,20 @@ import java.io.IOException;
 public class SimpleCombiner extends Combiner {
 
     protected String inputA;
-    protected String InputB;
+    protected String inputB;
     protected BufferedReader readerA;
     protected BufferedReader readerB;
 
-    public SimpleCombiner(String inputA, String InputB, String output) {
+    public SimpleCombiner(String inputA, String inputB, String output) {
         super(output);
         this.inputA = inputA;
-        this.InputB = InputB;
+        this.inputB = inputB;
         readerA = null;
         readerB = null;
+    }
+
+    public SimpleCombiner() {
+
     }
 
     @Override
@@ -86,7 +90,7 @@ public class SimpleCombiner extends Combiner {
     protected void init() throws IOException {
         super.init();
         readerA = new BufferedReader(new FileReader(inputA));
-        readerB = new BufferedReader(new FileReader(InputB));
+        readerB = new BufferedReader(new FileReader(inputB));
     }
 
     @Override
@@ -104,7 +108,7 @@ public class SimpleCombiner extends Combiner {
      * @return the value of output
      */
     public String getOutput() {
-        return outputFile;
+        return output;
     }
 
     /**
@@ -113,25 +117,25 @@ public class SimpleCombiner extends Combiner {
      * @param output new value of output
      */
     public void setOutput(String output) {
-        this.outputFile = output;
+        this.output = output;
     }
 
     /**
-     * Get the value of InputB
+     * Get the value of inputB
      *
-     * @return the value of InputB
+     * @return the value of inputB
      */
     public String getInputB() {
-        return InputB;
+        return inputB;
     }
 
     /**
-     * Set the value of InputB
+     * Set the value of inputB
      *
-     * @param InputB new value of InputB
+     * @param InputB new value of inputB
      */
     public void setInputB(String InputB) {
-        this.InputB = InputB;
+        this.inputB = InputB;
     }
 
     /**

@@ -24,10 +24,7 @@ public class SeriesReader {
     public String getSeriesElement() throws IOException {
         //sprawdzanie koñca serii
         if (currentBuffer != null && nextBuffer != null)
-            if (currentBuffer.compareTo(nextBuffer) <= 0)
-                seriesEnded = false;
-            else
-                seriesEnded = true;
+            seriesEnded = currentBuffer.compareTo(nextBuffer) > 0;
         else
             seriesEnded = false;
         //pobranie pierwszych dwoch wartosci
@@ -46,5 +43,9 @@ public class SeriesReader {
 
     public boolean isSeriesEnded() {
         return seriesEnded;
+    }
+
+    public void resetSeriesEnd() {
+        seriesEnded = false;
     }
 }

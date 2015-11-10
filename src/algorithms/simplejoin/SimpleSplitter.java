@@ -122,7 +122,7 @@ public class SimpleSplitter extends Splitter {
      * @return the value of InputFile
      */
     public String getInputFile() {
-        return inputFile;
+        return input;
     }
 
     /**
@@ -131,7 +131,7 @@ public class SimpleSplitter extends Splitter {
      * @param InputFile new value of InputFile
      */
     public void setInputFile(String InputFile) {
-        this.inputFile = InputFile;
+        this.input = InputFile;
     }
 
 }

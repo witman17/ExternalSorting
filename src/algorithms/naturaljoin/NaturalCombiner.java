@@ -16,6 +16,11 @@ public class NaturalCombiner extends SimpleCombiner {
         super(inputA, InputB, output);
     }
 
+    public NaturalCombiner() {
+        super();
+
+    }
+
     @Override
     public void combine() throws IOException {
         init();
@@ -33,7 +38,7 @@ public class NaturalCombiner extends SimpleCombiner {
                     bufferB = seriesReaderB.getSeriesElement();
                 }
                 writer.newLine();
-
+//          TODO sprawdziæ, czy dobrze dzia³a odwróceniu pêtli
             }
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded());
             //dopisanie do pozosta³ych elementów w serri której elementy siê nie skoñczy³y
@@ -47,6 +52,8 @@ public class NaturalCombiner extends SimpleCombiner {
                 writer.newLine();
                 bufferB = seriesReaderB.getSeriesElement();
             }
+            seriesReaderA.resetSeriesEnd();
+            seriesReaderB.resetSeriesEnd();
         }
         //dopisanie pozosta³ych elementów w pliku
         while (bufferA != null) {

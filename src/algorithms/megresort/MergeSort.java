@@ -44,7 +44,7 @@ public class MergeSort {
 
     public void clean(String result) {
         File resultFile = new File(result);
-        resultFile.renameTo(new File("rM.txt"));
+        resultFile.renameTo(new File(outputFile));
     }
 
 }
