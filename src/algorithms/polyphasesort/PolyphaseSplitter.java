@@ -14,6 +14,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
     protected int SeriesNumberA;
     protected int SeriesNumberB;
     protected boolean currentFile;
+    //
 
 
     public PolyphaseSplitter(String InputFile, String OutputA, String OutputB) {
