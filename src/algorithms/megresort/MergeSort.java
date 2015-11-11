@@ -2,6 +2,9 @@ package algorithms.megresort;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,9 +45,8 @@ public class MergeSort {
         Logger.getLogger(MergeSort.class.getName()).log(Level.INFO, "Koniec MergeSort");
     }
 
-    public void clean(String result) {
-        File resultFile = new File(result);
-        resultFile.renameTo(new File(outputFile));
+    public void clean(String result) throws IOException {
+        Files.move(Paths.get(result), Paths.get(outputFile), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     }
 
 }

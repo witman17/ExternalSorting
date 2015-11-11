@@ -30,6 +30,8 @@ public class PolyphaseSplitter extends SimpleSplitter {
 //        TODO wykrywanie sklejania siê serii..
         init();
         String buffer = "Start";
+        String lastWrittenA = null;
+        String lastWrittenB = null;
         ArrayList<String> bufferList = new ArrayList<>(blockSize);
         while (buffer != null) {
             int i = 0;
@@ -38,20 +40,27 @@ public class PolyphaseSplitter extends SimpleSplitter {
                 i++;
             }
             Collections.sort(bufferList);
-            chooseFile();
             if (bufferList.size() > 0) {
                 if (currentFile) {
                     for (String buff : bufferList) {
                         writerA.write(buff);
                         writerA.newLine();
                     }
-                    SeriesNumberA++;
+                    if (lastWrittenA == null || lastWrittenA.compareTo(bufferList.get(0)) > 0) {
+                        SeriesNumberA++;
+                        chooseFile();
+                    }
+                    lastWrittenA = bufferList.get(bufferList.size() - 1);
                 } else {
                     for (String buff : bufferList) {
                         writerB.write(buff);
                         writerB.newLine();
                     }
-                    SeriesNumberB++;
+                    if (lastWrittenB == null || lastWrittenB.compareTo(bufferList.get(0)) > 0) {
+                        SeriesNumberB++;
+                        chooseFile();
+                    }
+                    lastWrittenB = bufferList.get(bufferList.size() - 1);
                 }
                 bufferList.clear();
             }

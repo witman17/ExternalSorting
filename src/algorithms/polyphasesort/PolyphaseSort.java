@@ -46,7 +46,6 @@ public class PolyphaseSort {
 
     protected void clean(String resultFile) throws IOException {
         Files.move(Paths.get(resultFile), Paths.get(output), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-
     }
 
     public String getOutput() {

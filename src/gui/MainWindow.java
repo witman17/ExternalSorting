@@ -30,7 +30,7 @@ public class MainWindow {
         try {
             simpleJoinSort.sort();
             naturalJoinSort.sort();
-            mergeSort.twoWayMergeSort(5);
+            mergeSort.twoWayMergeSort(10);
             polyphaseSort.sort(2);
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);

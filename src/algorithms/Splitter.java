@@ -12,6 +12,7 @@ public abstract class Splitter {
     protected BufferedReader reader;
 
     public Splitter() {
+
     }
 
     public Splitter(String inputFile) {
