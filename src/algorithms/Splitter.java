@@ -15,8 +15,8 @@ public abstract class Splitter {
 
     }
 
-    public Splitter(String inputFile) {
-        this.input = inputFile;
+    public Splitter(String input) {
+        this.input = input;
     }
 
     protected void init() throws IOException {

@@ -111,49 +111,4 @@ public class SimpleCombiner extends Combiner {
         return output;
     }
 
-    /**
-     * Set the value of output
-     *
-     * @param output new value of output
-     */
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
-    /**
-     * Get the value of inputB
-     *
-     * @return the value of inputB
-     */
-    public String getInputB() {
-        return inputB;
-    }
-
-    /**
-     * Set the value of inputB
-     *
-     * @param InputB new value of inputB
-     */
-    public void setInputB(String InputB) {
-        this.inputB = InputB;
-    }
-
-    /**
-     * Get the value of inputA
-     *
-     * @return the value of inputA
-     */
-    public String getInputA() {
-        return inputA;
-    }
-
-    /**
-     * Set the value of inputA
-     *
-     * @param inputA new value of inputA
-     */
-    public void setInputA(String inputA) {
-        this.inputA = inputA;
-    }
-
 }

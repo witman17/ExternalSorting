@@ -13,22 +13,36 @@ import java.util.LinkedList;
  * Created by Witold on 2015-10-28.
  */
 public class MergeSortSplitter extends Splitter {
-    public static String output = "M";
-    protected BufferedWriter writer;
+
+    protected static final int N_FILES = 1;
+    protected static final int TWO_FILES = 2;
+
+    protected String outputA;
+    protected String outputB;
+    protected BufferedWriter writerA;
+    protected BufferedWriter writerB;
     protected LinkedList<String> outputFiles;
 
-    public MergeSortSplitter(String inputFile) {
-        super(inputFile);
+    public MergeSortSplitter(String input, String outputBase) {
+        super(input);
+        outputA = outputBase;
+        outputB = null;
     }
+
+    public MergeSortSplitter(String input, String outputA, String outputB) {
+        super(input);
+        this.outputA = outputA;
+        this.outputB = outputB;
+    }
+
 
     @Override
     public int split() throws IOException {
-        //TODO dzielenie z maksymaln¹ dostêpn¹ pamiêci¹.
         return 0;
     }
 
-    public int split(int blockSize) throws IOException {
-        init();
+    public int splitNFiles(int blockSize) throws IOException {
+        init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
         ArrayList<String> bufferList = new ArrayList<>(blockSize);
@@ -40,15 +54,15 @@ public class MergeSortSplitter extends Splitter {
             }
             Collections.sort(bufferList);
             for (String s : bufferList) {
-                writer.write(s);
-                writer.newLine();
+                writerA.write(s);
+                writerA.newLine();
             }
             bufferList.clear();
             if (buffer != null) {
-                writer.close();
-                writer = null;
-                writer = new BufferedWriter(new FileWriter(output + blocksNumber));
-                outputFiles.add(output + blocksNumber);
+                writerA.close();
+                writerA = null;
+                writerA = new BufferedWriter(new FileWriter(outputA + blocksNumber));
+                outputFiles.add(outputA + blocksNumber);
                 blocksNumber++;
             }
         }
@@ -56,22 +70,81 @@ public class MergeSortSplitter extends Splitter {
         return blocksNumber;
     }
 
-    @Override
-    protected void init() throws IOException {
+    public int splitTwoFiles(int blockSize) throws IOException {
+        init(TWO_FILES);
+        int blocksNumber = 0;
+        boolean currentFile = true;
+        String buffer = "Start";
+        String lastWrittenA = null;
+        String lastWrittenB = null;
+        ArrayList<String> bufferList = new ArrayList<>(blockSize);
+        while (buffer != null) {
+            int i = 0;
+            // zape³nienie bufora
+            while (i < blockSize && (buffer = reader.readLine()) != null) {
+                bufferList.add(buffer);
+                i++;
+            }
+            Collections.sort(bufferList); //sortowanie bufora
+            if (bufferList.size() > 0) {
+                if (currentFile) {
+                    for (String buff : bufferList) {
+                        writerA.write(buff);
+                        writerA.newLine();
+                    }
+//                    wykrywanie sklejania serii
+                    if (lastWrittenA == null || lastWrittenA.compareTo(bufferList.get(0)) > 0) {
+                        blocksNumber++;
+                        currentFile = !currentFile;
+                    }
+                    lastWrittenA = bufferList.get(bufferList.size() - 1);
+                } else {
+                    for (String buff : bufferList) {
+                        writerB.write(buff);
+                        writerB.newLine();
+                    }
+//                    wykrywanie sklejania serii
+                    if (lastWrittenB == null || lastWrittenB.compareTo(bufferList.get(0)) > 0) {
+                        blocksNumber++;
+                        currentFile = !currentFile;
+                    }
+                    lastWrittenB = bufferList.get(bufferList.size() - 1);
+                }
+                bufferList.clear();
+            }
+        }
+        close();
+        return blocksNumber;
+    }
+
+
+    protected void init(int mode) throws IOException {
         super.init();
-        writer = new BufferedWriter(new FileWriter(output + "0"));
-        if (outputFiles == null)
-            outputFiles = new LinkedList<>();
-        else
-            outputFiles.clear();
-        outputFiles.add(output + "0");
+        writerA = new BufferedWriter(new FileWriter(outputA));
+        if (mode == TWO_FILES) {
+            if (outputB == null)
+                outputB = outputA + "1";
+            writerB = new BufferedWriter(new FileWriter(outputB));
+        }
+        if (mode == N_FILES) {
+            if (outputFiles == null)
+
+                outputFiles = new LinkedList<>();
+            else
+                outputFiles.clear();
+            outputFiles.add(outputA);
+        }
+
     }
 
     @Override
     protected void close() throws IOException {
         super.close();
-        writer.close();
-        writer = null;
+        writerA.close();
+        if (writerB != null)
+            writerB.close();
+        writerA = null;
+        writerB = null;
     }
 
     public LinkedList<String> getOutputFiles() {

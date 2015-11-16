@@ -25,13 +25,13 @@ public class MainWindow {
     public static void main(String[] args) {
         SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
         NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
-        MergeSort mergeSort = new MergeSort("s.txt", "rM.txt");
+        MergeSort mergeSort = new MergeSort("s.txt", "rM.txt", "AM.txt", "BM.txt");
         PolyphaseSort polyphaseSort = new PolyphaseSort("s.txt", "rP.txt", "AP.txt", "BP.txt");
         try {
             simpleJoinSort.sort();
             naturalJoinSort.sort();
-            mergeSort.twoWayMergeSort(10);
-            polyphaseSort.sort(2);
+            mergeSort.twoWayMergeSortNFiles(10);
+            polyphaseSort.sort(10);
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }

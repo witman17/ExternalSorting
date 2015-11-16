@@ -15,19 +15,16 @@ public class PolyphaseSplitter extends SimpleSplitter {
     protected int SeriesNumberB;
     protected boolean currentFile;
 
-
     public PolyphaseSplitter(String InputFile, String OutputA, String OutputB) {
         super(InputFile, OutputA, OutputB);
     }
 
     @Override
     public int split() throws IOException {
-        //TODO maksymalna pojemnoœæ pamiêci
         return 0;
     }
-
+    @Override
     public int split(int blockSize) throws IOException {
-//        TODO wykrywanie sklejania siê serii..
         init();
         String buffer = "Start";
         String lastWrittenA = null;

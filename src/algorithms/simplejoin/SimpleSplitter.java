@@ -17,15 +17,15 @@ import java.io.IOException;
  */
 public class SimpleSplitter extends Splitter {
 
-    protected String OutputA;
-    protected String OutputB;
+    protected String outputA;
+    protected String outputB;
     protected BufferedWriter writerA;
     protected BufferedWriter writerB;
 
     public SimpleSplitter(String InputFile, String OutputA, String OutputB) {
         super(InputFile);
-        this.OutputA = OutputA;
-        this.OutputB = OutputB;
+        this.outputA = OutputA;
+        this.outputB = OutputB;
         this.reader = null;
         this.writerA = null;
         this.writerB = null;
@@ -62,8 +62,8 @@ public class SimpleSplitter extends Splitter {
     @Override
     protected void init() throws IOException {
         super.init();
-        writerA = new BufferedWriter(new FileWriter(OutputA));
-        writerB = new BufferedWriter(new FileWriter(OutputB));
+        writerA = new BufferedWriter(new FileWriter(outputA));
+        writerB = new BufferedWriter(new FileWriter(outputB));
     }
 
     @Override
@@ -81,48 +81,21 @@ public class SimpleSplitter extends Splitter {
     }
 
     /**
-     * Get the value of OutputB
+     * Get the value of outputB
      *
-     * @return the value of OutputB
+     * @return the value of outputB
      */
     public String getOutputB() {
-        return OutputB;
+        return outputB;
     }
 
     /**
-     * Set the value of OutputB
+     * Get the value of outputA
      *
-     * @param OutputB new value of OutputB
-     */
-    public void setOutputB(String OutputB) {
-        this.OutputB = OutputB;
-    }
-
-    /**
-     * Get the value of OutputA
-     *
-     * @return the value of OutputA
+     * @return the value of outputA
      */
     public String getOutputA() {
-        return OutputA;
-    }
-
-    /**
-     * Set the value of OutputA
-     *
-     * @param OutputA new value of OutputA
-     */
-    public void setOutputA(String OutputA) {
-        this.OutputA = OutputA;
-    }
-
-    /**
-     * Get the value of InputFile
-     *
-     * @return the value of InputFile
-     */
-    public String getInputFile() {
-        return input;
+        return outputA;
     }
 
     /**
