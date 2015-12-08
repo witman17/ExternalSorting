@@ -42,7 +42,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
         String bufferA = seriesReaderA.getSeriesElement();
         String bufferB = seriesReaderB.getSeriesElement();
         while (inputASeriesNumber + inputBSeriesNumber + outputSeriesNumber > 1) {
-            //zamiana plików IO jeœli wymagana
+            //zamiana plikï¿½w IO jeï¿½li wymagana
             if (inputASeriesNumber <= 0) {
                 reInit(INPUTA);
                 bufferA = seriesReaderA.getSeriesElement();
@@ -51,7 +51,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
                 reInit(INPUTB);
                 bufferB = seriesReaderB.getSeriesElement();
             }
-            // porównanie dwoch elementów serii, przepisanie mniejszego
+            // porï¿½wnanie dwoch elementï¿½w serii, przepisanie mniejszego
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded()) {
                 if (bufferA.compareTo(bufferB) < 0) {
                     writer.write(bufferA);
@@ -62,7 +62,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
                 }
                 writer.newLine();
             }
-            //dopisanie do pozosta³ych elementów, serri która siê nie skoñczy³a
+            //dopisanie do pozostaï¿½ych elementï¿½w, serri ktï¿½ra siï¿½ nie skoï¿½czyï¿½a
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
@@ -113,6 +113,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             readerB = new BufferedReader(new FileReader(inputB));
             seriesReaderB = new SeriesReader(readerB);
             writer = new BufferedWriter(new FileWriter(output));
+
         }
 
     }
