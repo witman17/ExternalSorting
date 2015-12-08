@@ -16,19 +16,20 @@ public class NaturalCombiner extends SimpleCombiner {
         super(inputA, InputB, output);
     }
 
-    public NaturalCombiner() {
-        super();
-
+    public NaturalCombiner(String inputA, String inputB, String output, int inputBufferSize, int outputBufferSize) {
+        super(inputA, inputB, output, inputBufferSize, outputBufferSize);
     }
+
 
     @Override
     public void combine() throws IOException {
+        log.info("START");
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
         String bufferB = seriesReaderB.getSeriesElement();
         while (bufferA != null && bufferB != null) {
-            // porównanie dwoch elementów serii, przepisanie mniejszego
+            // porï¿½wnanie dwoch elementï¿½w serii, przepisanie mniejszego
             do {
                 if (bufferA.compareTo(bufferB) < 0) {
                     writer.write(bufferA);
@@ -38,10 +39,9 @@ public class NaturalCombiner extends SimpleCombiner {
                     bufferB = seriesReaderB.getSeriesElement();
                 }
                 writer.newLine();
-//          TODO sprawdziæ, czy dobrze dzia³a odwróceniu pêtli
             }
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded());
-            //dopisanie do pozosta³ych elementów w serri której elementy siê nie skoñczy³y
+            //dopisanie do pozostaï¿½ych elementï¿½w w serri ktï¿½rej elementy siï¿½ nie skoï¿½czyï¿½y
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
@@ -55,7 +55,7 @@ public class NaturalCombiner extends SimpleCombiner {
             seriesReaderA.resetSeriesEnd();
             seriesReaderB.resetSeriesEnd();
         }
-        //dopisanie pozosta³ych elementów w pliku
+        //dopisanie pozostaï¿½ych elementï¿½w w pliku
         while (bufferA != null) {
             writer.write(bufferA);
             writer.newLine();
@@ -67,6 +67,7 @@ public class NaturalCombiner extends SimpleCombiner {
             bufferB = seriesReaderB.getSeriesElement();
         }
         super.close();
+        log.info("END");
     }
 
     @Override

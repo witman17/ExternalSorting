@@ -16,27 +16,29 @@ public class PolyphaseCombiner extends NaturalCombiner {
     protected int outputSeriesNumber;
 
     public PolyphaseCombiner(String[] files, int inputASeriesNumber, int inputBSeriesNumber) {
-        this.inputA = files[0];
-        this.inputB = files[1];
-        this.output = files[2];
+        super(files[0], files[1], files[2]);
         this.inputASeriesNumber = inputASeriesNumber;
         this.inputBSeriesNumber = inputBSeriesNumber;
         this.outputSeriesNumber = 0;
     }
 
     public PolyphaseCombiner(String inputA, String inputB, String output, int inputASeriesNumber, int inputBSeriesNumber) {
-        this.inputA = inputA;
-        this.inputB = inputB;
-        this.output = output;
+        super(inputA, inputB, output);
         this.inputASeriesNumber = inputASeriesNumber;
         this.inputBSeriesNumber = inputBSeriesNumber;
         this.outputSeriesNumber = 0;
 
     }
 
+    public PolyphaseCombiner(String inputA, String inputB, String output, int inputBufferSize, int outputBufferSize, int inputASeriesNumber, int inputBSeriesNumber) {
+        super(inputA, inputB, output, inputBufferSize, outputBufferSize);
+        this.inputASeriesNumber = inputASeriesNumber;
+        this.inputBSeriesNumber = inputBSeriesNumber;
+    }
 
     @Override
     public void combine() throws IOException {
+        log.info("START - POLYPHASE SORT");
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
@@ -80,7 +82,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             outputSeriesNumber++;
         }
         close();
-
+        log.info("END - POLYPHASE SORT");
     }
 
     @Override
@@ -124,4 +126,11 @@ public class PolyphaseCombiner extends NaturalCombiner {
 
     }
 
+    public String getInputA() {
+        return this.inputA;
+    }
+
+    public String getInputB() {
+        return this.inputB;
+    }
 }

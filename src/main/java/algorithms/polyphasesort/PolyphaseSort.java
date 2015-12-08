@@ -1,5 +1,9 @@
 package algorithms.polyphasesort;
 
+import algorithms.Sorter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,7 +13,8 @@ import java.nio.file.StandardCopyOption;
 /**
  * Created by Witold on 2015-11-02.
  */
-public class PolyphaseSort {
+public class PolyphaseSort extends Sorter {
+    protected final static Logger log = LogManager.getLogger("algorithms");
     protected PolyphaseSplitter splitter;
     protected String output;
 
@@ -20,35 +25,47 @@ public class PolyphaseSort {
         output = sortedFile;
     }
 
+    public PolyphaseSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+        super(inputBufferSize, outputBufferSize);
+        splitter = new PolyphaseSplitter(source, tempA, tempB);
+        output = sortedFile;
+    }
+
     public void sort(int blockSize) throws IOException {
+        log.debug("START - POLYPHASE SORT");
         int fakeSeriesNumber = 0;
-        //podzia³ i sortowanie serii
+        //podziaï¿½ i sortowanie serii
         int totalSeriesNumber = splitter.split(blockSize);
         int seriesNumberA = splitter.getSeriesNumberA();
         int seriesNumberB = splitter.getSeriesNumberB();
-        //sprawdzenie iloœci, czy jest liczb¹ fibonacciego
+        //sprawdzenie iloï¿½ci, czy jest liczbï¿½ fibonacciego
         int fixedSeriesNumber = Fibonacci.nextFibonacci(totalSeriesNumber);
         if (fixedSeriesNumber > totalSeriesNumber)
             fakeSeriesNumber = fixedSeriesNumber - totalSeriesNumber;
-        //uzupe³nienie liczby serii do liczby fibonacciego
+        //uzupeï¿½nienie liczby serii do liczby fibonacciego
         if (fakeSeriesNumber > 0) {
             if (Fibonacci.isFibonacci(seriesNumberA) && Fibonacci.isFibonacci(seriesNumberB) || !Fibonacci.isFibonacci(seriesNumberA))
                 seriesNumberA += fakeSeriesNumber;
             if (!Fibonacci.isFibonacci(seriesNumberB))
                 seriesNumberB += fakeSeriesNumber;
         }
-        // ³¹czenie serii
+        // ï¿½ï¿½czenie serii
         PolyphaseCombiner combiner = new PolyphaseCombiner(splitter.getOutputA(), splitter.getOutputB(),
                 output, seriesNumberA, seriesNumberB);
         combiner.combine();
-        clean(combiner.getOutput());
+        clean(combiner.getOutput(), combiner.getInputA(), combiner.getInputB());
+        log.debug("END - POLYPHASE SORT");
     }
 
-    protected void clean(String resultFile) throws IOException {
+    protected void clean(String resultFile, String tempA, String tempB) throws IOException {
         Files.move(Paths.get(resultFile), Paths.get(output), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+        Files.delete(Paths.get(tempA));
+        Files.delete(Paths.get(tempB));
     }
+    
 
-    public String getOutput() {
-        return output;
+    @Deprecated
+    public void sort() {
+
     }
 }

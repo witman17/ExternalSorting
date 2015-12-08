@@ -17,6 +17,7 @@ public class MergeSortCombiner extends Combiner {
     protected BufferedWriter writerB;
     protected LinkedList<String> inputs;
     protected String outputB;
+    protected int inputBufferSize;
 
     public MergeSortCombiner(String outputFile, LinkedList<String> inputFiles) throws IllegalArgumentException {
         super(outputFile);
@@ -24,6 +25,7 @@ public class MergeSortCombiner extends Combiner {
         if (inputFiles.size() < 2)
             throw new IllegalArgumentException();
         this.inputs = inputFiles;
+        this.inputBufferSize = 8192;
     }
 
     public MergeSortCombiner(String outputFile, String inputA, String inputB) {
@@ -32,6 +34,16 @@ public class MergeSortCombiner extends Combiner {
         inputs = new LinkedList<>();
         inputs.add(inputA);
         inputs.add(inputB);
+        this.inputBufferSize = 8192;
+    }
+
+    public MergeSortCombiner(String outputFile, String inputA, String inputB, int inputBufferSize, int outputBufferSize) {
+        super(outputFile, outputBufferSize);
+        outputB = outputFile + "B";
+        inputs = new LinkedList<>();
+        inputs.add(inputA);
+        inputs.add(inputB);
+        this.inputBufferSize = inputBufferSize;
     }
 
     @Deprecated
@@ -40,7 +52,7 @@ public class MergeSortCombiner extends Combiner {
     }
 
     public void combineTwoFiles() throws IOException {
-        log.trace("START");
+        log.info("START");
         init();
         String bufferA = readers.get(0).readLine();
         String bufferB = readers.get(1).readLine();
@@ -66,7 +78,7 @@ public class MergeSortCombiner extends Combiner {
             bufferB = readers.get(1).readLine();
         }
         close();
-        log.trace("END");
+        log.info("END");
     }
 
     public void combineFourFiles() throws IOException {
@@ -113,8 +125,11 @@ public class MergeSortCombiner extends Combiner {
     protected void init() throws IOException {
         super.init();
         readers = new ArrayList<>(2);
+        int oneBuffSize = inputBufferSize / inputs.size();
+        if (oneBuffSize < 8192)
+            oneBuffSize = 8192;
         for (String source : inputs) {
-            readers.add(new BufferedReader(new FileReader(source)));
+            readers.add(new BufferedReader(new FileReader(source), oneBuffSize));
         }
     }
 

@@ -19,6 +19,10 @@ public class PolyphaseSplitter extends SimpleSplitter {
         super(InputFile, OutputA, OutputB);
     }
 
+    public PolyphaseSplitter(String InputFile, String OutputA, String OutputB, int inputBufferSize, int outputBufferSize) {
+        super(InputFile, OutputA, OutputB, inputBufferSize, outputBufferSize);
+    }
+
     @Override
     public int split() throws IOException {
         return 0;
@@ -26,6 +30,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
 
     @Override
     public int split(int blockSize) throws IOException {
+        log.info("START - POLYPHASE SORT");
         init();
         String buffer = "Start";
         String lastWrittenA = null;
@@ -64,6 +69,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
             }
         }
         close();
+        log.info("END - POLYPHASE SORT");
         return SeriesNumberA + SeriesNumberB;
     }
 

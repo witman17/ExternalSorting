@@ -1,5 +1,6 @@
 package algorithms.megresort;
 
+import algorithms.Sorter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,15 +13,22 @@ import java.util.LinkedList;
 /**
  * Created by Witold on 2015-10-31.
  */
-public class MergeSort {
+public class MergeSort extends Sorter {
     private final Logger log = LogManager.getLogger("algorithms");
     protected MergeSortSplitter splitter;
     protected String tempA;
     protected String outputFile;
 
-
     public MergeSort(String inputFile, String outputFile, String tempA, String tempB) {
+        super();
         splitter = new MergeSortSplitter(inputFile, tempA, tempB);
+        this.tempA = tempA;
+        this.outputFile = outputFile;
+    }
+
+    public MergeSort(String inputFile, String outputFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+        super(inputBufferSize, outputBufferSize);
+        splitter = new MergeSortSplitter(inputFile, tempA, tempB, inputBufferSize, outputBufferSize);
         this.tempA = tempA;
         this.outputFile = outputFile;
     }
@@ -30,16 +38,14 @@ public class MergeSort {
         int filesNumber = splitter.splitNFiles(blockSize);
         if (filesNumber > 1) {
             LinkedList<String> tempOutputs = splitter.getOutputFiles();
-            int i = 1;
             while (tempOutputs.size() > 1) {
-                log.info("MERGE ITERATION START " + i);
                 String newTemp = tempA + ++filesNumber;
-                MergeSortCombiner combiner = new MergeSortCombiner(newTemp, tempOutputs.get(0), tempOutputs.get(1));
+                log.info(newTemp + " CREATED");
+                MergeSortCombiner combiner = new MergeSortCombiner(newTemp, tempOutputs.get(0), tempOutputs.get(1), inputBufferSize, outputBufferSize);
                 combiner.combineTwoFiles();
                 Files.delete(Paths.get(tempOutputs.removeFirst()));
                 Files.delete(Paths.get(tempOutputs.removeFirst()));
                 tempOutputs.add(newTemp);
-                log.info("MERGE ITERATION END " + i++);
             }
             clean(tempOutputs.removeFirst());
         }
@@ -55,8 +61,18 @@ public class MergeSort {
 
     }
 
+    public void kWayMergeSort(int blocksize, int k) {
+
+
+
+    }
+
     public void clean(String result) throws IOException {
         Files.move(Paths.get(result), Paths.get(outputFile), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     }
 
+    @Deprecated
+    public void sort() throws IOException {
+
+    }
 }

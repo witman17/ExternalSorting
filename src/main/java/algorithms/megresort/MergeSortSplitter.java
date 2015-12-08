@@ -22,19 +22,28 @@ public class MergeSortSplitter extends Splitter {
     protected BufferedWriter writerA;
     protected BufferedWriter writerB;
     protected LinkedList<String> outputFiles;
+    protected int outputBufferSize;
 
     public MergeSortSplitter(String input, String outputBase) {
         super(input);
         outputA = outputBase;
         outputB = null;
+        this.outputBufferSize = 8192;
     }
 
     public MergeSortSplitter(String input, String outputA, String outputB) {
         super(input);
         this.outputA = outputA;
         this.outputB = outputB;
+        this.outputBufferSize = 8192;
     }
 
+    public MergeSortSplitter(String input, String outputA, String outputB, int inputBufferSize, int outputBufferSize) {
+        super(input, inputBufferSize);
+        this.outputA = outputA;
+        this.outputB = outputB;
+        this.outputBufferSize = outputBufferSize;
+    }
 
     @Override
     public int split() throws IOException {
@@ -42,7 +51,7 @@ public class MergeSortSplitter extends Splitter {
     }
 
     public int splitNFiles(int blockSize) throws IOException {
-        log.trace("START");
+        log.info("START");
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
@@ -66,9 +75,10 @@ public class MergeSortSplitter extends Splitter {
                 outputFiles.add(outputA + blocksNumber);
                 blocksNumber++;
             }
+            log.trace("chunk sorted & saved no. " + blocksNumber);
         }
         close();
-        log.trace("END");
+        log.info("END");
         return blocksNumber;
     }
 

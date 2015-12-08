@@ -14,12 +14,18 @@ public abstract class Combiner {
     protected final static Logger log = LogManager.getLogger("algorithms");
     protected String output;
     protected BufferedWriter writer;
+    protected int outputBufferSize;
 
-    public Combiner() {
-    }
 
     public Combiner(String outputFile) {
         this.output = outputFile;
+        this.outputBufferSize = 8192;
+        writer = null;
+    }
+
+    public Combiner(String outputFile, int outputBufferSize) {
+        this.output = outputFile;
+        this.outputBufferSize = outputBufferSize;
         writer = null;
     }
 
@@ -27,7 +33,7 @@ public abstract class Combiner {
 
 
     protected void init() throws IOException {
-        writer = new BufferedWriter(new FileWriter(output));
+        writer = new BufferedWriter(new FileWriter(output), outputBufferSize);
     }
 
     protected void close() throws IOException {

@@ -15,8 +15,13 @@ public class NaturalSplitter extends SimpleSplitter {
         super(inputFile, outputA, outputB);
     }
 
+    public NaturalSplitter(String InputFile, String OutputA, String OutputB, int inputBufferSize, int outputBufferSize) {
+        super(InputFile, OutputA, OutputB, inputBufferSize, outputBufferSize);
+    }
+
     @Override
     public int split() throws IOException {
+        log.info("START");
         String buffer;
         boolean changeFile = true;
         int seriesNumber = 1;
@@ -35,6 +40,7 @@ public class NaturalSplitter extends SimpleSplitter {
             }
         }
         super.close();
+        log.info("END");
         return seriesNumber;
     }
 
