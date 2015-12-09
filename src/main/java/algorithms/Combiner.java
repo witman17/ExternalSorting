@@ -41,4 +41,11 @@ public abstract class Combiner {
         writer = null;
     }
 
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
 }

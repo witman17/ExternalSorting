@@ -16,12 +16,10 @@ public class MergeSortCombiner extends Combiner {
     protected ArrayList<BufferedReader> readers;
     protected BufferedWriter writerB;
     protected LinkedList<String> inputs;
-    protected String outputB;
     protected int inputBufferSize;
 
     public MergeSortCombiner(String outputFile, LinkedList<String> inputFiles) throws IllegalArgumentException {
         super(outputFile);
-        outputB = outputFile + "B";
         if (inputFiles.size() < 2)
             throw new IllegalArgumentException();
         this.inputs = inputFiles;
@@ -30,7 +28,6 @@ public class MergeSortCombiner extends Combiner {
 
     public MergeSortCombiner(String outputFile, String inputA, String inputB) {
         super(outputFile);
-        outputB = outputFile + "B";
         inputs = new LinkedList<>();
         inputs.add(inputA);
         inputs.add(inputB);
@@ -39,7 +36,6 @@ public class MergeSortCombiner extends Combiner {
 
     public MergeSortCombiner(String outputFile, String inputA, String inputB, int inputBufferSize, int outputBufferSize) {
         super(outputFile, outputBufferSize);
-        outputB = outputFile + "B";
         inputs = new LinkedList<>();
         inputs.add(inputA);
         inputs.add(inputB);
@@ -81,9 +77,12 @@ public class MergeSortCombiner extends Combiner {
         log.info("END");
     }
 
-    public void combineFourFiles() throws IOException {
-        //TODO poprawic
+    public int combineFourFiles(String outputB) throws IOException {
+        log.info("START");
         init();
+        int blocksNumber = 0;
+        boolean currentFile = true;
+        BufferedWriter currentWriter;
         seriesReaderA = new SeriesReader(readers.get(0));
         seriesReaderB = new SeriesReader(readers.get(1));
         writerB = new BufferedWriter(new FileWriter(outputB));
@@ -91,34 +90,41 @@ public class MergeSortCombiner extends Combiner {
         String bufferA = seriesReaderA.getSeriesElement();
         String bufferB = seriesReaderB.getSeriesElement();
         while (bufferA != null && bufferB != null) {
-
+            blocksNumber++;
+            if (currentFile)
+                currentWriter = writer;
+            else
+                currentWriter = writerB;
             // por�wnanie dwoch element�w serii, przepisanie mniejszego
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded()) {
                 if (bufferA.compareTo(bufferB) < 0) {
-                    writer.write(bufferA);
+                    currentWriter.write(bufferA);
                     bufferA = seriesReaderA.getSeriesElement();
                 } else {
-                    writer.write(bufferB);
+                    currentWriter.write(bufferB);
                     bufferB = seriesReaderB.getSeriesElement();
                 }
-                writer.newLine();
+                currentWriter.newLine();
             }
             //dopisanie do pozosta�ych element�w, serri kt�ra si� nie sko�czy�a
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
-                writer.write(bufferA);
-                writer.newLine();
+                currentWriter.write(bufferA);
+                currentWriter.newLine();
                 bufferA = seriesReaderA.getSeriesElement();
             }
             while (!seriesReaderB.isSeriesEnded() && bufferB != null) {
-                writer.write(bufferB);
-                writer.newLine();
+                currentWriter.write(bufferB);
+                currentWriter.newLine();
                 bufferB = seriesReaderB.getSeriesElement();
             }
+            currentFile = !currentFile;
             seriesReaderA.resetSeriesEnd();
             seriesReaderB.resetSeriesEnd();
         }
-
+        writerB.close();
         close();
+        log.info("END");
+        return blocksNumber;
     }
 
     @Override
@@ -133,21 +139,6 @@ public class MergeSortCombiner extends Combiner {
         }
     }
 
-    //    TODO pomy�le�
-    protected void reInit() throws IOException {
-        String tempA = inputs.get(0);
-        String tempB = inputs.get(1);
-        inputs.clear();
-        inputs.add(output);
-        inputs.add(outputB);
-        output = tempA;
-        outputB = tempB;
-        for (BufferedReader reader : readers)
-            reader.close();
-        writer.close();
-        writerB.close();
-
-    }
 
     @Override
     protected void close() throws IOException {
@@ -157,6 +148,10 @@ public class MergeSortCombiner extends Combiner {
         }
         readers.clear();
         readers = null;
+    }
+
+    public LinkedList<String> getInputs() {
+        return inputs;
     }
 
 }

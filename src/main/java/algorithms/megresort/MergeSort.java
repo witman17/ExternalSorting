@@ -52,9 +52,24 @@ public class MergeSort extends Sorter {
         log.debug("END");
     }
 
-    public void twoWayMergeSortFourFiles(int blockSize) {
-
-
+    public void twoWayMergeSortFourFiles(int blockSize) throws IOException {
+        log.debug("START");
+        if (splitter.splitTwoFiles(blockSize) > 1) { // jeśli równe 1 cały plik zmieścił się w pamięci.
+            String fileNames[] = new String[4];
+            fileNames[3] = outputFile + "B";
+            MergeSortCombiner combiner = new MergeSortCombiner(outputFile, splitter.outputA, splitter.outputB, inputBufferSize, outputBufferSize);
+            while (combiner.combineFourFiles(fileNames[3]) > 1) {
+                fileNames[0] = combiner.getOutput();
+                fileNames[1] = fileNames[3];
+                fileNames[2] = combiner.getInputs().get(0);
+                fileNames[3] = combiner.getInputs().get(1);
+                combiner = new MergeSortCombiner(fileNames[2], fileNames[0], fileNames[1]);
+            }
+            String[] junk = {fileNames[0], fileNames[1], fileNames[3]};
+            clean(fileNames[2], junk);
+        } else
+            clean(splitter.outputA);
+        log.debug("END");
     }
 
     public void kWayMergeSort(int blockSize) {
@@ -64,10 +79,15 @@ public class MergeSort extends Sorter {
     public void kWayMergeSort(int blocksize, int k) {
 
 
-
     }
 
     public void clean(String result) throws IOException {
+        Files.move(Paths.get(result), Paths.get(outputFile), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+    }
+
+    public void clean(String result, String[] junk) throws IOException {
+        for (String fileName : junk)
+            Files.delete(Paths.get(fileName));
         Files.move(Paths.get(result), Paths.get(outputFile), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     }
 

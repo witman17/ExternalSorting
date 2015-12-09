@@ -98,8 +98,8 @@ public class MergeSortSplitter extends Splitter {
                 bufferList.add(buffer);
                 i++;
             }
-            Collections.sort(bufferList); //sortowanie bufora
             if (bufferList.size() > 0) {
+                Collections.sort(bufferList); //sortowanie bufora
                 if (currentFile) {
                     for (String buff : bufferList) {
                         writerA.write(buff);
