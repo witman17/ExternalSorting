@@ -44,7 +44,7 @@ public class SimpleSplitter extends Splitter {
     }
 
     public int split(int blockSize) throws IOException {
-        log.info("START");
+        log.debug("START");
         String buffer = "Start";
         int blocksNumber = 0;
         int counter;
@@ -69,7 +69,7 @@ public class SimpleSplitter extends Splitter {
 
         }
         this.close();
-        log.info("END");
+        log.debug("END");
         return blocksNumber;
     }
 

@@ -1,8 +1,6 @@
 package algorithms.megresort;
 
 import algorithms.Sorter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +12,6 @@ import java.util.LinkedList;
  * Created by Witold on 2015-10-31.
  */
 public class MergeSort extends Sorter {
-    private final Logger log = LogManager.getLogger("algorithms");
     protected MergeSortSplitter splitter;
     protected String tempA;
     protected String outputFile;
@@ -34,13 +31,13 @@ public class MergeSort extends Sorter {
     }
 
     public void twoWayMergeSortNFiles(int blockSize) throws IOException {
-        log.debug("START");
+        log.info("START");
         int filesNumber = splitter.splitNFiles(blockSize);
         if (filesNumber > 1) {
             LinkedList<String> tempOutputs = splitter.getOutputFiles();
             while (tempOutputs.size() > 1) {
                 String newTemp = tempA + ++filesNumber;
-                log.info(newTemp + " CREATED");
+                log.trace(newTemp + " CREATED");
                 MergeSortCombiner combiner = new MergeSortCombiner(newTemp, tempOutputs.get(0), tempOutputs.get(1), inputBufferSize, outputBufferSize);
                 combiner.combineTwoFiles();
                 Files.delete(Paths.get(tempOutputs.removeFirst()));
@@ -49,11 +46,11 @@ public class MergeSort extends Sorter {
             }
             clean(tempOutputs.removeFirst());
         }
-        log.debug("END");
+        log.info("END");
     }
 
     public void twoWayMergeSortFourFiles(int blockSize) throws IOException {
-        log.debug("START");
+        log.info("START");
         if (splitter.splitTwoFiles(blockSize) > 1) { // jeśli równe 1 cały plik zmieścił się w pamięci.
             String fileNames[] = new String[4];
             fileNames[3] = outputFile + "B";
@@ -69,7 +66,7 @@ public class MergeSort extends Sorter {
             clean(fileNames[2], junk);
         } else
             clean(splitter.outputA);
-        log.debug("END");
+        log.info("END");
     }
 
     public void kWayMergeSort(int blockSize) {

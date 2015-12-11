@@ -6,8 +6,6 @@
 package algorithms.simplejoin;
 
 import algorithms.Sorter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +16,6 @@ import java.nio.file.Paths;
  */
 public class SimpleJoinSort extends Sorter {
 
-    protected final static Logger log = LogManager.getLogger("algorithms");
     protected SimpleSplitter splitter;
     protected SimpleCombiner combiner;
 
@@ -38,7 +35,7 @@ public class SimpleJoinSort extends Sorter {
     }
 
     public void sort() throws IOException {
-        log.debug("START");
+        log.info("START - Simple Join");
         int blockSize = 1;
         if (splitter.split(blockSize) > 1) { // jak false to plik jednoelementowy na wejsciu
             splitter.setInputFile(combiner.getOutput());
@@ -48,7 +45,7 @@ public class SimpleJoinSort extends Sorter {
             } while (splitter.split(blockSize) > 1);
         }
         clean();
-        log.debug("END");
+        log.info("END - Simple Join");
     }
 
     protected void clean() throws IOException {

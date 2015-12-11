@@ -21,7 +21,7 @@ public class NaturalSplitter extends SimpleSplitter {
 
     @Override
     public int split() throws IOException {
-        log.info("START");
+        log.debug("START");
         String buffer;
         boolean changeFile = true;
         int seriesNumber = 1;
@@ -40,7 +40,7 @@ public class NaturalSplitter extends SimpleSplitter {
             }
         }
         super.close();
-        log.info("END");
+        log.debug("END");
         return seriesNumber;
     }
 

@@ -1,42 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
-import algorithms.megresort.MergeSort;
-import algorithms.naturaljoin.NaturalJoinSort;
-import algorithms.polyphasesort.PolyphaseSort;
-import algorithms.simplejoin.SimpleJoinSort;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
- * @author Witold
+ * Created by Witold on 2015-12-10.
  */
-public class MainWindow {
+public class MainWindow extends JFrame {
+    private JPanel rootPanel;
+    private JTabbedPane tabbedPane;
+    private JPanel results;
+    private JPanel settings;
+    private JButton sourceFileButton;
+    private JTextField textField1;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
-        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
-        MergeSort mergeSort1 = new MergeSort("s.txt", "rM-nF.txt", "AM", "BM");
-        MergeSort mergeSort2 = new MergeSort("s.txt", "rM-4F.txt", "AM2", "BM2");
-        PolyphaseSort polyphaseSort = new PolyphaseSort("s.txt", "rP.txt", "AP.txt", "BP.txt");
-        try {
-            simpleJoinSort.sort();
-            naturalJoinSort.sort();
-            mergeSort1.twoWayMergeSortNFiles(3);
-            mergeSort2.twoWayMergeSortFourFiles(3);
-            polyphaseSort.sort(10);
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public MainWindow(String title) throws HeadlessException {
+        super(title);
+        setContentPane(rootPanel);
+        pack();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+        sourceFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO filechooser
+            }
+        });
     }
-
 }

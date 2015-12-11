@@ -46,7 +46,7 @@ public class SimpleCombiner extends Combiner {
     }
 
     public void combine(int blockSize) throws IOException {
-        log.info("START");
+        log.debug("START");
         String bufferA, bufferB;
         int counterA, counterB;
         init();
@@ -92,7 +92,7 @@ public class SimpleCombiner extends Combiner {
             bufferB = readerB.readLine();
         }
         close();
-        log.info("END");
+        log.debug("END");
     }
 
     @Override

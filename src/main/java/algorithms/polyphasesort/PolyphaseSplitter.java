@@ -30,7 +30,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
 
     @Override
     public int split(int blockSize) throws IOException {
-        log.info("START - POLYPHASE SORT");
+        log.debug("START - POLYPHASE SORT");
         init();
         String buffer = "Start";
         String lastWrittenA = null;
@@ -69,7 +69,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
             }
         }
         close();
-        log.info("END - POLYPHASE SORT");
+        log.debug("END - POLYPHASE SORT");
         return SeriesNumberA + SeriesNumberB;
     }
 

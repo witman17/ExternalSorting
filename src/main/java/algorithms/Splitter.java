@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by Witold on 2015-10-20.
  */
 public abstract class Splitter {
-    protected final static Logger log = LogManager.getLogger("algorithms");
+    protected final static Logger log = LogManager.getLogger(Splitter.class);
     protected String input;
     protected BufferedReader reader;
     protected int inputBufferSize;

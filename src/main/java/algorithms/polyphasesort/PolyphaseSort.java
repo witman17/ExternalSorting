@@ -1,8 +1,6 @@
 package algorithms.polyphasesort;
 
 import algorithms.Sorter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +12,6 @@ import java.nio.file.StandardCopyOption;
  * Created by Witold on 2015-11-02.
  */
 public class PolyphaseSort extends Sorter {
-    protected final static Logger log = LogManager.getLogger("algorithms");
     protected PolyphaseSplitter splitter;
     protected String output;
 
@@ -32,7 +29,7 @@ public class PolyphaseSort extends Sorter {
     }
 
     public void sort(int blockSize) throws IOException {
-        log.debug("START - POLYPHASE SORT");
+        log.info("START - POLYPHASE SORT");
         int fakeSeriesNumber = 0;
         //podzia� i sortowanie serii
         int totalSeriesNumber = splitter.split(blockSize);
@@ -54,7 +51,7 @@ public class PolyphaseSort extends Sorter {
                 output, seriesNumberA, seriesNumberB);
         combiner.combine();
         clean(combiner.getOutput(), combiner.getInputA(), combiner.getInputB());
-        log.debug("END - POLYPHASE SORT");
+        log.info("END - POLYPHASE SORT");
     }
 
     protected void clean(String resultFile, String tempA, String tempB) throws IOException {

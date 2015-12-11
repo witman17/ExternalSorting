@@ -1,11 +1,15 @@
 package algorithms;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 
 /**
  * Created by Witold on 2015-12-08.
  */
 public abstract class Sorter {
+    protected final static Logger log = LogManager.getLogger(Sorter.class);
     protected Splitter splitter;
     protected Combiner combiner;
     protected int inputBufferSize;

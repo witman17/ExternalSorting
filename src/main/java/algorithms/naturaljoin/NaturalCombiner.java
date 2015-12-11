@@ -23,7 +23,7 @@ public class NaturalCombiner extends SimpleCombiner {
 
     @Override
     public void combine() throws IOException {
-        log.info("START");
+        log.debug("START");
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
@@ -67,7 +67,7 @@ public class NaturalCombiner extends SimpleCombiner {
             bufferB = seriesReaderB.getSeriesElement();
         }
         super.close();
-        log.info("END");
+        log.debug("END");
     }
 
     @Override

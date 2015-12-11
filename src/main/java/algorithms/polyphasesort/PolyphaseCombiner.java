@@ -38,7 +38,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
 
     @Override
     public void combine() throws IOException {
-        log.info("START - POLYPHASE SORT");
+        log.debug("START - POLYPHASE SORT");
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
@@ -82,7 +82,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             outputSeriesNumber++;
         }
         close();
-        log.info("END - POLYPHASE SORT");
+        log.debug("END - POLYPHASE SORT");
     }
 
     @Override

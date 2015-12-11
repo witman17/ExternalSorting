@@ -48,7 +48,7 @@ public class MergeSortCombiner extends Combiner {
     }
 
     public void combineTwoFiles() throws IOException {
-        log.info("START");
+        log.debug("START");
         init();
         String bufferA = readers.get(0).readLine();
         String bufferB = readers.get(1).readLine();
@@ -74,11 +74,11 @@ public class MergeSortCombiner extends Combiner {
             bufferB = readers.get(1).readLine();
         }
         close();
-        log.info("END");
+        log.debug("END");
     }
 
     public int combineFourFiles(String outputB) throws IOException {
-        log.info("START");
+        log.debug("START");
         init();
         int blocksNumber = 0;
         boolean currentFile = true;
@@ -123,7 +123,7 @@ public class MergeSortCombiner extends Combiner {
         }
         writerB.close();
         close();
-        log.info("END");
+        log.debug("END");
         return blocksNumber;
     }
 

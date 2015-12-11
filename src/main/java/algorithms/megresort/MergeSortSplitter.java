@@ -51,7 +51,7 @@ public class MergeSortSplitter extends Splitter {
     }
 
     public int splitNFiles(int blockSize) throws IOException {
-        log.info("START");
+        log.debug("START");
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
@@ -78,12 +78,12 @@ public class MergeSortSplitter extends Splitter {
             log.trace("chunk sorted & saved no. " + blocksNumber);
         }
         close();
-        log.info("END");
+        log.debug("END");
         return blocksNumber;
     }
 
     public int splitTwoFiles(int blockSize) throws IOException {
-        log.trace("START");
+        log.debug("START");
         init(TWO_FILES);
         int blocksNumber = 0;
         boolean currentFile = true;
@@ -127,7 +127,7 @@ public class MergeSortSplitter extends Splitter {
             }
         }
         close();
-        log.trace("END");
+        log.debug("END");
         return blocksNumber;
     }
 

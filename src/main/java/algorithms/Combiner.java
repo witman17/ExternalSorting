@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by Witold on 2015-10-20.
  */
 public abstract class Combiner {
-    protected final static Logger log = LogManager.getLogger("algorithms");
+    protected final static Logger log = LogManager.getLogger(Combiner.class);
     protected String output;
     protected BufferedWriter writer;
     protected int outputBufferSize;

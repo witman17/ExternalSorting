@@ -16,7 +16,7 @@ public class NaturalJoinSort extends SimpleJoinSort {
 
     @Override
     public void sort() throws IOException {
-        log.debug("START");
+        log.info("START");
         if (splitter.split() > 1) { // jak false to plik posortowany na wejściu.
             splitter.setInputFile(combiner.getOutput());
             do {
@@ -24,7 +24,7 @@ public class NaturalJoinSort extends SimpleJoinSort {
             } while (splitter.split() > 1);
         }
         clean();
-        log.debug("END");
+        log.info("END");
     }
 
 }
