@@ -1,7 +1,7 @@
 package algorithms.polyphasesort;
 
+import algorithms.SeriesReader;
 import algorithms.naturaljoin.NaturalCombiner;
-import algorithms.naturaljoin.SeriesReader;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package algorithms.naturaljoin;
+package algorithms;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class SeriesReader {
     }
 
     public String getSeriesElement() throws IOException {
-        //sprawdzanie koñca serii
+        //sprawdzanie koï¿½ca serii
         if (currentBuffer != null && nextBuffer != null)
             seriesEnded = currentBuffer.compareTo(nextBuffer) > 0;
         else

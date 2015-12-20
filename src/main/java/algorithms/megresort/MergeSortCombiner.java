@@ -1,7 +1,7 @@
 package algorithms.megresort;
 
 import algorithms.Combiner;
-import algorithms.naturaljoin.SeriesReader;
+import algorithms.SeriesReader;
 
 import java.io.*;
 import java.util.ArrayList;

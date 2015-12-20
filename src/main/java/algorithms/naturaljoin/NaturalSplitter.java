@@ -1,5 +1,6 @@
 package algorithms.naturaljoin;
 
+import algorithms.SeriesReader;
 import algorithms.simplejoin.SimpleSplitter;
 
 import java.io.IOException;
