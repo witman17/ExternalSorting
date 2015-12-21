@@ -21,6 +21,7 @@ public class SimpleSplitter extends Splitter {
     protected String outputB;
     protected BufferedWriter writerA;
     protected BufferedWriter writerB;
+    protected int outputBufferSize;
 
     public SimpleSplitter(String InputFile, String OutputA, String OutputB) {
         super(InputFile);
@@ -29,9 +30,21 @@ public class SimpleSplitter extends Splitter {
         this.reader = null;
         this.writerA = null;
         this.writerB = null;
+        outputBufferSize = 8192;
+    }
+
+    public SimpleSplitter(String InputFile, String OutputA, String OutputB, int inputBufferSize, int outputBufferSize) {
+        super(InputFile, inputBufferSize);
+        this.outputA = OutputA;
+        this.outputB = OutputB;
+        this.reader = null;
+        this.writerA = null;
+        this.writerB = null;
+        this.outputBufferSize = outputBufferSize;
     }
 
     public int split(int blockSize) throws IOException {
+        log.debug("START");
         String buffer = "Start";
         int blocksNumber = 0;
         int counter;
@@ -56,14 +69,15 @@ public class SimpleSplitter extends Splitter {
 
         }
         this.close();
+        log.debug("END");
         return blocksNumber;
     }
 
     @Override
     protected void init() throws IOException {
         super.init();
-        writerA = new BufferedWriter(new FileWriter(outputA));
-        writerB = new BufferedWriter(new FileWriter(outputB));
+        writerA = new BufferedWriter(new FileWriter(outputA), outputBufferSize / 2);
+        writerB = new BufferedWriter(new FileWriter(outputB), outputBufferSize / 2);
     }
 
     @Override

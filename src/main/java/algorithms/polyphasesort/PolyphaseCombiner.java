@@ -1,7 +1,7 @@
 package algorithms.polyphasesort;
 
+import algorithms.SeriesReader;
 import algorithms.naturaljoin.NaturalCombiner;
-import algorithms.naturaljoin.SeriesReader;
 
 import java.io.*;
 
@@ -16,33 +16,35 @@ public class PolyphaseCombiner extends NaturalCombiner {
     protected int outputSeriesNumber;
 
     public PolyphaseCombiner(String[] files, int inputASeriesNumber, int inputBSeriesNumber) {
-        this.inputA = files[0];
-        this.inputB = files[1];
-        this.output = files[2];
+        super(files[0], files[1], files[2]);
         this.inputASeriesNumber = inputASeriesNumber;
         this.inputBSeriesNumber = inputBSeriesNumber;
         this.outputSeriesNumber = 0;
     }
 
     public PolyphaseCombiner(String inputA, String inputB, String output, int inputASeriesNumber, int inputBSeriesNumber) {
-        this.inputA = inputA;
-        this.inputB = inputB;
-        this.output = output;
+        super(inputA, inputB, output);
         this.inputASeriesNumber = inputASeriesNumber;
         this.inputBSeriesNumber = inputBSeriesNumber;
         this.outputSeriesNumber = 0;
 
     }
 
+    public PolyphaseCombiner(String inputA, String inputB, String output, int inputBufferSize, int outputBufferSize, int inputASeriesNumber, int inputBSeriesNumber) {
+        super(inputA, inputB, output, inputBufferSize, outputBufferSize);
+        this.inputASeriesNumber = inputASeriesNumber;
+        this.inputBSeriesNumber = inputBSeriesNumber;
+    }
 
     @Override
     public void combine() throws IOException {
+        log.debug("START - POLYPHASE SORT");
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
         String bufferB = seriesReaderB.getSeriesElement();
         while (inputASeriesNumber + inputBSeriesNumber + outputSeriesNumber > 1) {
-            //zamiana plików IO jeœli wymagana
+            //zamiana plikï¿½w IO jeï¿½li wymagana
             if (inputASeriesNumber <= 0) {
                 reInit(INPUTA);
                 bufferA = seriesReaderA.getSeriesElement();
@@ -51,7 +53,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
                 reInit(INPUTB);
                 bufferB = seriesReaderB.getSeriesElement();
             }
-            // porównanie dwoch elementów serii, przepisanie mniejszego
+            // porï¿½wnanie dwoch elementï¿½w serii, przepisanie mniejszego
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded()) {
                 if (bufferA.compareTo(bufferB) < 0) {
                     writer.write(bufferA);
@@ -62,7 +64,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
                 }
                 writer.newLine();
             }
-            //dopisanie do pozosta³ych elementów, serri która siê nie skoñczy³a
+            //dopisanie do pozostaï¿½ych elementï¿½w, serri ktï¿½ra siï¿½ nie skoï¿½czyï¿½a
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
@@ -80,7 +82,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             outputSeriesNumber++;
         }
         close();
-
+        log.debug("END - POLYPHASE SORT");
     }
 
     @Override
@@ -113,6 +115,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             readerB = new BufferedReader(new FileReader(inputB));
             seriesReaderB = new SeriesReader(readerB);
             writer = new BufferedWriter(new FileWriter(output));
+
         }
 
     }
@@ -123,4 +126,11 @@ public class PolyphaseCombiner extends NaturalCombiner {
 
     }
 
+    public String getInputA() {
+        return this.inputA;
+    }
+
+    public String getInputB() {
+        return this.inputB;
+    }
 }

@@ -1,5 +1,6 @@
 package algorithms.naturaljoin;
 
+import algorithms.SeriesReader;
 import algorithms.simplejoin.SimpleSplitter;
 
 import java.io.IOException;
@@ -15,8 +16,13 @@ public class NaturalSplitter extends SimpleSplitter {
         super(inputFile, outputA, outputB);
     }
 
+    public NaturalSplitter(String InputFile, String OutputA, String OutputB, int inputBufferSize, int outputBufferSize) {
+        super(InputFile, OutputA, OutputB, inputBufferSize, outputBufferSize);
+    }
+
     @Override
     public int split() throws IOException {
+        log.debug("START");
         String buffer;
         boolean changeFile = true;
         int seriesNumber = 1;
@@ -35,6 +41,7 @@ public class NaturalSplitter extends SimpleSplitter {
             }
         }
         super.close();
+        log.debug("END");
         return seriesNumber;
     }
 

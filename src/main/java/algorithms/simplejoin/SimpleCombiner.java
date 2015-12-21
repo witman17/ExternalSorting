@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
  * @author Witold
  */
 public class SimpleCombiner extends Combiner {
@@ -19,6 +18,7 @@ public class SimpleCombiner extends Combiner {
     protected String inputB;
     protected BufferedReader readerA;
     protected BufferedReader readerB;
+    protected int inputBufferSize;
 
     public SimpleCombiner(String inputA, String inputB, String output) {
         super(output);
@@ -26,11 +26,18 @@ public class SimpleCombiner extends Combiner {
         this.inputB = inputB;
         readerA = null;
         readerB = null;
+        this.inputBufferSize = 8192;
     }
 
-    public SimpleCombiner() {
-
+    public SimpleCombiner(String inputA, String inputB, String output, int inputBufferSize, int outputBufferSize) {
+        super(output, outputBufferSize);
+        this.inputA = inputA;
+        this.inputB = inputB;
+        readerA = null;
+        readerB = null;
+        this.inputBufferSize = inputBufferSize;
     }
+
 
     @Override
     public void combine() throws IOException {
@@ -39,6 +46,7 @@ public class SimpleCombiner extends Combiner {
     }
 
     public void combine(int blockSize) throws IOException {
+        log.debug("START");
         String bufferA, bufferB;
         int counterA, counterB;
         init();
@@ -84,13 +92,14 @@ public class SimpleCombiner extends Combiner {
             bufferB = readerB.readLine();
         }
         close();
+        log.debug("END");
     }
 
     @Override
     protected void init() throws IOException {
         super.init();
-        readerA = new BufferedReader(new FileReader(inputA));
-        readerB = new BufferedReader(new FileReader(inputB));
+        readerA = new BufferedReader(new FileReader(inputA), inputBufferSize / 2);
+        readerB = new BufferedReader(new FileReader(inputB), inputBufferSize / 2);
     }
 
     @Override

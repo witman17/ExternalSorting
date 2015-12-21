@@ -22,19 +22,28 @@ public class MergeSortSplitter extends Splitter {
     protected BufferedWriter writerA;
     protected BufferedWriter writerB;
     protected LinkedList<String> outputFiles;
+    protected int outputBufferSize;
 
     public MergeSortSplitter(String input, String outputBase) {
         super(input);
         outputA = outputBase;
         outputB = null;
+        this.outputBufferSize = 8192;
     }
 
     public MergeSortSplitter(String input, String outputA, String outputB) {
         super(input);
         this.outputA = outputA;
         this.outputB = outputB;
+        this.outputBufferSize = 8192;
     }
 
+    public MergeSortSplitter(String input, String outputA, String outputB, int inputBufferSize, int outputBufferSize) {
+        super(input, inputBufferSize);
+        this.outputA = outputA;
+        this.outputB = outputB;
+        this.outputBufferSize = outputBufferSize;
+    }
 
     @Override
     public int split() throws IOException {
@@ -42,6 +51,7 @@ public class MergeSortSplitter extends Splitter {
     }
 
     public int splitNFiles(int blockSize) throws IOException {
+        log.debug("START");
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
@@ -65,12 +75,15 @@ public class MergeSortSplitter extends Splitter {
                 outputFiles.add(outputA + blocksNumber);
                 blocksNumber++;
             }
+            log.trace("chunk sorted & saved no. " + blocksNumber);
         }
         close();
+        log.debug("END");
         return blocksNumber;
     }
 
     public int splitTwoFiles(int blockSize) throws IOException {
+        log.debug("START");
         init(TWO_FILES);
         int blocksNumber = 0;
         boolean currentFile = true;
@@ -80,13 +93,13 @@ public class MergeSortSplitter extends Splitter {
         ArrayList<String> bufferList = new ArrayList<>(blockSize);
         while (buffer != null) {
             int i = 0;
-            // zape³nienie bufora
+            // zapeï¿½nienie bufora
             while (i < blockSize && (buffer = reader.readLine()) != null) {
                 bufferList.add(buffer);
                 i++;
             }
-            Collections.sort(bufferList); //sortowanie bufora
             if (bufferList.size() > 0) {
+                Collections.sort(bufferList); //sortowanie bufora
                 if (currentFile) {
                     for (String buff : bufferList) {
                         writerA.write(buff);
@@ -114,6 +127,7 @@ public class MergeSortSplitter extends Splitter {
             }
         }
         close();
+        log.debug("END");
         return blocksNumber;
     }
 
@@ -128,7 +142,6 @@ public class MergeSortSplitter extends Splitter {
         }
         if (mode == N_FILES) {
             if (outputFiles == null)
-
                 outputFiles = new LinkedList<>();
             else
                 outputFiles.clear();
