@@ -15,6 +15,7 @@ public class SortingConfigurationManager {
 
     public void runConfiguration() {
 
+
     }
 
     public void addConfigurationElement(SortingConfigurationElement configurationElement) {

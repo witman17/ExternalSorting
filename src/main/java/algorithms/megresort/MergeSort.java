@@ -30,7 +30,7 @@ public class MergeSort extends Sorter {
         this.outputFile = outputFile;
     }
 
-    public void twoWayMergeSortNFiles(int blockSize) throws IOException {
+    public void twoWayMergeSortNFiles(long blockSize) throws IOException {
         log.info("START");
         int filesNumber = splitter.splitNFiles(blockSize);
         if (filesNumber > 1) {
@@ -49,7 +49,7 @@ public class MergeSort extends Sorter {
         log.info("END");
     }
 
-    public void twoWayMergeSortFourFiles(int blockSize) throws IOException {
+    public void twoWayMergeSortFourFiles(long blockSize) throws IOException {
         log.info("START");
         if (splitter.splitTwoFiles(blockSize) > 1) { // jeśli równe 1 cały plik zmieścił się w pamięci.
             String fileNames[] = new String[4];
@@ -69,11 +69,11 @@ public class MergeSort extends Sorter {
         log.info("END");
     }
 
-    public void kWayMergeSort(int blockSize) {
+    public void kWayMergeSort(long blockSize) {
 
     }
 
-    public void kWayMergeSort(int blocksize, int k) {
+    public void kWayMergeSort(long blocksize, int k) {
 
 
     }

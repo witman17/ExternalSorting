@@ -24,10 +24,10 @@ public class SimpleJoinSort extends Sorter {
         combiner = new SimpleCombiner(tempA, tempB, sortedFile);
     }
 
-    public SimpleJoinSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSeries, int outputBufferSeries) {
-        super(inputBufferSeries, outputBufferSeries);
-        splitter = new SimpleSplitter(source, tempA, tempB, inputBufferSeries, outputBufferSeries);
-        combiner = new SimpleCombiner(tempA, tempB, sortedFile, inputBufferSeries, outputBufferSeries);
+    public SimpleJoinSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+        super(inputBufferSize, outputBufferSize);
+        splitter = new SimpleSplitter(source, tempA, tempB, inputBufferSize, outputBufferSize);
+        combiner = new SimpleCombiner(tempA, tempB, sortedFile, inputBufferSize, outputBufferSize);
     }
 
     public SimpleJoinSort() {

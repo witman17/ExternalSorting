@@ -46,16 +46,21 @@ public class MergeSortSplitter extends Splitter {
     }
 
     @Override
+    public int split(long blockSize) throws IOException {
+        return 0;
+    }
+
+    @Override
     public int split() throws IOException {
         return 0;
     }
 
-    public int splitNFiles(int blockSize) throws IOException {
+    public int splitNFiles(long blockSize) throws IOException {
         log.debug("START");
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
-        ArrayList<String> bufferList = new ArrayList<>(blockSize);
+        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             while (i < blockSize && (buffer = reader.readLine()) != null) {
@@ -82,7 +87,7 @@ public class MergeSortSplitter extends Splitter {
         return blocksNumber;
     }
 
-    public int splitTwoFiles(int blockSize) throws IOException {
+    public int splitTwoFiles(long blockSize) throws IOException {
         log.debug("START");
         init(TWO_FILES);
         int blocksNumber = 0;
@@ -90,7 +95,7 @@ public class MergeSortSplitter extends Splitter {
         String buffer = "Start";
         String lastWrittenA = null;
         String lastWrittenB = null;
-        ArrayList<String> bufferList = new ArrayList<>(blockSize);
+        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             // zape�nienie bufora

@@ -23,19 +23,15 @@ public class PolyphaseSplitter extends SimpleSplitter {
         super(InputFile, OutputA, OutputB, inputBufferSize, outputBufferSize);
     }
 
-    @Override
-    public int split() throws IOException {
-        return 0;
-    }
 
     @Override
-    public int split(int blockSize) throws IOException {
+    public int split(long blockSize) throws IOException {
         log.debug("START - POLYPHASE SORT");
         init();
         String buffer = "Start";
         String lastWrittenA = null;
         String lastWrittenB = null;
-        ArrayList<String> bufferList = new ArrayList<>(blockSize);
+        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             while (i < blockSize && (buffer = reader.readLine()) != null) {

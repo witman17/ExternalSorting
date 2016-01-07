@@ -28,7 +28,7 @@ public class PolyphaseSort extends Sorter {
         output = sortedFile;
     }
 
-    public void sort(int blockSize) throws IOException {
+    public void sort(long blockSize) throws IOException {
         log.info("START - POLYPHASE SORT");
         int fakeSeriesNumber = 0;
         //podzia� i sortowanie serii

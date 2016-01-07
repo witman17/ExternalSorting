@@ -43,7 +43,8 @@ public class SimpleSplitter extends Splitter {
         this.outputBufferSize = outputBufferSize;
     }
 
-    public int split(int blockSize) throws IOException {
+    @Override
+    public int split(long blockSize) throws IOException {
         log.debug("START");
         String buffer = "Start";
         int blocksNumber = 0;
