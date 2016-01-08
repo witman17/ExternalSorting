@@ -58,8 +58,7 @@ public class MainWindow extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // AlgorithmTestCreator creator = new AlgorithmTestCreator("Kreator Konfiguracji");
-                listModel.addElement("Koty" + usun++);
+                AlgorithmTestCreator creator = new AlgorithmTestCreator("Kreator Konfiguracji");
             }
         });
         deleteButton.addActionListener(new ActionListener() {
