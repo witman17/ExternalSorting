@@ -1,6 +1,8 @@
 package configuration;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Witold on 2015-12-20.
@@ -14,8 +16,8 @@ public class SortingConfigurationManager {
     }
 
     public void runConfiguration() {
-
-
+        Executor executor = Executors.newSingleThreadExecutor();
+        configurationElements.forEach(executor::execute);
     }
 
     public void addConfigurationElement(SortingConfigurationElement configurationElement) {

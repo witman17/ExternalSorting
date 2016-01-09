@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.AlgorithmTestCreator">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.AlgorithmTestDialog">
   <grid id="27dc6" binding="rootPanel" layout-manager="FormLayout">
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="center:max(d;4px):noGrow"/>
-    <rowspec value="center:max(d;4px):noGrow"/>
-    <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="center:max(d;4px):noGrow"/>
-    <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="center:max(d;4px):noGrow"/>
-    <rowspec value="top:4dlu:noGrow"/>
-    <rowspec value="center:max(d;4px):noGrow"/>
     <rowspec value="center:max(d;4px):noGrow"/>
     <colspec value="fill:d:grow"/>
     <constraints>
@@ -21,13 +11,13 @@
     <properties>
       <minimumSize width="600" height="301"/>
       <opaque value="true"/>
-      <preferredSize width="600" height="300"/>
+      <preferredSize width="550" height="300"/>
       <requestFocusEnabled value="false"/>
       <verifyInputWhenFocusTarget value="true"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="6d4a9" layout-manager="FormLayout">
+      <grid id="6d4a9" binding="mainPanel" layout-manager="FormLayout">
         <rowspec value="center:max(d;4px):noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
@@ -45,7 +35,7 @@
           <forms top="0" left="20" bottom="0" right="0" defaultalign-horz="false"/>
         </constraints>
         <properties>
-          <preferredSize width="550" height="233"/>
+          <preferredSize width="850" height="300"/>
         </properties>
         <border type="none"/>
         <children>
@@ -55,30 +45,34 @@
             <colspec value="left:4dlu:noGrow"/>
             <colspec value="fill:max(d;4px):noGrow"/>
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
-              <forms top="0" left="0" bottom="0" right="5" defaultalign-horz="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+              <forms top="0" left="0" bottom="0" right="5" defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties>
-              <preferredSize width="137" height="33"/>
+              <preferredSize width="148" height="33"/>
             </properties>
             <border type="none"/>
             <children>
               <component id="da51" class="javax.swing.JButton" binding="addConfigItemButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <forms/>
+                  <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
-                  <preferredSize width="65" height="33"/>
+                  <maximumSize width="65" height="32"/>
+                  <minimumSize width="65" height="32"/>
+                  <opaque value="false"/>
+                  <preferredSize width="70" height="33"/>
                   <text value="Dodaj"/>
                 </properties>
               </component>
               <component id="729fb" class="javax.swing.JButton" binding="cancelButton">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <forms/>
+                  <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
+                  <horizontalAlignment value="2"/>
                   <text value="Anuluj"/>
                 </properties>
               </component>
@@ -89,9 +83,9 @@
             <rowspec value="top:4dlu:noGrow"/>
             <rowspec value="center:max(d;4px):noGrow"/>
             <rowspec value="top:4dlu:noGrow"/>
+            <rowspec value="center:max(d;4px):noGrow"/>
+            <rowspec value="top:4dlu:noGrow"/>
             <colspec value="fill:d:noGrow"/>
-            <colspec value="left:4dlu:noGrow"/>
-            <colspec value="fill:max(d;4px):noGrow"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
@@ -136,7 +130,7 @@
                 <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:max(d;4px):noGrow"/>
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false" defaultalign-vert="false"/>
                 </constraints>
                 <properties/>
@@ -172,7 +166,10 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <minimumSize width="400" height="59"/>
+              <preferredSize width="400" height="59"/>
+            </properties>
             <border type="none"/>
             <children>
               <grid id="1c3b0" binding="in" layout-manager="FormLayout">
@@ -186,7 +183,10 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <forms/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <minimumSize width="400" height="26"/>
+                  <preferredSize width="400" height="26"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="e72f8" class="javax.swing.JLabel">
@@ -198,7 +198,7 @@
                       <text value="Rozmiar bufora wejściowego: "/>
                     </properties>
                   </component>
-                  <component id="1b821" class="javax.swing.JSpinner" binding="inputBufferSize">
+                  <component id="1b821" class="javax.swing.JSpinner" binding="inputBufferSizeSpinner">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
@@ -227,7 +227,9 @@
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <forms/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <preferredSize width="400" height="26"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="b1f88" class="javax.swing.JLabel">
@@ -239,7 +241,7 @@
                       <text value="Rozmiar bufora wyjściowego: "/>
                     </properties>
                   </component>
-                  <component id="7bce6" class="javax.swing.JSpinner" binding="outputBufferSize">
+                  <component id="7bce6" class="javax.swing.JSpinner" binding="outputBufferSizeSpinner">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
@@ -282,7 +284,7 @@
                   <text value="Dostępna pamięć w czasie sortowania: "/>
                 </properties>
               </component>
-              <component id="25b36" class="javax.swing.JSpinner" binding="spinner1" default-binding="true">
+              <component id="25b36" class="javax.swing.JSpinner" binding="memorySpinner">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false"/>
@@ -295,7 +297,7 @@
                   <forms/>
                 </constraints>
                 <properties>
-                  <text value="kB"/>
+                  <text value="MB"/>
                 </properties>
               </component>
             </children>

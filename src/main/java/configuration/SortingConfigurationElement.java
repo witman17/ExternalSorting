@@ -4,15 +4,19 @@ import algorithms.megresort.MergeSort;
 import algorithms.naturaljoin.NaturalJoinSort;
 import algorithms.polyphasesort.PolyphaseSort;
 import algorithms.simplejoin.SimpleJoinSort;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * Created by Witold on 2015-12-20.
  */
-public abstract class SortingConfigurationElement {
+
+public class SortingConfigurationElement implements Runnable {
     public static final int MERGE_SORT = 0;
     public static final int NATURAL_JOIN_SORT = 1;
     public static final int POLYPHASE_SORT = 2;
@@ -24,52 +28,59 @@ public abstract class SortingConfigurationElement {
     public static final int K_WAY_VARIANT = 14;
 
     private final static String tempName = "temp_";
+    private final static Logger log = LogManager.getLogger("algorithms");
 
 
     protected String sourceFileName;
     protected String resultFileName;
-    protected int sortAlgorithm;
+    protected int type;
     protected int variant;
     protected int inputBufferSize;
     protected int outputBufferSize;
     protected int[] sortMethodParameters;
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
-                                       int[] sortMethodParameters, int sortAlgorithm, int variant) {
+                                       int[] sortMethodParameters, int type, int variant) {
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
         this.sortMethodParameters = sortMethodParameters;
-        this.sortAlgorithm = sortAlgorithm;
+        this.type = type;
         this.variant = variant;
     }
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
-                                       int sortAlgorithm, int variant) {
+                                       int type, int variant) {
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
         this.sortMethodParameters = null;
-        this.sortAlgorithm = sortAlgorithm;
+        this.type = type;
         this.variant = variant;
     }
 
-    public void runSorting() throws IOException {
-        switch (variant) {
-            case MERGE_SORT:
-                runMergeSort();
-                break;
-            case NATURAL_JOIN_SORT:
-                runNaturalJoinSort();
-                break;
-            case POLYPHASE_SORT:
-                runPolyphaseSort();
-                break;
-            case SIMPLE_JOIN_SORT:
-                runSimpleJoinSort();
-                break;
+    @Override
+    public void run() {
+        try {
+            switch (variant) {
+
+                case MERGE_SORT:
+                    runMergeSort();
+                    break;
+                case NATURAL_JOIN_SORT:
+                    runNaturalJoinSort();
+                    break;
+                case POLYPHASE_SORT:
+                    runPolyphaseSort();
+                    break;
+                case SIMPLE_JOIN_SORT:
+                    runSimpleJoinSort();
+                    break;
+            }
+        } catch (IOException ex) {
+            log.error(this.toString(), ex);
         }
 
     }
@@ -169,12 +180,12 @@ public abstract class SortingConfigurationElement {
         this.sortMethodParameters = sortMethodParameters;
     }
 
-    public int getSortAlgorithm() {
-        return sortAlgorithm;
+    public int getType() {
+        return type;
     }
 
-    public void setSortAlgorithm(int sortAlgorithm) {
-        this.sortAlgorithm = sortAlgorithm;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getVariant() {
@@ -183,5 +194,18 @@ public abstract class SortingConfigurationElement {
 
     public void setVariant(int variant) {
         this.variant = variant;
+    }
+
+    @Override
+    public String toString() {
+        return "SortingConfigurationElement{" +
+                "sourceFileName='" + sourceFileName + '\'' +
+                ", resultFileName='" + resultFileName + '\'' +
+                ", type=" + type +
+                ", variant=" + variant +
+                ", inputBufferSize=" + inputBufferSize +
+                ", outputBufferSize=" + outputBufferSize +
+                ", sortMethodParameters=" + Arrays.toString(sortMethodParameters) +
+                '}';
     }
 }

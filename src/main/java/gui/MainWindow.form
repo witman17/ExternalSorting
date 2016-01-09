@@ -349,8 +349,8 @@
                     <rowspec value="center:d:noGrow"/>
                     <colspec value="fill:d:noGrow"/>
                     <constraints>
-                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                      <forms defaultalign-horz="false"/>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+                      <forms top="0" left="0" bottom="0" right="5" defaultalign-horz="false"/>
                     </constraints>
                     <properties>
                       <maximumSize width="500" height="300"/>
@@ -359,7 +359,7 @@
                     <children>
                       <component id="8dd23" class="javax.swing.JButton" binding="start">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                           <forms defaultalign-horz="false" defaultalign-vert="false"/>
                         </constraints>
                         <properties>

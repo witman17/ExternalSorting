@@ -1,5 +1,8 @@
 package gui;
 
+import configuration.SortingConfigurationElement;
+import configuration.SortingConfigurationManager;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,7 +16,6 @@ import java.util.Dictionary;
  * Created by Witold on 2015-12-10.
  */
 public class MainWindow extends JFrame {
-    private static int usun = 0;
     private String sourceFilePath;
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
@@ -34,9 +36,12 @@ public class MainWindow extends JFrame {
     private JButton start;
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
+    private boolean firstShow;
+    private SortingConfigurationManager manager;
 
-    public MainWindow(String title) throws HeadlessException {
+    public MainWindow(String title, SortingConfigurationManager manager) throws HeadlessException {
         super(title);
+        this.manager = manager;
         setContentPane(rootPanel);
         polesInit();
         pack();
@@ -58,7 +63,11 @@ public class MainWindow extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlgorithmTestCreator creator = new AlgorithmTestCreator("Kreator Konfiguracji");
+                AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", (MainWindow) rootPanel.getParent().getParent().getParent());
+                if (firstShow) {
+                    listModel.removeAllElements();
+                    firstShow = false;
+                }
             }
         });
         deleteButton.addActionListener(new ActionListener() {
@@ -67,7 +76,7 @@ public class MainWindow extends JFrame {
                 int[] selected = jlist.getSelectedIndices();
                 for (int i = 0; i < selected.length; i++) {
                     listModel.remove(selected[i] - i);
-
+                    manager.removeConfigurationElement(selected[i] - i);
                 }
 
             }
@@ -82,18 +91,26 @@ public class MainWindow extends JFrame {
 
 
     private void polesInit() {
-        rozkladComboBox.addItem(new String(" "));
-        rozkladComboBox.addItem(new String("normalny"));
+        firstShow = true;
         rozkladComboBox.addItem(new String("jednorodny"));
+        rozkladComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
-        listModel.addElement("Madzia <3");
+        listModel.addElement("Dodaj Algorytmy");
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
         for (int i = 200; i < 1000; i += 100) {
             table.remove(i);
         }
         slider.setLabelTable(table);
+    }
 
+    public void addConfigurationElement(SortingConfigurationElement element) {
+        listModel.addElement(element.toString());
+        manager.addConfigurationElement(element);
+    }
+
+    public JTextField getSourceFileTextField() {
+        return sourceFileTextField;
     }
 
 }

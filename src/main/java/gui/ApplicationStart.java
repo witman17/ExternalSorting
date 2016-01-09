@@ -5,20 +5,22 @@
  */
 package gui;
 
+import configuration.SortingConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * @author Witold
  */
-public class TempManager {
+public class ApplicationStart {
 
     private final static Logger log = LogManager.getLogger("algorithms");
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MainWindow m = new MainWindow("External Sort");
+        SortingConfigurationManager manager = new SortingConfigurationManager();
+        MainWindow m = new MainWindow("External Sort", manager);
 //        SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
 //        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
 //        MergeSort mergeSort1 = new MergeSort("s.txt", "rM-nF.txt", "AM", "BM");
