@@ -33,7 +33,7 @@ public class MainWindow extends JFrame {
     private JList jlist;
     private JButton addButton;
     private JButton deleteButton;
-    private JButton start;
+    private JButton startButton;
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
     private boolean firstShow;
@@ -87,6 +87,15 @@ public class MainWindow extends JFrame {
                 sliderSizeLabel.setText("Rozmiar pliku: " + slider.getValue() + "(MB)");
             }
         });
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                } catch (Exception e1) {
+
+                }
+            }
+        });
     }
 
 
@@ -107,6 +116,14 @@ public class MainWindow extends JFrame {
     public void addConfigurationElement(SortingConfigurationElement element) {
         listModel.addElement(element.toString());
         manager.addConfigurationElement(element);
+    }
+
+    private void dataCheck() throws Exception {
+        if (sourceFilePath.isEmpty())
+            throw new IllegalStateException("Brak nazwy generowanego pliku");
+        if (listModel.contains("Dodaj Algorytmy"))
+            throw new IllegalStateException("Brak wybranych algorytmów do testu");
+
     }
 
     public JTextField getSourceFileTextField() {

@@ -1,5 +1,9 @@
 package gui;
 
+import algorithms.megresort.MergeSort;
+import algorithms.naturaljoin.NaturalJoinSort;
+import algorithms.polyphasesort.PolyphaseSort;
+import algorithms.simplejoin.SimpleJoinSort;
 import configuration.SortingConfigurationElement;
 
 import javax.swing.*;
@@ -67,30 +71,33 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    int algorythmParameters[] = new int[2];
-                    algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
-                    int algorythmType;
-                    int algorythmVariant;
+                    int algorythmParameters[] = null;
+                    if (memorySpinner.isEnabled()) {
+                        algorythmParameters = new int[1];
+                        algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
+                    }
+                    String className;
+                    String methodName;
                     switch (algorythmComboBox.getSelectedIndex()) {
                         case 0:
-                            algorythmType = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            className = SimpleJoinSort.class.getName();
                             break;
                         case 1:
-                            algorythmType = SortingConfigurationElement.NATURAL_JOIN_SORT;
+                            className = NaturalJoinSort.class.getName();
                             break;
                         case 2:
-                            algorythmType = SortingConfigurationElement.MERGE_SORT;
+                            className = MergeSort.class.getName();
                             break;
                         case 3:
-                            algorythmType = SortingConfigurationElement.POLYPHASE_SORT;
+                            className = PolyphaseSort.class.getName();
                             break;
                         default:
-                            algorythmType = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            className = SimpleJoinSort.class.getName();
                             break;
                     }
-                    algorythmVariant = getVariantType(algorythmType);
+                    methodName = getVariantType(className);
                     SortingConfigurationElement element = new SortingConfigurationElement(mainWindow.getSourceFileTextField().getText(),
-                            resultFile, inputBufferSize, outputBufferSize, algorythmParameters, algorythmType, algorythmVariant);
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, className, methodName, algorythmParameters);
 
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
@@ -129,6 +136,10 @@ public class AlgorithmTestDialog extends JDialog {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(basicVariant);
                 }
+                if (algorythmComboBox.getSelectedIndex() >= 2)
+                    memorySpinner.setEnabled(true);
+                else
+                    memorySpinner.setEnabled(false);
             }
         });
     }
@@ -145,6 +156,7 @@ public class AlgorithmTestDialog extends JDialog {
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         memorySpinner.setModel(new SpinnerNumberModel(10, 10, 1000, 10));
+        memorySpinner.setEnabled(false);
 
     }
 
@@ -155,20 +167,20 @@ public class AlgorithmTestDialog extends JDialog {
         return completeData;
     }
 
-    private int getVariantType(int algorithmType) {
-        if (algorithmType == SortingConfigurationElement.MERGE_SORT) {
+    private String getVariantType(String className) {
+        if (className.compareTo(MergeSort.class.getName()) == 0) {
             switch (variantComboBox.getSelectedIndex()) {
                 case 0:
-                    return SortingConfigurationElement.TWO_WAY_4_FILES_VARIANT;
+                    return "twoWayMergeSortFourFiles";
                 case 1:
-                    return SortingConfigurationElement.TWO_WAY_N_FILES_VARIANT;
+                    return "twoWayMergeSortNFiles";
                 case 2:
-                    return SortingConfigurationElement.K_WAY_VARIANT;
+                    return "kWayMergeSort";
                 default:
-                    return SortingConfigurationElement.BASIC_VARIANT;
+                    return "twoWayMergeSortFourFiles";
             }
         } else
-            return SortingConfigurationElement.BASIC_VARIANT;
+            return "sort";
 
     }
 
