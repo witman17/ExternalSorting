@@ -38,7 +38,7 @@ public class SortingConfigurationElement implements Runnable {
     protected int inputBufferSize;
     protected int outputBufferSize;
     protected int[] sortMethodParameters;
-    
+
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
                                        String className, String methodName, int... sortMethodParameters) {
@@ -79,6 +79,7 @@ public class SortingConfigurationElement implements Runnable {
             Object sorter = sorterClass.getConstructor(constructorParams).newInstance(sourceFileName, resultFileName, tempA, tempB,
                     inputBufferSize, outputBufferSize);
             Method method = sorterClass.getDeclaredMethod(methodName, methodParamsClasses);
+            //TODO tutaj blad, doczytac o parametrach invoke
             method.invoke(sorter, sortMethodParameters);
         } catch (ClassNotFoundException e) {
             log.error(this.toString(), e);

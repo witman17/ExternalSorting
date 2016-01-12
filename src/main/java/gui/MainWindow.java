@@ -16,7 +16,6 @@ import java.util.Dictionary;
  * Created by Witold on 2015-12-10.
  */
 public class MainWindow extends JFrame {
-    private String sourceFilePath;
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
     private JPanel results;
@@ -36,7 +35,7 @@ public class MainWindow extends JFrame {
     private JButton startButton;
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
-    private boolean firstShow;
+    private boolean noElements;
     private SortingConfigurationManager manager;
 
     public MainWindow(String title, SortingConfigurationManager manager) throws HeadlessException {
@@ -64,9 +63,9 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", (MainWindow) rootPanel.getParent().getParent().getParent());
-                if (firstShow) {
+                if (noElements) {
                     listModel.removeAllElements();
-                    firstShow = false;
+                    noElements = false;
                 }
             }
         });
@@ -77,6 +76,10 @@ public class MainWindow extends JFrame {
                 for (int i = 0; i < selected.length; i++) {
                     listModel.remove(selected[i] - i);
                     manager.removeConfigurationElement(selected[i] - i);
+                }
+                if(listModel.isEmpty()){
+                    listModel.addElement("Dodaj algorytmy.");
+                    noElements = true;
                 }
 
             }
@@ -91,8 +94,12 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                } catch (Exception e1) {
-
+                    dataCheck();
+                    manager.setSourceFileName(sourceFileTextField.getText());
+                    manager.runConfiguration();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
+                            ex.getMessage(), JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -100,11 +107,11 @@ public class MainWindow extends JFrame {
 
 
     private void polesInit() {
-        firstShow = true;
+        noElements = true;
         rozkladComboBox.addItem(new String("jednorodny"));
         rozkladComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
-        listModel.addElement("Dodaj Algorytmy");
+        listModel.addElement("Dodaj algorytmy.");
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
         for (int i = 200; i < 1000; i += 100) {
@@ -119,10 +126,11 @@ public class MainWindow extends JFrame {
     }
 
     private void dataCheck() throws Exception {
-        if (sourceFilePath.isEmpty())
-            throw new IllegalStateException("Brak nazwy generowanego pliku");
-        if (listModel.contains("Dodaj Algorytmy"))
-            throw new IllegalStateException("Brak wybranych algorytmów do testu");
+        if (sourceFileTextField.getText().isEmpty())
+            throw new Exception("Brak nazwy generowanego pliku");
+        if (listModel.contains("Dodaj algorytmy.") || listModel.isEmpty())
+            throw new Exception("Brak wybranych algorytmów do testu");
+
 
     }
 
