@@ -297,7 +297,7 @@
                       <forms top="0" left="20" bottom="0" right="0" defaultalign-horz="false" defaultalign-vert="false"/>
                     </constraints>
                     <properties>
-                      <preferredSize width="500" height="180"/>
+                      <preferredSize width="700" height="180"/>
                     </properties>
                     <border type="none"/>
                     <children>
@@ -357,7 +357,7 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="8dd23" class="javax.swing.JButton" binding="start">
+                      <component id="8dd23" class="javax.swing.JButton" binding="startButton">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                           <forms defaultalign-horz="false" defaultalign-vert="false"/>

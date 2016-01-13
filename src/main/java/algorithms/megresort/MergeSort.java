@@ -10,6 +10,7 @@ import java.util.LinkedList;
 
 /**
  * Created by Witold on 2015-10-31.
+ * TODO sprawdzić czy algorytmy działają, jakis exception przy 2Way4Files
  */
 public class MergeSort extends Sorter {
     protected MergeSortSplitter splitter;

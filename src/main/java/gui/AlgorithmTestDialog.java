@@ -67,35 +67,36 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    int algorythmParameters[] = new int[2];
-                    algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
-                    int algorythmType;
-                    int algorythmVariant;
+                    int algorythmParameters[] = null;
+                    if (memorySpinner.isEnabled()) {
+                        algorythmParameters = new int[1];
+                        algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
+                    }
+                    int type;
+                    int variant;
                     switch (algorythmComboBox.getSelectedIndex()) {
                         case 0:
-                            algorythmType = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            type = SortingConfigurationElement.SIMPLE_JOIN_SORT;
                             break;
                         case 1:
-                            algorythmType = SortingConfigurationElement.NATURAL_JOIN_SORT;
+                            type = SortingConfigurationElement.NATURAL_JOIN_SORT;
                             break;
                         case 2:
-                            algorythmType = SortingConfigurationElement.MERGE_SORT;
+                            type = SortingConfigurationElement.MERGE_SORT;
                             break;
                         case 3:
-                            algorythmType = SortingConfigurationElement.POLYPHASE_SORT;
+                            type = SortingConfigurationElement.POLYPHASE_SORT;
                             break;
                         default:
-                            algorythmType = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            type = SortingConfigurationElement.SIMPLE_JOIN_SORT;
                             break;
                     }
-                    algorythmVariant = getVariantType(algorythmType);
+                    variant = getVariantType(type);
                     SortingConfigurationElement element = new SortingConfigurationElement(mainWindow.getSourceFileTextField().getText(),
-                            resultFile, inputBufferSize, outputBufferSize, algorythmParameters, algorythmType, algorythmVariant);
-
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, type, variant, algorythmParameters);
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
                     dispose();
-
                 } else {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), "Brak nazwy pliku wynikowego",
                             "Niekompletne dane", JOptionPane.WARNING_MESSAGE);
@@ -129,6 +130,10 @@ public class AlgorithmTestDialog extends JDialog {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(basicVariant);
                 }
+                if (algorythmComboBox.getSelectedIndex() >= 2)
+                    memorySpinner.setEnabled(true);
+                else
+                    memorySpinner.setEnabled(false);
             }
         });
     }
@@ -145,6 +150,7 @@ public class AlgorithmTestDialog extends JDialog {
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         memorySpinner.setModel(new SpinnerNumberModel(10, 10, 1000, 10));
+        memorySpinner.setEnabled(false);
 
     }
 
@@ -155,8 +161,8 @@ public class AlgorithmTestDialog extends JDialog {
         return completeData;
     }
 
-    private int getVariantType(int algorithmType) {
-        if (algorithmType == SortingConfigurationElement.MERGE_SORT) {
+    private int getVariantType(int type) {
+        if (type == SortingConfigurationElement.MERGE_SORT) {
             switch (variantComboBox.getSelectedIndex()) {
                 case 0:
                     return SortingConfigurationElement.TWO_WAY_4_FILES_VARIANT;

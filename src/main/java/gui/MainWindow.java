@@ -16,7 +16,6 @@ import java.util.Dictionary;
  * Created by Witold on 2015-12-10.
  */
 public class MainWindow extends JFrame {
-    private String sourceFilePath;
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
     private JPanel results;
@@ -33,10 +32,10 @@ public class MainWindow extends JFrame {
     private JList jlist;
     private JButton addButton;
     private JButton deleteButton;
-    private JButton start;
+    private JButton startButton;
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
-    private boolean firstShow;
+    private boolean noElements;
     private SortingConfigurationManager manager;
 
     public MainWindow(String title, SortingConfigurationManager manager) throws HeadlessException {
@@ -64,9 +63,9 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", (MainWindow) rootPanel.getParent().getParent().getParent());
-                if (firstShow) {
+                if (noElements) {
                     listModel.removeAllElements();
-                    firstShow = false;
+                    noElements = false;
                 }
             }
         });
@@ -78,6 +77,10 @@ public class MainWindow extends JFrame {
                     listModel.remove(selected[i] - i);
                     manager.removeConfigurationElement(selected[i] - i);
                 }
+                if (listModel.isEmpty()) {
+                    listModel.addElement("Dodaj algorytmy.");
+                    noElements = true;
+                }
 
             }
         });
@@ -87,15 +90,28 @@ public class MainWindow extends JFrame {
                 sliderSizeLabel.setText("Rozmiar pliku: " + slider.getValue() + "(MB)");
             }
         });
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    dataCheck();
+                    manager.setSourceFileName(sourceFileTextField.getText());
+                    manager.runConfiguration();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
+                            ex.getMessage(), JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
     }
 
 
     private void polesInit() {
-        firstShow = true;
+        noElements = true;
         rozkladComboBox.addItem(new String("jednorodny"));
         rozkladComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
-        listModel.addElement("Dodaj Algorytmy");
+        listModel.addElement("Dodaj algorytmy.");
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
         for (int i = 200; i < 1000; i += 100) {
@@ -107,6 +123,15 @@ public class MainWindow extends JFrame {
     public void addConfigurationElement(SortingConfigurationElement element) {
         listModel.addElement(element.toString());
         manager.addConfigurationElement(element);
+    }
+
+    private void dataCheck() throws Exception {
+        if (sourceFileTextField.getText().isEmpty())
+            throw new Exception("Brak nazwy generowanego pliku");
+        if (listModel.contains("Dodaj algorytmy.") || listModel.isEmpty())
+            throw new Exception("Brak wybranych algorytmów do testu");
+
+
     }
 
     public JTextField getSourceFileTextField() {

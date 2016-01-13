@@ -40,7 +40,7 @@ public class SortingConfigurationElement implements Runnable {
     protected int[] sortMethodParameters;
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
-                                       int[] sortMethodParameters, int type, int variant) {
+                                       int type, int variant, int... sortMethodParameters) {
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
@@ -64,7 +64,7 @@ public class SortingConfigurationElement implements Runnable {
     @Override
     public void run() {
         try {
-            switch (variant) {
+            switch (type) {
 
                 case MERGE_SORT:
                     runMergeSort();
@@ -198,14 +198,25 @@ public class SortingConfigurationElement implements Runnable {
 
     @Override
     public String toString() {
-        return "SortingConfigurationElement{" +
-                "sourceFileName='" + sourceFileName + '\'' +
-                ", resultFileName='" + resultFileName + '\'' +
-                ", type=" + type +
-                ", variant=" + variant +
-                ", inputBufferSize=" + inputBufferSize +
-                ", outputBufferSize=" + outputBufferSize +
-                ", sortMethodParameters=" + Arrays.toString(sortMethodParameters) +
-                '}';
+        String name = "";
+        switch (type) {
+            case 0:
+                name = "MergeSort";
+                break;
+            case 1:
+                name = "NaturaJoinSort";
+                break;
+            case 2:
+                name = "PolyphaseSort";
+                break;
+            case 3:
+                name = "SimpleJoinSort";
+                break;
+        }
+        return "[ " + name + " ]:" +
+                " inBuffer=" + inputBufferSize +
+                ", outBuffer=" + outputBufferSize +
+                ", methodParameters=" + Arrays.toString(sortMethodParameters) +
+                ", resultFileName='" + resultFileName + '\'';
     }
 }

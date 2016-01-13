@@ -27,4 +27,9 @@ public class SortingConfigurationManager {
     public void removeConfigurationElement(int index) {
         configurationElements.remove(index);
     }
+
+    public void setSourceFileName(String sourceFileName) {
+        for (SortingConfigurationElement element : configurationElements)
+            element.setSourceFileName(sourceFileName);
+    }
 }
