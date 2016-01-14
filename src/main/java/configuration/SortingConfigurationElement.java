@@ -69,18 +69,22 @@ public class SortingConfigurationElement implements Runnable {
             String tempA = tempName + className + "A";
             String tempB = tempName + className + "B";
             Class[] methodParamsClasses = null;
+            Method method;
+            Class sorterClass = Class.forName(className);
+            Object sorter = sorterClass.getConstructor(constructorParams).newInstance(sourceFileName, resultFileName, tempA, tempB,
+                    inputBufferSize, outputBufferSize);
             if (sortMethodParameters != null) {
                 methodParamsClasses = new Class[sortMethodParameters.length];
                 for (int i = 0; i < sortMethodParameters.length; i++) {
                     methodParamsClasses[i] = int.class;
                 }
+                method = sorterClass.getDeclaredMethod(methodName, methodParamsClasses);
+                method.invoke(sorter, sortMethodParameters);
+            } else {
+                method = sorterClass.getDeclaredMethod(methodName);
+                method.invoke(sorter);
             }
-            Class sorterClass = Class.forName(className);
-            Object sorter = sorterClass.getConstructor(constructorParams).newInstance(sourceFileName, resultFileName, tempA, tempB,
-                    inputBufferSize, outputBufferSize);
-            Method method = sorterClass.getDeclaredMethod(methodName, methodParamsClasses);
-            //TODO tutaj blad, doczytac o parametrach invoke
-            method.invoke(sorter, sortMethodParameters);
+
         } catch (ClassNotFoundException e) {
             log.error(this.toString(), e);
         } catch (NoSuchMethodException e) {
