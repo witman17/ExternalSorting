@@ -53,7 +53,7 @@ public class MergeSortCombiner extends Combiner {
         String bufferA = readers.get(0).readLine();
         String bufferB = readers.get(1).readLine();
         while (bufferA != null && bufferB != null) {
-            if (bufferA.compareTo(bufferB) < 0) {
+            if (Integer.parseInt(bufferA) < Integer.parseInt(bufferB)) {
                 writer.write(bufferA);
                 bufferA = readers.get(0).readLine();
             } else {
@@ -97,7 +97,7 @@ public class MergeSortCombiner extends Combiner {
                 currentWriter = writerB;
             // por�wnanie dwoch element�w serii, przepisanie mniejszego
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded()) {
-                if (bufferA.compareTo(bufferB) < 0) {
+                if (Integer.parseInt(bufferA) < Integer.parseInt(bufferB)) {
                     currentWriter.write(bufferA);
                     bufferA = seriesReaderA.getSeriesElement();
                 } else {

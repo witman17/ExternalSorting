@@ -24,7 +24,7 @@ public class SeriesReader {
     public String getSeriesElement() throws IOException {
         //sprawdzanie ko�ca serii
         if (currentBuffer != null && nextBuffer != null)
-            seriesEnded = currentBuffer.compareTo(nextBuffer) > 0;
+            seriesEnded = Integer.parseInt(currentBuffer) > Integer.parseInt(nextBuffer);
         else
             seriesEnded = false;
         //pobranie pierwszych dwoch wartosci

@@ -27,9 +27,9 @@ public class AlgorithmTestDialog extends JDialog {
     private final String mergeSort2Way4FilesVariant = "scalanie dwukierunkowe - 4 pliki pomocnicze";
     private final String mergeSortKWayVariant = "scalanie k-kierunkowe";
     private JPanel rootPanel;
-    private JComboBox algorythmComboBox;
+    private JComboBox algorithmComboBox;
     private JComboBox variantComboBox;
-    private JPanel algorythm;
+    private JPanel algorithm;
     private JPanel variant;
     private JPanel Buffers;
     private JPanel in;
@@ -71,14 +71,14 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    long algorythmParameters[] = null;
+                    long algorithmParameters[] = null;
                     if (memorySpinner.isEnabled()) {
-                        algorythmParameters = new long[1];
-                        algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
+                        algorithmParameters = new long[1];
+                        algorithmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
                     }
                     String className;
                     String methodName;
-                    switch (algorythmComboBox.getSelectedIndex()) {
+                    switch (algorithmComboBox.getSelectedIndex()) {
                         case 0:
                             className = SimpleJoinSort.class.getName();
                             break;
@@ -97,7 +97,7 @@ public class AlgorithmTestDialog extends JDialog {
                     }
                     methodName = getVariantType(className);
                     SortingConfigurationElement element = new SortingConfigurationElement(mainWindow.getSourceFileTextField().getText(),
-                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, className, methodName, algorythmParameters);
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, className, methodName, algorithmParameters);
 
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
@@ -124,10 +124,10 @@ public class AlgorithmTestDialog extends JDialog {
 
             }
         });
-        algorythmComboBox.addActionListener(new ActionListener() {
+        algorithmComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (algorythmComboBox.getSelectedIndex() == 2) {
+                if (algorithmComboBox.getSelectedIndex() == 2) {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(mergeSort2Way4FilesVariant);
                     variantComboBox.addItem(mergeSort2WayNFilesVariant);
@@ -136,7 +136,7 @@ public class AlgorithmTestDialog extends JDialog {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(basicVariant);
                 }
-                if (algorythmComboBox.getSelectedIndex() >= 2)
+                if (algorithmComboBox.getSelectedIndex() >= 2)
                     memorySpinner.setEnabled(true);
                 else
                     memorySpinner.setEnabled(false);
@@ -145,10 +145,10 @@ public class AlgorithmTestDialog extends JDialog {
     }
 
     private void polesInit() {
-        algorythmComboBox.addItem(simpleJoinSortName);
-        algorythmComboBox.addItem(naturalJoinSortName);
-        algorythmComboBox.addItem(mergeSortName);
-        algorythmComboBox.addItem(polyphaseSortName);
+        algorithmComboBox.addItem(simpleJoinSortName);
+        algorithmComboBox.addItem(naturalJoinSortName);
+        algorithmComboBox.addItem(mergeSortName);
+        algorithmComboBox.addItem(polyphaseSortName);
         variantComboBox.addItem(basicVariant);
         inputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
         outputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
