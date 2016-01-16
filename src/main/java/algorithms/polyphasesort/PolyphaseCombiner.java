@@ -55,7 +55,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             }
             // por�wnanie dwoch element�w serii, przepisanie mniejszego
             while (bufferA != null && bufferB != null && !seriesReaderA.isSeriesEnded() && !seriesReaderB.isSeriesEnded()) {
-                if (bufferA.compareTo(bufferB) < 0) {
+                if (Integer.parseInt(bufferA) < Integer.parseInt(bufferB)) {
                     writer.write(bufferA);
                     bufferA = seriesReaderA.getSeriesElement();
                 } else {
@@ -64,7 +64,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
                 }
                 writer.newLine();
             }
-            //dopisanie do pozosta�ych element�w, serri kt�ra si� nie sko�czy�a
+            //dopisanie do pozostalych elementow, serri ktora sie nie skonczyla
             while (!seriesReaderA.isSeriesEnded() && bufferA != null) {
                 writer.write(bufferA);
                 writer.newLine();
