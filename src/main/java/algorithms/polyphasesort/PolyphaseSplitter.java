@@ -29,33 +29,34 @@ public class PolyphaseSplitter extends SimpleSplitter {
         log.debug("START - POLYPHASE SORT");
         init();
         String buffer = "Start";
-        String lastWrittenA = null;
-        String lastWrittenB = null;
-        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
+        Integer lastWrittenA = null;
+        Integer lastWrittenB = null;
+        ArrayList<Integer> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             while (i < blockSize && (buffer = reader.readLine()) != null) {
-                bufferList.add(buffer);
+                bufferList.add(Integer.parseInt(buffer));
                 i++;
             }
             Collections.sort(bufferList);
             if (bufferList.size() > 0) {
                 if (currentFile) {
-                    for (String buff : bufferList) {
-                        writerA.write(buff);
+                    for (Integer number : bufferList) {
+                        writerA.write(number.toString());
                         writerA.newLine();
                     }
-                    if (lastWrittenA == null || lastWrittenA.compareTo(bufferList.get(0)) > 0) {
+                    //wykrywanie sklejania serii
+                    if (lastWrittenA == null || lastWrittenA > bufferList.get(0)) {
                         SeriesNumberA++;
                         chooseFile();
                     }
                     lastWrittenA = bufferList.get(bufferList.size() - 1);
                 } else {
-                    for (String buff : bufferList) {
-                        writerB.write(buff);
+                    for (Integer number : bufferList) {
+                        writerB.write(number.toString());
                         writerB.newLine();
                     }
-                    if (lastWrittenB == null || lastWrittenB.compareTo(bufferList.get(0)) > 0) {
+                    if (lastWrittenB == null || lastWrittenB > bufferList.get(0)) {
                         SeriesNumberB++;
                         chooseFile();
                     }

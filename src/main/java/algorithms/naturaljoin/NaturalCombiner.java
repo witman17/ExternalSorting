@@ -32,7 +32,7 @@ public class NaturalCombiner extends SimpleCombiner {
         while (bufferA != null && bufferB != null) {
             // por�wnanie dwoch element�w serii, przepisanie mniejszego
             do {
-                if (bufferA.compareTo(bufferB) < 0) {
+                if (Integer.parseInt(bufferA) < Integer.parseInt(bufferB)) {
                     writer.write(bufferA);
                     bufferA = seriesReaderA.getSeriesElement();
                 } else {

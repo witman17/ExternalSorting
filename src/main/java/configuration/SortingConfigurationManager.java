@@ -24,6 +24,7 @@ public class SortingConfigurationManager {
         configurationElements.add(configurationElement);
     }
 
+
     public void removeConfigurationElement(int index) {
         configurationElements.remove(index);
     }

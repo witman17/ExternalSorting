@@ -56,7 +56,7 @@ public class SimpleCombiner extends Combiner {
             counterA = 0;
             counterB = 0;
             while (counterA < blockSize && counterB < blockSize && bufferA != null && bufferB != null) {
-                if (bufferA.compareTo(bufferB) < 0) {
+                if (Integer.parseInt(bufferA) < Integer.parseInt(bufferB)) {
                     counterA++;
                     writer.write(bufferA);
                     bufferA = readerA.readLine();

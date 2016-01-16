@@ -60,16 +60,16 @@ public class MergeSortSplitter extends Splitter {
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
-        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
+        ArrayList<Integer> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             while (i < blockSize && (buffer = reader.readLine()) != null) {
-                bufferList.add(buffer);
+                bufferList.add(Integer.parseInt(buffer));
                 i++;
             }
             Collections.sort(bufferList);
-            for (String s : bufferList) {
-                writerA.write(s);
+            for (Integer number : bufferList) {
+                writerA.write(number.toString());
                 writerA.newLine();
             }
             bufferList.clear();
@@ -95,38 +95,38 @@ public class MergeSortSplitter extends Splitter {
         String buffer = "Start";
         String lastWrittenA = null;
         String lastWrittenB = null;
-        ArrayList<String> bufferList = new ArrayList<>((int) blockSize);
+        ArrayList<Integer> bufferList = new ArrayList<>((int) blockSize);
         while (buffer != null) {
             int i = 0;
             // zape�nienie bufora
             while (i < blockSize && (buffer = reader.readLine()) != null) {
-                bufferList.add(buffer);
+                bufferList.add(Integer.parseInt(buffer));
                 i++;
             }
             if (bufferList.size() > 0) {
                 Collections.sort(bufferList); //sortowanie bufora
                 if (currentFile) {
-                    for (String buff : bufferList) {
-                        writerA.write(buff);
+                    for (Integer number : bufferList) {
+                        writerA.write(number.toString());
                         writerA.newLine();
                     }
 //                    wykrywanie sklejania serii
-                    if (lastWrittenA == null || lastWrittenA.compareTo(bufferList.get(0)) > 0) {
+                    if (lastWrittenA == null || Integer.parseInt(lastWrittenA) > (bufferList.get(0))) {
                         blocksNumber++;
                         currentFile = !currentFile;
                     }
-                    lastWrittenA = bufferList.get(bufferList.size() - 1);
+                    lastWrittenA = bufferList.get(bufferList.size() - 1).toString();
                 } else {
-                    for (String buff : bufferList) {
-                        writerB.write(buff);
+                    for (Integer number : bufferList) {
+                        writerB.write(number.toString());
                         writerB.newLine();
                     }
 //                    wykrywanie sklejania serii
-                    if (lastWrittenB == null || lastWrittenB.compareTo(bufferList.get(0)) > 0) {
+                    if (lastWrittenB == null || Integer.parseInt(lastWrittenB) > (bufferList.get(0))) {
                         blocksNumber++;
                         currentFile = !currentFile;
                     }
-                    lastWrittenB = bufferList.get(bufferList.size() - 1);
+                    lastWrittenB = bufferList.get(bufferList.size() - 1).toString();
                 }
                 bufferList.clear();
             }
