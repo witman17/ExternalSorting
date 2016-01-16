@@ -46,6 +46,8 @@ public class MergeSort extends Sorter {
                 tempOutputs.add(newTemp);
             }
             clean(tempOutputs.removeFirst());
+        } else {
+            clean(splitter.getOutputFiles().removeFirst());
         }
         log.info("END");
     }

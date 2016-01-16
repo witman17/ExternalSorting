@@ -28,7 +28,7 @@ public class SourceGenerator {
         close();
     }
 
-    // TODO przemyœleæ dzia³anie tego generatora Czy ma sens
+    // TODO przemyslec dzialanie tego generatora Czy ma sens
     public void generateFullyUnsorted(int kilobytesNumber) throws IOException {
         init();
         int currentMax = 9;

@@ -119,7 +119,6 @@ public class SortingConfigurationElement implements Runnable {
         int k = 4;
         if (sortMethodParameters != null) {
             blockSize = sortMethodParameters[0];
-            k = sortMethodParameters[1];
         } else
             blockSize = getBlockSize();
         switch (variant) {
@@ -130,6 +129,7 @@ public class SortingConfigurationElement implements Runnable {
                 sorter.twoWayMergeSortFourFiles(blockSize);
                 break;
             case K_WAY_VARIANT:
+                k = sortMethodParameters[1];
                 sorter.kWayMergeSort(blockSize, k);
                 break;
         }

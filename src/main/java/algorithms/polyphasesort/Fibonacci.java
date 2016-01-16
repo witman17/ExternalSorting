@@ -6,7 +6,7 @@ package algorithms.polyphasesort;
 public class Fibonacci {
     private static final int[] GENERATED = {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181};
 
-    //zwraca minimaln¹ wy¿sz¹ od n liczbê fibonacciego, albo n jeœli n nale¿y do ci¹gu.
+    //zwraca minimalna wyzsza od n liczbe fibonacciego, albo n jezli n nalezy do ciagu.
     public static int nextFibonacci(int n) {
         int prev = 1;
         int curr = 1;
