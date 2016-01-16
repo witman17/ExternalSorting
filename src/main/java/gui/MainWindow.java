@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
                     listModel.remove(selected[i] - i);
                     manager.removeConfigurationElement(selected[i] - i);
                 }
-                if(listModel.isEmpty()){
+                if (listModel.isEmpty()) {
                     listModel.addElement("Dodaj algorytmy.");
                     noElements = true;
                 }

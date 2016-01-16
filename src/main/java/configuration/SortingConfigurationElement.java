@@ -17,15 +17,6 @@ import java.util.regex.Pattern;
  */
 
 public class SortingConfigurationElement implements Runnable {
-    public static final int MERGE_SORT = 0;
-    public static final int NATURAL_JOIN_SORT = 1;
-    public static final int POLYPHASE_SORT = 2;
-    public static final int SIMPLE_JOIN_SORT = 3;
-
-    public static final int BASIC_VARIANT = 11;
-    public static final int TWO_WAY_N_FILES_VARIANT = 12;
-    public static final int TWO_WAY_4_FILES_VARIANT = 13;
-    public static final int K_WAY_VARIANT = 14;
 
     private final static String tempName = "temp_";
     private final static Logger log = LogManager.getLogger("algorithms");
@@ -37,11 +28,11 @@ public class SortingConfigurationElement implements Runnable {
     protected String methodName;
     protected int inputBufferSize;
     protected int outputBufferSize;
-    protected int[] sortMethodParameters;
+    protected long[] sortMethodParameters;
 
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
-                                       String className, String methodName, int... sortMethodParameters) {
+                                       String className, String methodName, long... sortMethodParameters) {
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
@@ -70,16 +61,21 @@ public class SortingConfigurationElement implements Runnable {
             String tempB = tempName + className + "B";
             Class[] methodParamsClasses = null;
             Method method;
+
             Class sorterClass = Class.forName(className);
             Object sorter = sorterClass.getConstructor(constructorParams).newInstance(sourceFileName, resultFileName, tempA, tempB,
                     inputBufferSize, outputBufferSize);
             if (sortMethodParameters != null) {
                 methodParamsClasses = new Class[sortMethodParameters.length];
                 for (int i = 0; i < sortMethodParameters.length; i++) {
-                    methodParamsClasses[i] = int.class;
+                    methodParamsClasses[i] = long.class;
                 }
                 method = sorterClass.getDeclaredMethod(methodName, methodParamsClasses);
-                method.invoke(sorter, sortMethodParameters);
+                //TODO zrobic kiedys elegancko
+                if (sortMethodParameters.length == 1)
+                    method.invoke(sorter, sortMethodParameters[0]);
+                else
+                    method.invoke(sorter, sortMethodParameters[0], sortMethodParameters[1]);
             } else {
                 method = sorterClass.getDeclaredMethod(methodName);
                 method.invoke(sorter);
@@ -140,11 +136,11 @@ public class SortingConfigurationElement implements Runnable {
         this.outputBufferSize = outputBufferSize;
     }
 
-    public int[] getSortMethodParameters() {
+    public long[] getSortMethodParameters() {
         return sortMethodParameters;
     }
 
-    public void setSortMethodParameters(int[] sortMethodParameters) {
+    public void setSortMethodParameters(long[] sortMethodParameters) {
         this.sortMethodParameters = sortMethodParameters;
     }
 

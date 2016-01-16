@@ -71,9 +71,9 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    int algorythmParameters[] = null;
+                    long algorythmParameters[] = null;
                     if (memorySpinner.isEnabled()) {
-                        algorythmParameters = new int[1];
+                        algorythmParameters = new long[1];
                         algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
                     }
                     String className;
