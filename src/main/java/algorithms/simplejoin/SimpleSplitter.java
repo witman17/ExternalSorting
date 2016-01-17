@@ -44,7 +44,7 @@ public class SimpleSplitter extends Splitter {
     }
 
     @Override
-    public int split(long blockSize) throws IOException {
+    public int split(int blockSize) throws IOException {
         log.debug("START");
         String buffer = "Start";
         int blocksNumber = 0;
@@ -89,6 +89,7 @@ public class SimpleSplitter extends Splitter {
         writerA = null;
         writerB = null;
     }
+
 
     @Override
     public int split() throws IOException {

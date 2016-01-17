@@ -1,5 +1,6 @@
 package gui;
 
+import configuration.GeneratorConfigurationElement;
 import configuration.SortingConfigurationElement;
 import configuration.SortingConfigurationManager;
 
@@ -25,7 +26,7 @@ public class MainWindow extends JFrame {
     private JPanel Generator;
     private JPanel LeftGenerator;
     private JPanel RightGenerator;
-    private JComboBox rozkladComboBox;
+    private JComboBox distributionComboBox;
     private JSlider slider;
     private JPanel Rozklad;
     private JPanel Wybor;
@@ -95,7 +96,12 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     dataCheck();
-                    manager.setSourceFileName(sourceFileTextField.getText());
+                    String sourceFileName = sourceFileTextField.getText();
+                    int outoutFileSize = slider.getValue() * 1000 * 1000;
+                    int outputBufferSize = outoutFileSize / 10;
+                    String methodName = getMethodName();
+                    manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
+                            outoutFileSize));
                     manager.runConfiguration();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
@@ -105,11 +111,23 @@ public class MainWindow extends JFrame {
         });
     }
 
+    private String getMethodName() {
+        switch (distributionComboBox.getSelectedIndex()) {
+            case 0:
+                return "generateUniform";
+            case 1:
+                return "generateNormal";
+            default:
+                return "generateUniform";
+        }
+
+    }
+
 
     private void polesInit() {
         noElements = true;
-        rozkladComboBox.addItem(new String("jednorodny"));
-        rozkladComboBox.addItem(new String("normalny"));
+        distributionComboBox.addItem(new String("jednorodny"));
+        distributionComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
         listModel.addElement("Dodaj algorytmy.");
         jlist.setModel(listModel);

@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
  */
 public class SortingConfigurationManager {
     protected ArrayList<SortingConfigurationElement> configurationElements;
-
+    GeneratorConfigurationElement generatorConfigurationElement;
 
     public SortingConfigurationManager() {
         configurationElements = new ArrayList<>(5);
@@ -17,6 +17,7 @@ public class SortingConfigurationManager {
 
     public void runConfiguration() {
         Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(generatorConfigurationElement);
         configurationElements.forEach(executor::execute);
     }
 
@@ -29,8 +30,8 @@ public class SortingConfigurationManager {
         configurationElements.remove(index);
     }
 
-    public void setSourceFileName(String sourceFileName) {
-        for (SortingConfigurationElement element : configurationElements)
-            element.setSourceFileName(sourceFileName);
+
+    public void setGeneratorConfigurationElement(GeneratorConfigurationElement generatorConfigurationElement) {
+        this.generatorConfigurationElement = generatorConfigurationElement;
     }
 }

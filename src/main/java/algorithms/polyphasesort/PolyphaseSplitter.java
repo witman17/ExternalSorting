@@ -25,7 +25,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
 
 
     @Override
-    public int split(long blockSize) throws IOException {
+    public int split(int blockSize) throws IOException {
         log.debug("START - POLYPHASE SORT");
         init();
         String buffer = "Start";

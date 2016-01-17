@@ -28,11 +28,11 @@ public class SortingConfigurationElement implements Runnable {
     protected String methodName;
     protected int inputBufferSize;
     protected int outputBufferSize;
-    protected long[] sortMethodParameters;
+    protected int[] sortMethodParameters;
 
 
     public SortingConfigurationElement(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize,
-                                       String className, String methodName, long... sortMethodParameters) {
+                                       String className, String methodName, int... sortMethodParameters) {
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
@@ -68,7 +68,7 @@ public class SortingConfigurationElement implements Runnable {
             if (sortMethodParameters != null) {
                 methodParamsClasses = new Class[sortMethodParameters.length];
                 for (int i = 0; i < sortMethodParameters.length; i++) {
-                    methodParamsClasses[i] = long.class;
+                    methodParamsClasses[i] = int.class;
                 }
                 method = sorterClass.getDeclaredMethod(methodName, methodParamsClasses);
                 //TODO zrobic kiedys elegancko
@@ -136,11 +136,11 @@ public class SortingConfigurationElement implements Runnable {
         this.outputBufferSize = outputBufferSize;
     }
 
-    public long[] getSortMethodParameters() {
+    public int[] getSortMethodParameters() {
         return sortMethodParameters;
     }
 
-    public void setSortMethodParameters(long[] sortMethodParameters) {
+    public void setSortMethodParameters(int[] sortMethodParameters) {
         this.sortMethodParameters = sortMethodParameters;
     }
 
