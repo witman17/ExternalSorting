@@ -1,12 +1,10 @@
 package configuration;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -57,8 +55,9 @@ public class SortingConfigurationElement implements Runnable {
     public void run() {
         try {
             Class[] constructorParams = {String.class, String.class, String.class, String.class, int.class, int.class};
-            String tempA = tempName + className + "A";
-            String tempB = tempName + className + "B";
+            Path tempPath = Paths.get(resultFileName);
+            String tempA = tempPath.getParent() + "\\" + tempName + className + "A.txt";
+            String tempB = tempPath.getParent() + "\\" + tempName + className + "B.txt";
             Class[] methodParamsClasses = null;
             Method method;
 
@@ -99,10 +98,6 @@ public class SortingConfigurationElement implements Runnable {
     }
 
 
-    private long getBlockSize() throws IOException {
-        long fileSize = Files.size(Paths.get(sourceFileName)) / 4;
-        return fileSize / 10;
-    }
 
     public String getSourceFileName() {
         return sourceFileName;
