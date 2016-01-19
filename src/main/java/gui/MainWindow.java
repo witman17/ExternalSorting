@@ -1,7 +1,7 @@
 package gui;
 
+import configuration.ConfigurationElement;
 import configuration.GeneratorConfigurationElement;
-import configuration.SortingConfigurationElement;
 import configuration.SortingConfigurationManager;
 
 import javax.swing.*;
@@ -138,7 +138,7 @@ public class MainWindow extends JFrame {
         slider.setLabelTable(table);
     }
 
-    public void addConfigurationElement(SortingConfigurationElement element) {
+    public void addConfigurationElement(ConfigurationElement element) {
         listModel.addElement(element.toString());
         manager.addConfigurationElement(element);
     }

@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
  * Created by Witold on 2015-12-20.
  */
 public class SortingConfigurationManager {
-    protected ArrayList<SortingConfigurationElement> configurationElements;
+    protected ArrayList<ConfigurationElement> configurationElements;
     GeneratorConfigurationElement generatorConfigurationElement;
 
     public SortingConfigurationManager() {
@@ -21,7 +21,7 @@ public class SortingConfigurationManager {
         configurationElements.forEach(executor::execute);
     }
 
-    public void addConfigurationElement(SortingConfigurationElement configurationElement) {
+    public void addConfigurationElement(ConfigurationElement configurationElement) {
         configurationElements.add(configurationElement);
     }
 
