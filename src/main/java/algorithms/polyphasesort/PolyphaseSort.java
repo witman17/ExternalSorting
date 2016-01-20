@@ -28,7 +28,7 @@ public class PolyphaseSort extends Sorter {
         output = sortedFile;
     }
 
-    public void sort(long blockSize) throws IOException {
+    public void sort(int blockSize) throws IOException {
         log.info("START - POLYPHASE SORT");
         int fakeSeriesNumber = 0;
         //podzial i sortowanie serii
@@ -54,7 +54,7 @@ public class PolyphaseSort extends Sorter {
             combiner.combine();
             clean(combiner.getOutput(), combiner.getInputA(), combiner.getInputB());
         } else
-            clean(splitter.getOutputA());
+            clean(splitter.getOutputA()); //TODO clean zle dziala
         log.info("END - POLYPHASE SORT");
     }
 

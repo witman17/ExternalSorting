@@ -1,6 +1,10 @@
 package gui;
 
-import configuration.SortingConfigurationElement;
+import configuration.ConfigurationElement;
+import configuration.benchmarks.MergeSortBenchmark;
+import configuration.benchmarks.NaturalJoinBenchmark;
+import configuration.benchmarks.PolyphaseSortBenchmark;
+import configuration.benchmarks.SimpleJoinBenchmark;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,9 +27,9 @@ public class AlgorithmTestDialog extends JDialog {
     private final String mergeSort2Way4FilesVariant = "scalanie dwukierunkowe - 4 pliki pomocnicze";
     private final String mergeSortKWayVariant = "scalanie k-kierunkowe";
     private JPanel rootPanel;
-    private JComboBox algorythmComboBox;
+    private JComboBox algorithmComboBox;
     private JComboBox variantComboBox;
-    private JPanel algorythm;
+    private JPanel algorithm;
     private JPanel variant;
     private JPanel Buffers;
     private JPanel in;
@@ -67,36 +71,35 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    int algorythmParameters[] = null;
+                    int algorithmParameter = 0;
                     if (memorySpinner.isEnabled()) {
-                        algorythmParameters = new int[1];
-                        algorythmParameters[0] = (Integer) memorySpinner.getValue() * 1024 * 1024;
+                        algorithmParameter = (Integer) memorySpinner.getValue() * 1000 * 1000;
                     }
-                    int type;
-                    int variant;
-                    switch (algorythmComboBox.getSelectedIndex()) {
+                    String className;
+                    switch (algorithmComboBox.getSelectedIndex()) {
                         case 0:
-                            type = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            className = SimpleJoinBenchmark.class.getSimpleName();
                             break;
                         case 1:
-                            type = SortingConfigurationElement.NATURAL_JOIN_SORT;
+                            className = NaturalJoinBenchmark.class.getSimpleName();
                             break;
                         case 2:
-                            type = SortingConfigurationElement.MERGE_SORT;
+                            className = MergeSortBenchmark.class.getSimpleName();
                             break;
                         case 3:
-                            type = SortingConfigurationElement.POLYPHASE_SORT;
+                            className = PolyphaseSortBenchmark.class.getSimpleName();
                             break;
                         default:
-                            type = SortingConfigurationElement.SIMPLE_JOIN_SORT;
+                            className = SimpleJoinBenchmark.class.getSimpleName();
                             break;
                     }
-                    variant = getVariantType(type);
-                    SortingConfigurationElement element = new SortingConfigurationElement(mainWindow.getSourceFileTextField().getText(),
-                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, type, variant, algorythmParameters);
+
+                    ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter);
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
                     dispose();
+
                 } else {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), "Brak nazwy pliku wynikowego",
                             "Niekompletne dane", JOptionPane.WARNING_MESSAGE);
@@ -118,10 +121,10 @@ public class AlgorithmTestDialog extends JDialog {
 
             }
         });
-        algorythmComboBox.addActionListener(new ActionListener() {
+        algorithmComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (algorythmComboBox.getSelectedIndex() == 2) {
+                if (algorithmComboBox.getSelectedIndex() == 2) {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(mergeSort2Way4FilesVariant);
                     variantComboBox.addItem(mergeSort2WayNFilesVariant);
@@ -130,7 +133,7 @@ public class AlgorithmTestDialog extends JDialog {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(basicVariant);
                 }
-                if (algorythmComboBox.getSelectedIndex() >= 2)
+                if (algorithmComboBox.getSelectedIndex() >= 2)
                     memorySpinner.setEnabled(true);
                 else
                     memorySpinner.setEnabled(false);
@@ -139,17 +142,17 @@ public class AlgorithmTestDialog extends JDialog {
     }
 
     private void polesInit() {
-        algorythmComboBox.addItem(simpleJoinSortName);
-        algorythmComboBox.addItem(naturalJoinSortName);
-        algorythmComboBox.addItem(mergeSortName);
-        algorythmComboBox.addItem(polyphaseSortName);
+        algorithmComboBox.addItem(simpleJoinSortName);
+        algorithmComboBox.addItem(naturalJoinSortName);
+        algorithmComboBox.addItem(mergeSortName);
+        algorithmComboBox.addItem(polyphaseSortName);
         variantComboBox.addItem(basicVariant);
         inputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
         outputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
         memorySpinner.setPreferredSize(new Dimension(70, 21));
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
-        memorySpinner.setModel(new SpinnerNumberModel(10, 10, 1000, 10));
+        memorySpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
         memorySpinner.setEnabled(false);
 
     }
@@ -161,21 +164,5 @@ public class AlgorithmTestDialog extends JDialog {
         return completeData;
     }
 
-    private int getVariantType(int type) {
-        if (type == SortingConfigurationElement.MERGE_SORT) {
-            switch (variantComboBox.getSelectedIndex()) {
-                case 0:
-                    return SortingConfigurationElement.TWO_WAY_4_FILES_VARIANT;
-                case 1:
-                    return SortingConfigurationElement.TWO_WAY_N_FILES_VARIANT;
-                case 2:
-                    return SortingConfigurationElement.K_WAY_VARIANT;
-                default:
-                    return SortingConfigurationElement.BASIC_VARIANT;
-            }
-        } else
-            return SortingConfigurationElement.BASIC_VARIANT;
-
-    }
 
 }

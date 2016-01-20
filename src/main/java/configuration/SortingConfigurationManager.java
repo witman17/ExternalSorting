@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
  * Created by Witold on 2015-12-20.
  */
 public class SortingConfigurationManager {
-    protected ArrayList<SortingConfigurationElement> configurationElements;
-
+    protected ArrayList<ConfigurationElement> configurationElements;
+    GeneratorConfigurationElement generatorConfigurationElement;
 
     public SortingConfigurationManager() {
         configurationElements = new ArrayList<>(5);
@@ -17,10 +17,11 @@ public class SortingConfigurationManager {
 
     public void runConfiguration() {
         Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(generatorConfigurationElement);
         configurationElements.forEach(executor::execute);
     }
 
-    public void addConfigurationElement(SortingConfigurationElement configurationElement) {
+    public void addConfigurationElement(ConfigurationElement configurationElement) {
         configurationElements.add(configurationElement);
     }
 
@@ -29,8 +30,8 @@ public class SortingConfigurationManager {
         configurationElements.remove(index);
     }
 
-    public void setSourceFileName(String sourceFileName) {
-        for (SortingConfigurationElement element : configurationElements)
-            element.setSourceFileName(sourceFileName);
+
+    public void setGeneratorConfigurationElement(GeneratorConfigurationElement generatorConfigurationElement) {
+        this.generatorConfigurationElement = generatorConfigurationElement;
     }
 }

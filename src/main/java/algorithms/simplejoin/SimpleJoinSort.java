@@ -52,5 +52,5 @@ public class SimpleJoinSort extends Sorter {
         Files.delete(Paths.get(splitter.getOutputA()));
         Files.delete(Paths.get(splitter.getOutputB()));
     }
-
+    
 }

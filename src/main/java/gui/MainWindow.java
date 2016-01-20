@@ -1,6 +1,7 @@
 package gui;
 
-import configuration.SortingConfigurationElement;
+import configuration.ConfigurationElement;
+import configuration.GeneratorConfigurationElement;
 import configuration.SortingConfigurationManager;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ public class MainWindow extends JFrame {
     private JPanel Generator;
     private JPanel LeftGenerator;
     private JPanel RightGenerator;
-    private JComboBox rozkladComboBox;
+    private JComboBox distributionComboBox;
     private JSlider slider;
     private JPanel Rozklad;
     private JPanel Wybor;
@@ -95,7 +96,12 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     dataCheck();
-                    manager.setSourceFileName(sourceFileTextField.getText());
+                    String sourceFileName = sourceFileTextField.getText();
+                    int outoutFileSize = slider.getValue() * 1000 * 1000;
+                    int outputBufferSize = outoutFileSize / 10;
+                    String methodName = getMethodName();
+                    manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
+                            outoutFileSize));
                     manager.runConfiguration();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
@@ -105,22 +111,38 @@ public class MainWindow extends JFrame {
         });
     }
 
+    private String getMethodName() {
+        switch (distributionComboBox.getSelectedIndex()) {
+            case 0:
+                return "generateUniform";
+            case 1:
+                return "generateNormal";
+            default:
+                return "generateUniform";
+        }
+
+    }
+
 
     private void polesInit() {
         noElements = true;
-        rozkladComboBox.addItem(new String("jednorodny"));
-        rozkladComboBox.addItem(new String("normalny"));
+        distributionComboBox.addItem(new String("jednorodny"));
+        distributionComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
         listModel.addElement("Dodaj algorytmy.");
+        slider.setMajorTickSpacing(100);
+        slider.setMinorTickSpacing(25);
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
-        for (int i = 200; i < 1000; i += 100) {
-            table.remove(i);
+        for (int i = 50; i < 1000; i += 25) {
+            if (!(i % 200 == 0))
+                table.remove(i);
         }
         slider.setLabelTable(table);
+
     }
 
-    public void addConfigurationElement(SortingConfigurationElement element) {
+    public void addConfigurationElement(ConfigurationElement element) {
         listModel.addElement(element.toString());
         manager.addConfigurationElement(element);
     }

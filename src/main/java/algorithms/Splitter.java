@@ -39,7 +39,7 @@ public abstract class Splitter {
         reader = null;
     }
 
-    public abstract int split(long blockSize) throws IOException;
+    public abstract int split(int blockSize) throws IOException;
 
     public abstract int split() throws IOException;
 

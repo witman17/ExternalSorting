@@ -82,7 +82,7 @@ public class MergeSortCombiner extends Combiner {
         init();
         int blocksNumber = 0;
         boolean currentFile = true;
-        BufferedWriter currentWriter;
+        BufferedWriter currentWriter = writer;
         seriesReaderA = new SeriesReader(readers.get(0));
         seriesReaderB = new SeriesReader(readers.get(1));
         writerB = new BufferedWriter(new FileWriter(outputB));
@@ -120,6 +120,17 @@ public class MergeSortCombiner extends Combiner {
             currentFile = !currentFile;
             seriesReaderA.resetSeriesEnd();
             seriesReaderB.resetSeriesEnd();
+        }
+        //dopisanie reszty pliku
+        while (bufferA != null) {
+            currentWriter.write(bufferA);
+            currentWriter.newLine();
+            bufferA = seriesReaderA.getSeriesElement();
+        }
+        while (bufferB != null) {
+            currentWriter.write(bufferB);
+            currentWriter.newLine();
+            bufferB = seriesReaderB.getSeriesElement();
         }
         writerB.close();
         close();

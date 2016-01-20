@@ -45,12 +45,12 @@ public class MergeSortSplitter extends Splitter {
         this.outputBufferSize = outputBufferSize;
     }
 
-    @Override
-    public int split(long blockSize) throws IOException {
+    @Deprecated
+    public int split(int blockSize) throws IOException {
         return 0;
     }
 
-    @Override
+    @Deprecated
     public int split() throws IOException {
         return 0;
     }
@@ -87,7 +87,7 @@ public class MergeSortSplitter extends Splitter {
         return blocksNumber;
     }
 
-    public int splitTwoFiles(long blockSize) throws IOException {
+    public int splitTwoFiles(int blockSize) throws IOException {
         log.debug("START");
         init(TWO_FILES);
         int blocksNumber = 0;
@@ -95,7 +95,7 @@ public class MergeSortSplitter extends Splitter {
         String buffer = "Start";
         String lastWrittenA = null;
         String lastWrittenB = null;
-        ArrayList<Integer> bufferList = new ArrayList<>((int) blockSize);
+        ArrayList<Integer> bufferList = new ArrayList<>(blockSize);
         while (buffer != null) {
             int i = 0;
             // zape�nienie bufora
