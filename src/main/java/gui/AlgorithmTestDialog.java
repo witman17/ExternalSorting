@@ -1,7 +1,10 @@
 package gui;
 
 import configuration.ConfigurationElement;
-import configuration.benchmarks.*;
+import configuration.benchmarks.MergeSortBenchmark;
+import configuration.benchmarks.NaturalJoinBenchmark;
+import configuration.benchmarks.PolyphaseSortBenchmark;
+import configuration.benchmarks.SimpleJoinBenchmark;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -68,13 +71,32 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    int algorithmParameters[] = null;
+                    Integer algorithmParameters[] = null;
                     if (memorySpinner.isEnabled()) {
-                        algorithmParameters = new int[1];
+                        algorithmParameters = new Integer[1];
                         algorithmParameters[0] = (Integer) memorySpinner.getValue() * 1000 * 1000;
                     }
-                    BenchmarkTemplate benchmark = getBenchmark(algorithmComboBox.getSelectedIndex(), inputBufferSize, outputBufferSize, algorithmParameters);
-                    ConfigurationElement element = new ConfigurationElement(benchmark);
+                    String className;
+                    switch (algorithmComboBox.getSelectedIndex()) {
+                        case 0:
+                            className = SimpleJoinBenchmark.class.getSimpleName();
+                            break;
+                        case 1:
+                            className = NaturalJoinBenchmark.class.getSimpleName();
+                            break;
+                        case 2:
+                            className = MergeSortBenchmark.class.getSimpleName();
+                            break;
+                        case 3:
+                            className = PolyphaseSortBenchmark.class.getSimpleName();
+                            break;
+                        default:
+                            className = SimpleJoinBenchmark.class.getSimpleName();
+                            break;
+                    }
+
+                    ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameters);
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
                     dispose();
@@ -143,25 +165,5 @@ public class AlgorithmTestDialog extends JDialog {
         return completeData;
     }
 
-    private BenchmarkTemplate getBenchmark(int index, int inputBufferSize, int outputBufferSize, int[] algorithmParameters) {
-        switch (index) {
-            case 0:
-                return new SimpleJoinBenchmark(mainWindow.getSourceFileTextField().getText(), sourceFileTextField.getText(),
-                        inputBufferSize, outputBufferSize);
-            case 1:
-                return new NaturalJoinBenchmark(mainWindow.getSourceFileTextField().getText(), sourceFileTextField.getText(),
-                        inputBufferSize, outputBufferSize);
-            case 2:
-                return new MergeSortBenchmark(mainWindow.getSourceFileTextField().getText(), sourceFileTextField.getText(),
-                        inputBufferSize, outputBufferSize, algorithmParameters);
-            case 3:
-                return new PolyphaseSortBenchmark(mainWindow.getSourceFileTextField().getText(), sourceFileTextField.getText(),
-                        inputBufferSize, outputBufferSize, algorithmParameters);
-            default:
-                return new SimpleJoinBenchmark(mainWindow.getSourceFileTextField().getText(), sourceFileTextField.getText(),
-                        inputBufferSize, outputBufferSize);
-        }
-
-    }
 
 }

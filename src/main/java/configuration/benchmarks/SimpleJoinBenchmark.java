@@ -1,44 +1,45 @@
 package configuration.benchmarks;
 
 import algorithms.simplejoin.SimpleJoinSort;
-import com.janosgyerik.microbench.api.annotation.Benchmark;
-import com.janosgyerik.microbench.api.annotation.MeasureMemory;
-import com.janosgyerik.microbench.api.annotation.MeasureTime;
-import com.janosgyerik.microbench.api.annotation.Prepare;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 
 /**
  * Created by Witold on 2016-01-19.
  */
-@Benchmark(iterations = 5, warmUpIterations = 3)
-public class SimpleJoinBenchmark extends BenchmarkTemplate {
+@BenchmarkMode(Mode.AverageTime)
+@Fork(1)
+@State(Scope.Thread)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
+public class SimpleJoinBenchmark {
 
     private final static Logger log = LogManager.getLogger("algorithms");
+    @Param("s.txt")
+    protected String sourceFileName;
+    @Param("r.txt")
+    protected String resultFileName;
+    @Param("32768")
+    protected int inputBufferSize;
+    @Param("32768")
+    protected int outputBufferSize;
 
-    protected SimpleJoinSort sorter;
+    private SimpleJoinSort sorter;
 
-    @Deprecated
-    public SimpleJoinBenchmark(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize, int... sortMethodParameters) {
-        super(sourceFileName, resultFileName, inputBufferSize, outputBufferSize, sortMethodParameters);
-    }
 
-    public SimpleJoinBenchmark(String sourceFileName, String resultFileName, int inputBufferSize, int outputBufferSize) {
-        super(sourceFileName, resultFileName, inputBufferSize, outputBufferSize);
-    }
-
-    @Prepare
-    public void prepare() {
+    @Setup
+    public void setup() {
         sorter = new SimpleJoinSort(sourceFileName, resultFileName, temporaryNameBuilding("tempA.txt"), temporaryNameBuilding("tempB.txt"),
                 inputBufferSize, outputBufferSize);
     }
 
-    @Override
-    @MeasureTime
-    @MeasureMemory
+    @Benchmark
     public void runBenchmark() {
         try {
             sorter.sort();
@@ -47,10 +48,12 @@ public class SimpleJoinBenchmark extends BenchmarkTemplate {
         }
     }
 
-    @Override
-    public String toString() {
-        return "sorter=" + SimpleJoinSort.class +
-                " resultFileName=" + resultFileName +
-                " inputBufferSize=" + inputBufferSize;
+    protected String temporaryNameBuilding(String name) {
+        StringBuilder builder = new StringBuilder();
+        Path tempFile = Paths.get(resultFileName);
+        builder.append(tempFile.getParent());
+        builder.append("\\");
+        builder.append(name);
+        return builder.toString();
     }
 }
