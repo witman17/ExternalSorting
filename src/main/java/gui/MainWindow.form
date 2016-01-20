@@ -201,9 +201,9 @@
                           <doubleBuffered value="false"/>
                           <inheritsPopupMenu value="false"/>
                           <inverted value="false"/>
-                          <majorTickSpacing value="100"/>
+                          <majorTickSpacing value="25"/>
                           <maximum value="1000"/>
-                          <minimum value="100"/>
+                          <minimum value="25"/>
                           <minimumSize width="200" height="45"/>
                           <opaque value="false"/>
                           <paintLabels value="true"/>
@@ -212,7 +212,7 @@
                           <preferredSize width="250" height="25"/>
                           <requestFocusEnabled value="false"/>
                           <snapToTicks value="true"/>
-                          <value value="100"/>
+                          <value value="125"/>
                           <valueIsAdjusting value="false"/>
                         </properties>
                       </component>

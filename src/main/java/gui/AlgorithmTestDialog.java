@@ -71,10 +71,9 @@ public class AlgorithmTestDialog extends JDialog {
                     String resultFile = sourceFileTextField.getText();
                     int inputBufferSize = (Integer) inputBufferSizeSpinner.getValue() * 1024;
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
-                    Integer algorithmParameters[] = null;
+                    int algorithmParameter = 0;
                     if (memorySpinner.isEnabled()) {
-                        algorithmParameters = new Integer[1];
-                        algorithmParameters[0] = (Integer) memorySpinner.getValue() * 1000 * 1000;
+                        algorithmParameter = (Integer) memorySpinner.getValue() * 1000 * 1000;
                     }
                     String className;
                     switch (algorithmComboBox.getSelectedIndex()) {
@@ -96,7 +95,7 @@ public class AlgorithmTestDialog extends JDialog {
                     }
 
                     ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
-                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameters);
+                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter);
                     mainWindow.addConfigurationElement(element);
                     setVisible(false);
                     dispose();
@@ -153,7 +152,7 @@ public class AlgorithmTestDialog extends JDialog {
         memorySpinner.setPreferredSize(new Dimension(70, 21));
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
-        memorySpinner.setModel(new SpinnerNumberModel(10, 10, 1000, 10));
+        memorySpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
         memorySpinner.setEnabled(false);
 
     }

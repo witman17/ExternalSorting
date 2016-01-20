@@ -1,13 +1,12 @@
 package configuration.benchmarks;
 
 import algorithms.simplejoin.SimpleJoinSort;
+import configuration.TemporaryFileBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 
@@ -35,25 +34,16 @@ public class SimpleJoinBenchmark {
 
     @Setup
     public void setup() {
-        sorter = new SimpleJoinSort(sourceFileName, resultFileName, temporaryNameBuilding("tempA.txt"), temporaryNameBuilding("tempB.txt"),
-                inputBufferSize, outputBufferSize);
+        sorter = new SimpleJoinSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
+                TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
     }
 
     @Benchmark
-    public void runBenchmark() {
+    public void runSimpleJoinBenchmark() {
         try {
             sorter.sort();
         } catch (IOException e) {
             log.error(e);
         }
-    }
-
-    protected String temporaryNameBuilding(String name) {
-        StringBuilder builder = new StringBuilder();
-        Path tempFile = Paths.get(resultFileName);
-        builder.append(tempFile.getParent());
-        builder.append("\\");
-        builder.append(name);
-        return builder.toString();
     }
 }

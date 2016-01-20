@@ -130,12 +130,16 @@ public class MainWindow extends JFrame {
         distributionComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
         listModel.addElement("Dodaj algorytmy.");
+        slider.setMajorTickSpacing(100);
+        slider.setMinorTickSpacing(25);
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
-        for (int i = 200; i < 1000; i += 100) {
-            table.remove(i);
+        for (int i = 50; i < 1000; i += 25) {
+            if (!(i % 200 == 0))
+                table.remove(i);
         }
         slider.setLabelTable(table);
+
     }
 
     public void addConfigurationElement(ConfigurationElement element) {
