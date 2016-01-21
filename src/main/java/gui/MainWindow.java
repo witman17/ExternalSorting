@@ -1,6 +1,5 @@
 package gui;
 
-import configuration.ConfigurationElement;
 import configuration.GeneratorConfigurationElement;
 import configuration.SortingConfigurationManager;
 
@@ -38,6 +37,7 @@ public class MainWindow extends JFrame {
     private DefaultListModel<String> listModel;
     private boolean noElements;
     private SortingConfigurationManager manager;
+
 
     public MainWindow(String title, SortingConfigurationManager manager) throws HeadlessException {
         super(title);
@@ -102,6 +102,11 @@ public class MainWindow extends JFrame {
                     String methodName = getMethodName();
                     manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
                             outoutFileSize));
+//                    TestingDialog dialog = new TestingDialog();
+//                    final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+//                    final Configuration config = ctx.getConfiguration();
+//                    GuiAppenderClass appender = config.getAppender("GuiAppender");
+//                    appender.setTextArea(dialog.getTextArea());
                     manager.runConfiguration();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
@@ -142,7 +147,7 @@ public class MainWindow extends JFrame {
 
     }
 
-    public void addConfigurationElement(ConfigurationElement element) {
+    public void addConfigurationElement(Runnable element) {
         listModel.addElement(element.toString());
         manager.addConfigurationElement(element);
     }

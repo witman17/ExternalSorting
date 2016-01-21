@@ -1,6 +1,11 @@
 package gui;
 
+import algorithms.megresort.MergeSort;
+import algorithms.naturaljoin.NaturalJoinSort;
+import algorithms.polyphasesort.PolyphaseSort;
+import algorithms.simplejoin.SimpleJoinSort;
 import configuration.ConfigurationElement;
+import configuration.DebugConfigurationElement;
 import configuration.benchmarks.MergeSortBenchmark;
 import configuration.benchmarks.NaturalJoinBenchmark;
 import configuration.benchmarks.PolyphaseSortBenchmark;
@@ -45,6 +50,7 @@ public class AlgorithmTestDialog extends JDialog {
     private JButton cancelButton;
     private JButton addConfigItemButton;
     private JPanel mainPanel;
+    private JCheckBox debugModeCheckBox;
     private MainWindow mainWindow;
 
     public AlgorithmTestDialog(String title, MainWindow mainWindow) {
@@ -93,10 +99,22 @@ public class AlgorithmTestDialog extends JDialog {
                             className = SimpleJoinBenchmark.class.getSimpleName();
                             break;
                     }
-
-                    ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
-                            sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter);
-                    mainWindow.addConfigurationElement(element);
+                    if (debugModeCheckBox.isSelected()) {
+                        String methodName = getVariantType(className);
+                        className = getDebugClassName();
+                        int[] algorithmParameters = null;
+                        if (algorithmParameter != 0) {
+                            algorithmParameters = new int[1];
+                            algorithmParameters[0] = algorithmParameter;
+                        }
+                        DebugConfigurationElement element = new DebugConfigurationElement(mainWindow.getSourceFileTextField().getText(),
+                                resultFile, inputBufferSize, outputBufferSize, className, methodName, algorithmParameters);
+                        mainWindow.addConfigurationElement(element);
+                    } else {
+                        ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
+                                sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter);
+                        mainWindow.addConfigurationElement(element);
+                    }
                     setVisible(false);
                     dispose();
 
@@ -162,6 +180,38 @@ public class AlgorithmTestDialog extends JDialog {
         if (sourceFileTextField.getText().isEmpty())
             completeData = false;
         return completeData;
+    }
+
+    private String getVariantType(String className) {
+        if (className.compareTo(MergeSort.class.getName()) == 0) {
+            switch (variantComboBox.getSelectedIndex()) {
+                case 0:
+                    return "twoWayMergeSortFourFiles";
+                case 1:
+                    return "twoWayMergeSortNFiles";
+                case 2:
+                    return "kWayMergeSort";
+                default:
+                    return "twoWayMergeSortFourFiles";
+            }
+        } else
+            return "sort";
+
+    }
+
+    private String getDebugClassName() {
+        switch (algorithmComboBox.getSelectedIndex()) {
+            case 0:
+                return SimpleJoinSort.class.getName();
+            case 1:
+                return NaturalJoinSort.class.getName();
+            case 2:
+                return MergeSort.class.getName();
+            case 3:
+                return PolyphaseSort.class.getName();
+            default:
+                return SimpleJoinSort.class.getName();
+        }
     }
 
 

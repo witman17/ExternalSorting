@@ -51,6 +51,9 @@ public class ConfigurationElement implements Runnable {
     @Override
     public void run() {
         Options options;
+        StringBuilder tempName = new StringBuilder();
+        tempName.append(TemporaryFileBuilder.build(resultFileName, className));
+        tempName.append("Log.txt");
         if (sortMethodParameter == 0) {
             options = new OptionsBuilder().include(className)
                     .param("sourceFileName", sourceFileName)
@@ -61,7 +64,7 @@ public class ConfigurationElement implements Runnable {
                     .warmupIterations(warmupIterations)
                     .measurementIterations(measurementIterations)
                     .jvmArgs(getConsoleParam())
-                    .output(TemporaryFileBuilder.build(resultFileName, className + "_log"))
+                    .output(TemporaryFileBuilder.build(resultFileName, className + "_log.txt"))
                     .build();
         } else {
             options = new OptionsBuilder().include(className)
@@ -73,7 +76,7 @@ public class ConfigurationElement implements Runnable {
                     .warmupIterations(warmupIterations)
                     .measurementIterations(measurementIterations)
                     .jvmArgs(getConsoleParam())
-                    .output(TemporaryFileBuilder.build(resultFileName, className + "_log"))
+                    .output(TemporaryFileBuilder.build(resultFileName, className + "_log.txt"))
                     .build();
         }
         try {

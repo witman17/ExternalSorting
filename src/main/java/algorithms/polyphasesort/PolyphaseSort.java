@@ -60,8 +60,10 @@ public class PolyphaseSort extends Sorter {
 
     protected void clean(String resultFile, String tempA, String tempB) throws IOException {
         Files.move(Paths.get(resultFile), Paths.get(output), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-        Files.delete(Paths.get(tempA));
-        Files.delete(Paths.get(tempB));
+        if (tempA.compareTo(output) != 0)
+            Files.delete(Paths.get(tempA));
+        if (tempB.compareTo(output) != 0)
+            Files.delete(Paths.get(tempB));
     }
 
     protected void clean(String resultFile) throws IOException {

@@ -27,5 +27,4 @@ public abstract class Sorter {
 
     abstract public void sort() throws IOException;
 
-
 }
