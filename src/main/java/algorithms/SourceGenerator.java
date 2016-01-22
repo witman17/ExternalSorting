@@ -35,9 +35,8 @@ public class SourceGenerator {
         int currentBytesNumber = 0;
         while (currentBytesNumber < bytesNumber) {
             Integer number = random.nextInt();
-            writer.write(number.toString());
-            writer.newLine();
-            currentBytesNumber += number.toString().length();
+            writeInt(number);
+            currentBytesNumber += number.toString().length() + 2;
         }
         close();
         log.info(SourceGenerator.class.toString() + " END");
@@ -50,13 +49,17 @@ public class SourceGenerator {
         int currentBytesNumber = 0;
         while (currentBytesNumber < bytesNumber) {
             double d = random.nextGaussian();
-            Integer number = (int) Math.round(d * ((double) Integer.MAX_VALUE) / 2.0);
-            writer.write(number.toString());
-            writer.newLine();
+            Integer number = (int) Math.round(d * ((double) Integer.MAX_VALUE) / 10.0);
+            writeInt(number);
             currentBytesNumber += number.toString().length() + 2;
         }
         close();
         log.info(SourceGenerator.class.toString() + " END");
+    }
+
+    private void writeInt(Integer number) throws IOException {
+        writer.write(number.toString());
+        writer.newLine();
     }
 
 

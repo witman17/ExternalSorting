@@ -13,7 +13,8 @@ import java.io.IOException;
  * @author Witold
  */
 public class SimpleCombiner extends Combiner {
-
+    private final static String startMessage = SimpleCombiner.class.getSimpleName() + " - START";
+    private final static String endMessage = SimpleCombiner.class.getSimpleName() + " - END";
     protected String inputA;
     protected String inputB;
     protected BufferedReader readerA;
@@ -45,8 +46,14 @@ public class SimpleCombiner extends Combiner {
 
     }
 
+    /**
+     * combines sorted blocks from inputs and writes them to output in ascending order
+     *
+     * @param blockSize size of sorted block
+     * @throws IOException
+     */
     public void combine(int blockSize) throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         String bufferA, bufferB;
         int counterA, counterB;
         init();
@@ -92,9 +99,14 @@ public class SimpleCombiner extends Combiner {
             bufferB = readerB.readLine();
         }
         close();
-        log.debug("END");
+        log.debug(endMessage);
     }
 
+    /**
+     * initializes writers and readers
+     *
+     * @throws IOException
+     */
     @Override
     protected void init() throws IOException {
         super.init();
@@ -102,6 +114,11 @@ public class SimpleCombiner extends Combiner {
         readerB = new BufferedReader(new FileReader(inputB), inputBufferSize / 2);
     }
 
+    /**
+     * closes all readers and writes
+     *
+     * @throws IOException
+     */
     @Override
     protected void close() throws IOException {
         super.close();

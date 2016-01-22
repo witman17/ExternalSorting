@@ -10,7 +10,8 @@ import java.util.Collections;
  * Created by Witold on 2015-11-02.
  */
 public class PolyphaseSplitter extends SimpleSplitter {
-
+    private final static String startMessage = PolyphaseSplitter.class.getSimpleName() + " - START";
+    private final static String endMessage = PolyphaseSplitter.class.getSimpleName() + " - END";
     protected int SeriesNumberA;
     protected int SeriesNumberB;
     protected boolean currentFile;
@@ -26,7 +27,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
 
     @Override
     public int split(int blockSize) throws IOException {
-        log.debug("START - POLYPHASE SORT");
+        log.debug(startMessage);
         init();
         String buffer = "Start";
         Integer lastWrittenA = null;
@@ -66,7 +67,7 @@ public class PolyphaseSplitter extends SimpleSplitter {
             }
         }
         close();
-        log.debug("END - POLYPHASE SORT");
+        log.debug(endMessage);
         return SeriesNumberA + SeriesNumberB;
     }
 

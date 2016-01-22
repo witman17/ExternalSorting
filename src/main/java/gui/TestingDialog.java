@@ -1,21 +1,27 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class TestingDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonCancel;
     private JTextArea textArea;
+    private StreamConsumer consumer;
 
-    public TestingDialog() {
+    public TestingDialog() throws IOException {
         setContentPane(contentPane);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        textArea.setSize(600, 450);
-//        setModal(true);
-        pack();
+        setSize(600, 450);
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        consumer = new StreamConsumer(textArea);
+        PrintStream ps = System.out;
+        System.setOut(new PrintStream(new StreamCapturer(ps, consumer)));
         setVisible(true);
-
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -40,7 +46,6 @@ public class TestingDialog extends JDialog {
 
 
     private void onCancel() {
-// add your code here if necessary
 
         setVisible(false);
         dispose();

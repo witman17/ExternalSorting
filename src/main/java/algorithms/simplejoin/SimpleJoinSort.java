@@ -15,7 +15,8 @@ import java.nio.file.Paths;
  * @author Witold
  */
 public class SimpleJoinSort extends Sorter {
-
+    private final static String startMessage = SimpleJoinSort.class.getSimpleName() + " - START";
+    private final static String endMessage = SimpleJoinSort.class.getSimpleName() + " - END";
     protected SimpleSplitter splitter;
     protected SimpleCombiner combiner;
 
@@ -35,7 +36,7 @@ public class SimpleJoinSort extends Sorter {
     }
 
     public void sort() throws IOException {
-        log.info("START - Simple Join");
+        log.info(startMessage);
         int blockSize = 1;
         if (splitter.split(blockSize) > 1) { // jak false to plik jednoelementowy na wejsciu
             splitter.setInputFile(combiner.getOutput());
@@ -45,7 +46,7 @@ public class SimpleJoinSort extends Sorter {
             } while (splitter.split(blockSize) > 1);
         }
         clean();
-        log.info("END - Simple Join");
+        log.info(endMessage);
     }
 
     protected void clean() throws IOException {

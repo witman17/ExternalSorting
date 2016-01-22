@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="ERROR" name="example-config" package="appenders">
+<Configuration status="ERROR" name="example-config">
     <Properties>
         <Property name="LOG_DIR">${sys:web.root}/logs</Property>
         <Property name="ARCHIVE">${LOG_DIR}/archive</Property>
         <Property name="PATTERN">%-5level %d [%t] %c:%M(%L): %m%n</Property>
-        <Property name="NEW_PATTERN">%-5level %d [%t] %m%n</Property>
+        <Property name="NEW_PATTERN">%-5level %d %m%n</Property>
     </Properties>
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
@@ -17,14 +17,9 @@
             <PatternLayout pattern="${PATTERN}"/>
             <ThresholdFilter level="INFO"/>
         </File>
-        <GuiAppender name="GuiAppender">
-            <ThresholdFilter level="DEBUG"/>
-            <PatternLayout pattern="${NEW_PATTERN}"/>
-        </GuiAppender>
         <Async name="Async">
             <AppenderRef ref="InfoWriter"/>
             <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="GuiAppender"/>
         </Async>
     </Appenders>
     <Loggers>

@@ -7,11 +7,11 @@ import java.util.concurrent.Executors;
 /**
  * Created by Witold on 2015-12-20.
  */
-public class SortingConfigurationManager {
+public class TestConfigurationManager {
     protected ArrayList<Runnable> configurationElements;
     GeneratorConfigurationElement generatorConfigurationElement;
 
-    public SortingConfigurationManager() {
+    public TestConfigurationManager() {
         configurationElements = new ArrayList<>(5);
     }
 

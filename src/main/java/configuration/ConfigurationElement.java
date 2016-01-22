@@ -2,10 +2,13 @@ package configuration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+
+import java.util.Collection;
 
 /**
  * Created by Witold on 2015-12-20.
@@ -21,7 +24,7 @@ public class ConfigurationElement implements Runnable {
     protected Integer outputBufferSize;
     protected Integer sortMethodParameter;
 
-    protected int warmupIterations;
+    protected int warmUpIterations;
     protected int measurementIterations;
 
     public ConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
@@ -32,19 +35,19 @@ public class ConfigurationElement implements Runnable {
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
         this.sortMethodParameter = sortMethodParameter;
-        this.warmupIterations = 3;
+        this.warmUpIterations = 3;
         this.measurementIterations = 5;
     }
 
     public ConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
-                                Integer outputBufferSize, int sortMethodParameter, int warmupIterations, int measurementIterations) {
+                                Integer outputBufferSize, int sortMethodParameter, int warmUpIterations, int measurementIterations) {
         this.className = className;
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
         this.sortMethodParameter = sortMethodParameter;
-        this.warmupIterations = warmupIterations;
+        this.warmUpIterations = warmUpIterations;
         this.measurementIterations = measurementIterations;
     }
 
@@ -61,10 +64,11 @@ public class ConfigurationElement implements Runnable {
                     .param("inputBufferSize", inputBufferSize.toString())
                     .param("outputBufferSize", outputBufferSize.toString())
                     //                .param("sortMethodParameter", sortMethodParameter.toString())
-                    .warmupIterations(warmupIterations)
+                    .warmupIterations(warmUpIterations)
                     .measurementIterations(measurementIterations)
                     .jvmArgs(getConsoleParam())
                     .output(TemporaryFileBuilder.build(resultFileName, className + "_log.txt"))
+//                    .result(TemporaryFileBuilder.build(resultFileName, className + "_res.txt"))
                     .build();
         } else {
             options = new OptionsBuilder().include(className)
@@ -73,14 +77,16 @@ public class ConfigurationElement implements Runnable {
                     .param("inputBufferSize", inputBufferSize.toString())
                     .param("outputBufferSize", outputBufferSize.toString())
                     .param("sortMethodParameter", sortMethodParameter.toString())
-                    .warmupIterations(warmupIterations)
+                    .warmupIterations(warmUpIterations)
                     .measurementIterations(measurementIterations)
                     .jvmArgs(getConsoleParam())
                     .output(TemporaryFileBuilder.build(resultFileName, className + "_log.txt"))
+//                    .result(TemporaryFileBuilder.build(resultFileName, className + "_res.txt"))
                     .build();
         }
         try {
-            new Runner(options).run();
+            Collection<RunResult> results = new Runner(options).run();
+
         } catch (RunnerException e) {
             log.error(e);
         }
@@ -89,22 +95,22 @@ public class ConfigurationElement implements Runnable {
     private String getConsoleParam() {
         StringBuilder builder = new StringBuilder();
         builder.append("-Xrunjdwp:transport=dt_socket,address=");
-        builder.append(getPort());
+        builder.append(getNewPort());
         builder.append(",server=y,suspend=n");
         return builder.toString();
     }
 
-    private int getPort() {
+    private int getNewPort() {
         return ++port;
     }
 
     @Override
     public String toString() {
         return className + " : " +
-                ", resultFileName='" + resultFileName + '\'' +
-                ", inputBufferSize=" + inputBufferSize +
-                ", outputBufferSize=" + outputBufferSize +
-                ", sortMethodParameter=" + sortMethodParameter +
+                "{result: " + resultFileName +
+                "inBuffSize=" + inputBufferSize +
+                "outBuffSize=" + outputBufferSize +
+                "methodParam=" + sortMethodParameter +
                 '}';
     }
 }

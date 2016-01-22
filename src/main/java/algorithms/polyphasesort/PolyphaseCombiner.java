@@ -11,6 +11,8 @@ import java.io.*;
 public class PolyphaseCombiner extends NaturalCombiner {
     protected static final int INPUTA = 1;
     protected static final int INPUTB = 2;
+    private final static String startMessage = PolyphaseCombiner.class.getSimpleName() + " - START";
+    private final static String endMessage = PolyphaseCombiner.class.getSimpleName() + " - END";
     protected int inputASeriesNumber;
     protected int inputBSeriesNumber;
     protected int outputSeriesNumber;
@@ -38,7 +40,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
 
     @Override
     public void combine() throws IOException {
-        log.debug("START - POLYPHASE SORT");
+        log.debug(startMessage);
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
@@ -82,7 +84,7 @@ public class PolyphaseCombiner extends NaturalCombiner {
             outputSeriesNumber++;
         }
         close();
-        log.debug("END - POLYPHASE SORT");
+        log.debug(endMessage);
     }
 
     @Override

@@ -10,9 +10,13 @@ import java.util.LinkedList;
 
 /**
  * Created by Witold on 2015-10-31.
- * TODO sprawdzić czy algorytmy działają, jakis exception przy 2Way4Files
+ *
  */
 public class MergeSort extends Sorter {
+    private final static String startTwoWayNMessage = MergeSort.class.getSimpleName() + " - START - Two Way N Files";
+    private final static String startTwoWay4Message = MergeSort.class.getSimpleName() + " - START - Two Way 4 Files";
+    private final static String endTwoWayNMessage = MergeSort.class.getSimpleName() + " - END - Two Way N Files";
+    private final static String endTwoWay4Message = MergeSort.class.getSimpleName() + " - END - Two Way 4 Files";
     protected MergeSortSplitter splitter;
     protected String tempA;
     protected String outputFile;
@@ -32,7 +36,7 @@ public class MergeSort extends Sorter {
     }
 
     public void twoWayMergeSortNFiles(int blockSize) throws IOException {
-        log.info("START");
+        log.info(startTwoWayNMessage);
         int filesNumber = splitter.splitNFiles(blockSize);
         if (filesNumber > 1) {
             LinkedList<String> tempOutputs = splitter.getOutputFiles();
@@ -49,11 +53,11 @@ public class MergeSort extends Sorter {
         } else {
             clean(splitter.getOutputFiles().removeFirst());
         }
-        log.info("END");
+        log.info(endTwoWayNMessage);
     }
 
     public void twoWayMergeSortFourFiles(int blockSize) throws IOException {
-        log.info("START");
+        log.info(startTwoWay4Message);
         if (splitter.splitTwoFiles(blockSize) > 1) { // jeśli równe 1 cały plik zmieścił się w pamięci.
             String fileNames[] = new String[4];
             fileNames[3] = outputFile + "B";
@@ -69,7 +73,7 @@ public class MergeSort extends Sorter {
             clean(fileNames[2], junk);
         } else
             clean(splitter.outputA);
-        log.info("END");
+        log.info(endTwoWay4Message);
     }
 
     public void kWayMergeSort(int blockSize) {

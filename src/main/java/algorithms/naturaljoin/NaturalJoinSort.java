@@ -8,6 +8,9 @@ import java.io.IOException;
  * Created by Witold on 2015-10-21.
  */
 public class NaturalJoinSort extends SimpleJoinSort {
+    private final static String startMessage = NaturalJoinSort.class.getSimpleName() + " - START";
+    private final static String endMessage = NaturalJoinSort.class.getSimpleName() + " - END";
+
     public NaturalJoinSort(String source, String sortedFile, String tempA, String tempB) {
         super();
         splitter = new NaturalSplitter(source, tempA, tempB);
@@ -24,7 +27,7 @@ public class NaturalJoinSort extends SimpleJoinSort {
 
     @Override
     public void sort() throws IOException {
-        log.info("START");
+        log.info(startMessage);
         if (splitter.split() > 1) { // jak false to plik posortowany na wejściu.
             splitter.setInputFile(combiner.getOutput());
             do {
@@ -32,7 +35,7 @@ public class NaturalJoinSort extends SimpleJoinSort {
             } while (splitter.split() > 1);
         }
         clean();
-        log.info("END");
+        log.info(endMessage);
     }
 
 }

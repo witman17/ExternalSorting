@@ -9,7 +9,8 @@ import java.io.IOException;
  * Created by Witold on 2015-10-20.
  */
 public class NaturalCombiner extends SimpleCombiner {
-
+    private final static String startMessage = NaturalCombiner.class.getSimpleName() + " - START";
+    private final static String endMessage = NaturalCombiner.class.getSimpleName() + " - END";
     protected SeriesReader seriesReaderA;
     protected SeriesReader seriesReaderB;
 
@@ -24,7 +25,7 @@ public class NaturalCombiner extends SimpleCombiner {
 
     @Override
     public void combine() throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         init();
         //pobranie pierwszych dwoch elementow
         String bufferA = seriesReaderA.getSeriesElement();
@@ -68,7 +69,7 @@ public class NaturalCombiner extends SimpleCombiner {
             bufferB = seriesReaderB.getSeriesElement();
         }
         super.close();
-        log.debug("END");
+        log.debug(endMessage);
     }
 
     @Override

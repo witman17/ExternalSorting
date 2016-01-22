@@ -10,6 +10,8 @@ import java.io.IOException;
  */
 public class NaturalSplitter extends SimpleSplitter {
 
+    private final static String startMessage = NaturalSplitter.class.getSimpleName() + " - START";
+    private final static String endMessage = NaturalSplitter.class.getSimpleName() + " - END";
     protected SeriesReader seriesReader;
 
     public NaturalSplitter(String inputFile, String outputA, String outputB) {
@@ -22,7 +24,7 @@ public class NaturalSplitter extends SimpleSplitter {
 
     @Override
     public int split() throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         String buffer;
         boolean changeFile = true;
         int seriesNumber = 1;
@@ -41,7 +43,7 @@ public class NaturalSplitter extends SimpleSplitter {
             }
         }
         super.close();
-        log.debug("END");
+        log.debug(endMessage);
         return seriesNumber;
     }
 

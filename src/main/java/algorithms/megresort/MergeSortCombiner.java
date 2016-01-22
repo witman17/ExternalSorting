@@ -11,6 +11,8 @@ import java.util.LinkedList;
  * Created by Witold on 2015-10-28.
  */
 public class MergeSortCombiner extends Combiner {
+    private final static String startMessage = MergeSortCombiner.class.getSimpleName() + " - START";
+    private final static String endMessage = MergeSortCombiner.class.getSimpleName() + " - END";
     protected SeriesReader seriesReaderA;
     protected SeriesReader seriesReaderB;
     protected ArrayList<BufferedReader> readers;
@@ -48,7 +50,7 @@ public class MergeSortCombiner extends Combiner {
     }
 
     public void combineTwoFiles() throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         init();
         String bufferA = readers.get(0).readLine();
         String bufferB = readers.get(1).readLine();
@@ -74,11 +76,11 @@ public class MergeSortCombiner extends Combiner {
             bufferB = readers.get(1).readLine();
         }
         close();
-        log.debug("END");
+        log.debug(endMessage);
     }
 
     public int combineFourFiles(String outputB) throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         init();
         int blocksNumber = 0;
         boolean currentFile = true;
@@ -134,7 +136,7 @@ public class MergeSortCombiner extends Combiner {
         }
         writerB.close();
         close();
-        log.debug("END");
+        log.debug(endMessage);
         return blocksNumber;
     }
 

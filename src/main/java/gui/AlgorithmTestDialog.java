@@ -100,8 +100,8 @@ public class AlgorithmTestDialog extends JDialog {
                             break;
                     }
                     if (debugModeCheckBox.isSelected()) {
-                        String methodName = getVariantType(className);
                         className = getDebugClassName();
+                        String methodName = getVariantType(className);
                         int[] algorithmParameters = null;
                         if (algorithmParameter != 0) {
                             algorithmParameters = new int[1];

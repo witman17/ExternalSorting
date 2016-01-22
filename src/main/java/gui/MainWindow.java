@@ -1,7 +1,7 @@
 package gui;
 
 import configuration.GeneratorConfigurationElement;
-import configuration.SortingConfigurationManager;
+import configuration.TestConfigurationManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -36,10 +36,10 @@ public class MainWindow extends JFrame {
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
     private boolean noElements;
-    private SortingConfigurationManager manager;
+    private TestConfigurationManager manager;
 
 
-    public MainWindow(String title, SortingConfigurationManager manager) throws HeadlessException {
+    public MainWindow(String title, TestConfigurationManager manager) throws HeadlessException {
         super(title);
         this.manager = manager;
         setContentPane(rootPanel);
@@ -97,16 +97,12 @@ public class MainWindow extends JFrame {
                 try {
                     dataCheck();
                     String sourceFileName = sourceFileTextField.getText();
-                    int outoutFileSize = slider.getValue() * 1000 * 1000;
-                    int outputBufferSize = outoutFileSize / 10;
+                    int outputFileSize = slider.getValue() * 1000 * 1024;
+                    int outputBufferSize = outputFileSize / 10;
                     String methodName = getMethodName();
                     manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
-                            outoutFileSize));
-//                    TestingDialog dialog = new TestingDialog();
-//                    final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-//                    final Configuration config = ctx.getConfiguration();
-//                    GuiAppenderClass appender = config.getAppender("GuiAppender");
-//                    appender.setTextArea(dialog.getTextArea());
+                            outputFileSize));
+                    TestingDialog dialog = new TestingDialog();
                     manager.runConfiguration();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),

@@ -13,10 +13,10 @@ import java.util.LinkedList;
  * Created by Witold on 2015-10-28.
  */
 public class MergeSortSplitter extends Splitter {
-
     protected static final int N_FILES = 1;
     protected static final int TWO_FILES = 2;
-
+    private final static String startMessage = MergeSortSplitter.class.getSimpleName() + " - START";
+    private final static String endMessage = MergeSortSplitter.class.getSimpleName() + " - END";
     protected String outputA;
     protected String outputB;
     protected BufferedWriter writerA;
@@ -56,7 +56,7 @@ public class MergeSortSplitter extends Splitter {
     }
 
     public int splitNFiles(long blockSize) throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         init(N_FILES);
         int blocksNumber = 1;
         String buffer = "Start";
@@ -83,12 +83,12 @@ public class MergeSortSplitter extends Splitter {
             log.trace("chunk sorted & saved no. " + blocksNumber);
         }
         close();
-        log.debug("END");
+        log.debug(endMessage);
         return blocksNumber;
     }
 
     public int splitTwoFiles(int blockSize) throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         init(TWO_FILES);
         int blocksNumber = 0;
         boolean currentFile = true;
@@ -132,7 +132,7 @@ public class MergeSortSplitter extends Splitter {
             }
         }
         close();
-        log.debug("END");
+        log.debug(endMessage);
         return blocksNumber;
     }
 

@@ -16,7 +16,8 @@ import java.io.IOException;
  * @author Witold
  */
 public class SimpleSplitter extends Splitter {
-
+    private final static String startMessage = SimpleSplitter.class.getSimpleName() + " - START";
+    private final static String endMessage = SimpleSplitter.class.getSimpleName() + " - END";
     protected String outputA;
     protected String outputB;
     protected BufferedWriter writerA;
@@ -45,7 +46,7 @@ public class SimpleSplitter extends Splitter {
 
     @Override
     public int split(int blockSize) throws IOException {
-        log.debug("START");
+        log.debug(startMessage);
         String buffer = "Start";
         int blocksNumber = 0;
         int counter;
@@ -70,7 +71,7 @@ public class SimpleSplitter extends Splitter {
 
         }
         this.close();
-        log.debug("END");
+        log.debug(endMessage);
         return blocksNumber;
     }
 

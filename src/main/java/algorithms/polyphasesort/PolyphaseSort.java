@@ -12,6 +12,8 @@ import java.nio.file.StandardCopyOption;
  * Created by Witold on 2015-11-02.
  */
 public class PolyphaseSort extends Sorter {
+    private final static String startMessage = PolyphaseSort.class.getSimpleName() + " - START";
+    private final static String endMessage = PolyphaseSort.class.getSimpleName() + " - END";
     protected PolyphaseSplitter splitter;
     protected String output;
 
@@ -29,7 +31,7 @@ public class PolyphaseSort extends Sorter {
     }
 
     public void sort(int blockSize) throws IOException {
-        log.info("START - POLYPHASE SORT");
+        log.info(startMessage);
         int fakeSeriesNumber = 0;
         //podzial i sortowanie serii
         int totalSeriesNumber = splitter.split(blockSize);
@@ -54,8 +56,8 @@ public class PolyphaseSort extends Sorter {
             combiner.combine();
             clean(combiner.getOutput(), combiner.getInputA(), combiner.getInputB());
         } else
-            clean(splitter.getOutputA()); //TODO clean zle dziala
-        log.info("END - POLYPHASE SORT");
+            clean(splitter.getOutputA());
+        log.info(endMessage);
     }
 
     protected void clean(String resultFile, String tempA, String tempB) throws IOException {
