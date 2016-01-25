@@ -17,8 +17,9 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class MergeSortBenchmark {
-
     private final static Logger log = LogManager.getLogger("algorithms");
+    private final static String startMessage = MergeSortBenchmark.class.getSimpleName() + " - START";
+    private final static String endMessage = MergeSortBenchmark.class.getSimpleName() + " - END";
     @Param("s.txt")
     protected String sourceFileName;
     @Param("r.txt")
@@ -37,6 +38,12 @@ public class MergeSortBenchmark {
     public void setup() {
         sorter = new MergeSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
+        log.info(startMessage);
+    }
+
+    @TearDown
+    public void tearDown() {
+        log.info(endMessage);
     }
 
     @Benchmark

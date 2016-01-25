@@ -51,6 +51,11 @@ public class AlgorithmTestDialog extends JDialog {
     private JButton addConfigItemButton;
     private JPanel mainPanel;
     private JCheckBox debugModeCheckBox;
+    private JPanel iterations;
+    private JPanel WarmUp;
+    private JPanel It;
+    private JSpinner warmUpSpinner;
+    private JSpinner iterationsSpinner;
     private MainWindow mainWindow;
 
     public AlgorithmTestDialog(String title, MainWindow mainWindow) {
@@ -79,7 +84,7 @@ public class AlgorithmTestDialog extends JDialog {
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
                     int algorithmParameter = 0;
                     if (memorySpinner.isEnabled()) {
-                        algorithmParameter = (Integer) memorySpinner.getValue() * 1000 * 1000;
+                        algorithmParameter = (Integer) memorySpinner.getValue() * 1000 * 1024 / 4;
                     }
                     String className;
                     switch (algorithmComboBox.getSelectedIndex()) {
@@ -111,8 +116,10 @@ public class AlgorithmTestDialog extends JDialog {
                                 resultFile, inputBufferSize, outputBufferSize, className, methodName, algorithmParameters);
                         mainWindow.addConfigurationElement(element);
                     } else {
+                        int warmUp = (Integer) warmUpSpinner.getValue();
+                        int measure = (Integer) iterationsSpinner.getValue();
                         ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
-                                sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter);
+                                sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter, warmUp, measure);
                         mainWindow.addConfigurationElement(element);
                     }
                     setVisible(false);
@@ -157,6 +164,18 @@ public class AlgorithmTestDialog extends JDialog {
                     memorySpinner.setEnabled(false);
             }
         });
+        debugModeCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (debugModeCheckBox.isSelected()) {
+                    variant.setVisible(true);
+                    iterations.setVisible(false);
+                } else {
+                    variant.setVisible(false);
+                    iterations.setVisible(true);
+                }
+            }
+        });
     }
 
     private void polesInit() {
@@ -165,14 +184,19 @@ public class AlgorithmTestDialog extends JDialog {
         algorithmComboBox.addItem(mergeSortName);
         algorithmComboBox.addItem(polyphaseSortName);
         variantComboBox.addItem(basicVariant);
-        inputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
-        outputBufferSizeSpinner.setPreferredSize(new Dimension(70, 21));
-        memorySpinner.setPreferredSize(new Dimension(70, 21));
+        variant.setVisible(false);
+        Dimension spinnerDim = new Dimension(70, 21);
+        inputBufferSizeSpinner.setPreferredSize(spinnerDim);
+        outputBufferSizeSpinner.setPreferredSize(spinnerDim);
+        memorySpinner.setPreferredSize(spinnerDim);
+        iterationsSpinner.setPreferredSize(spinnerDim);
+        warmUpSpinner.setPreferredSize(spinnerDim);
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         memorySpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
+        warmUpSpinner.setModel(new SpinnerNumberModel(3, 0, 200, 1));
+        iterationsSpinner.setModel(new SpinnerNumberModel(5, 1, 200, 1));
         memorySpinner.setEnabled(false);
-
     }
 
     private boolean dataCheck() {

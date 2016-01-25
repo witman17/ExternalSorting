@@ -22,7 +22,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="43cfa" binding="settings" layout-manager="FormLayout">
+          <grid id="43cfa" binding="settingsTab" layout-manager="FormLayout">
             <rowspec value="center:max(d;4px):noGrow"/>
             <rowspec value="top:4dlu:noGrow"/>
             <rowspec value="center:max(d;4px):noGrow"/>
@@ -212,7 +212,7 @@
                           <preferredSize width="250" height="25"/>
                           <requestFocusEnabled value="false"/>
                           <snapToTicks value="true"/>
-                          <value value="125"/>
+                          <value value="100"/>
                           <valueIsAdjusting value="false"/>
                         </properties>
                       </component>
@@ -374,7 +374,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="5b71c" binding="results" layout-manager="FormLayout">
+          <grid id="5b71c" binding="resultsTab" layout-manager="FormLayout">
             <rowspec value="center:d:grow"/>
             <colspec value="fill:d:grow"/>
             <constraints>

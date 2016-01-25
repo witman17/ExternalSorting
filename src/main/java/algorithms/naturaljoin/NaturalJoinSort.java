@@ -13,12 +13,14 @@ public class NaturalJoinSort extends SimpleJoinSort {
 
     public NaturalJoinSort(String source, String sortedFile, String tempA, String tempB) {
         super();
+        this.source = source;
         splitter = new NaturalSplitter(source, tempA, tempB);
         combiner = new NaturalCombiner(tempA, tempB, sortedFile);
     }
 
     public NaturalJoinSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
         super();
+        this.source = source;
         splitter = new NaturalSplitter(source, tempA, tempB, inputBufferSize, outputBufferSize);
         combiner = new NaturalCombiner(tempA, tempB, sortedFile, inputBufferSize, outputBufferSize);
         this.inputBufferSize = inputBufferSize;

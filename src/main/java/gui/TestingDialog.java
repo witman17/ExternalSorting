@@ -9,18 +9,24 @@ import java.io.PrintStream;
 public class TestingDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonCancel;
-    private JTextArea textArea;
+    private JTextArea debugLogTextArea;
+    private JTextArea iterationInfoTextArea;
+    private JProgressBar progressBar;
     private StreamConsumer consumer;
+    private MainWindow parent;
+    private PrintStream oldPrintStream;
 
-    public TestingDialog() throws IOException {
+    public TestingDialog(MainWindow parent, int iterationsNumber) throws IOException {
+        this.parent = parent;
         setContentPane(contentPane);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(600, 450);
-        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        consumer = new StreamConsumer(textArea);
-        PrintStream ps = System.out;
-        System.setOut(new PrintStream(new StreamCapturer(ps, consumer)));
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(iterationsNumber);
+        polesInit();
+        consumer = new StreamConsumer(debugLogTextArea, iterationInfoTextArea, this);
+        oldPrintStream = System.out;
+        System.setOut(new PrintStream(new StreamCapturer(oldPrintStream, consumer)));
         setVisible(true);
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -46,12 +52,36 @@ public class TestingDialog extends JDialog {
 
 
     private void onCancel() {
-
+        System.setOut(oldPrintStream);
         setVisible(false);
         dispose();
     }
 
-    public JTextArea getTextArea() {
-        return textArea;
+    public void close() {
+        onCancel();
+    }
+
+    private void polesInit() {
+        progressBar.setStringPainted(true);
+        progressBar.setValue(progressBar.getMinimum());
+        DefaultCaret dCaret = (DefaultCaret) debugLogTextArea.getCaret();
+        dCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        debugLogTextArea.setEditable(false);
+        DefaultCaret iCaret = (DefaultCaret) iterationInfoTextArea.getCaret();
+        iCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        iterationInfoTextArea.setEditable(false);
+    }
+
+    @Override
+    public MainWindow getParent() {
+        return parent;
+    }
+
+    public JTextArea getDebugLogTextArea() {
+        return debugLogTextArea;
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
     }
 }

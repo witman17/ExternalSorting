@@ -5,7 +5,6 @@
  */
 package gui;
 
-import configuration.TestConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,8 +18,7 @@ public class ApplicationStart {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TestConfigurationManager manager = new TestConfigurationManager();
-        MainWindow m = new MainWindow("External Sort", manager);
+        MainWindow m = new MainWindow("External Sort");
 //        SimpleJoinSort simpleJoinSort = new SimpleJoinSort("s.txt", "rS.txt", "AS.txt", "BS.txt");
 //        NaturalJoinSort naturalJoinSort = new NaturalJoinSort("s.txt", "rN.txt", "AN.txt", "BN.txt");
 //        MergeSort mergeSort1 = new MergeSort("s.txt", "rM-nF.txt", "AM", "BM");

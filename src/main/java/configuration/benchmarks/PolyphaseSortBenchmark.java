@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class PolyphaseSortBenchmark {
     private final static Logger log = LogManager.getLogger("algorithms");
+    private final static String startMessage = PolyphaseSortBenchmark.class.getSimpleName() + " - START";
+    private final static String endMessage = PolyphaseSortBenchmark.class.getSimpleName() + " - END";
     @Param("s.txt")
     protected String sourceFileName;
     @Param("r.txt")
@@ -36,6 +38,7 @@ public class PolyphaseSortBenchmark {
     public void setup() {
         sorter = new PolyphaseSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
+        log.info(startMessage);
     }
 
     @Benchmark
@@ -45,6 +48,11 @@ public class PolyphaseSortBenchmark {
         } catch (IOException e) {
             log.error(e);
         }
+    }
+
+    @TearDown
+    public void tearDown() {
+        log.info(endMessage);
     }
 
 

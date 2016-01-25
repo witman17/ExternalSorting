@@ -16,7 +16,7 @@ import java.util.Collection;
 
 public class ConfigurationElement implements Runnable {
     private final static Logger log = LogManager.getLogger("algorithms");
-    private static int port = 50015;
+    private static int port = 22015;
     protected String className;
     protected String sourceFileName;
     protected String resultFileName;
@@ -26,6 +26,7 @@ public class ConfigurationElement implements Runnable {
 
     protected int warmUpIterations;
     protected int measurementIterations;
+    Collection<RunResult> results;
 
     public ConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
                                 Integer outputBufferSize, int sortMethodParameter) {
@@ -85,7 +86,10 @@ public class ConfigurationElement implements Runnable {
                     .build();
         }
         try {
-            Collection<RunResult> results = new Runner(options).run();
+            results = new Runner(options).run();
+            for (RunResult result : results) {
+                ConfigurationManager.getInstance().addResult(result);
+            }
 
         } catch (RunnerException e) {
             log.error(e);
@@ -104,13 +108,26 @@ public class ConfigurationElement implements Runnable {
         return ++port;
     }
 
+    public Collection<RunResult> getResults() {
+        return results;
+    }
+
     @Override
     public String toString() {
         return className + " : " +
-                "{result: " + resultFileName +
-                "inBuffSize=" + inputBufferSize +
-                "outBuffSize=" + outputBufferSize +
-                "methodParam=" + sortMethodParameter +
-                '}';
+                "iterations= " + measurementIterations + '[' + warmUpIterations + ']' +
+                " result: " + resultFileName +
+                " inBuffSize=" + inputBufferSize +
+                " outBuffSize=" + outputBufferSize +
+                " methodParam=" + sortMethodParameter;
     }
+
+    public int getWarmUpIterations() {
+        return warmUpIterations;
+    }
+
+    public int getMeasurementIterations() {
+        return measurementIterations;
+    }
+
 }

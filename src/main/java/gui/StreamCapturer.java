@@ -25,7 +25,7 @@ public class StreamCapturer extends OutputStream {
         builder.append(value);
         if (value.equals("\n")) {
             consumer.consume(builder.toString());
-            builder.delete(0, builder.length() - 1);
+            builder.delete(0, builder.length());
         }
         oldStream.write(b);
     }

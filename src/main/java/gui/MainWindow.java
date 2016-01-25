@@ -1,8 +1,11 @@
 package gui;
 
+import configuration.ConfigurationManager;
 import configuration.GeneratorConfigurationElement;
-import configuration.TestConfigurationManager;
+import graphs.GraphUtil;
+import org.openjdk.jmh.results.Result;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -10,16 +13,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Dictionary;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Witold on 2015-12-10.
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements Observer {
+    private final MainWindow myself = this;
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
-    private JPanel results;
-    private JPanel settings;
+    private JPanel resultsTab;
+    private JPanel settingsTab;
     private JButton sourceFileButton;
     private JTextField sourceFileTextField;
     private JPanel Generator;
@@ -35,13 +44,15 @@ public class MainWindow extends JFrame {
     private JButton startButton;
     private JLabel sliderSizeLabel;
     private DefaultListModel<String> listModel;
+    private ConfigurationManager manager;
+    private TestingDialog testingDialog;
+
     private boolean noElements;
-    private TestConfigurationManager manager;
 
-
-    public MainWindow(String title, TestConfigurationManager manager) throws HeadlessException {
+    public MainWindow(String title) throws HeadlessException {
         super(title);
-        this.manager = manager;
+        this.manager = ConfigurationManager.getInstance();
+        manager.addObserver(this);
         setContentPane(rootPanel);
         polesInit();
         pack();
@@ -63,7 +74,7 @@ public class MainWindow extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", (MainWindow) rootPanel.getParent().getParent().getParent());
+                AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", myself);
                 if (noElements) {
                     listModel.removeAllElements();
                     noElements = false;
@@ -102,7 +113,7 @@ public class MainWindow extends JFrame {
                     String methodName = getMethodName();
                     manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
                             outputFileSize));
-                    TestingDialog dialog = new TestingDialog();
+                    testingDialog = new TestingDialog(myself, manager.getIterationsNumber());
                     manager.runConfiguration();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
@@ -112,18 +123,41 @@ public class MainWindow extends JFrame {
         });
     }
 
-    private String getMethodName() {
-        switch (distributionComboBox.getSelectedIndex()) {
-            case 0:
-                return "generateUniform";
-            case 1:
-                return "generateNormal";
-            default:
-                return "generateUniform";
+    public void showResults() {
+        List<String> benchNames = manager.getBenchmarksNames();
+        List<Result> results = null;
+        try {
+            results = manager.getResults();
+            String resultUrl = GraphUtil.generateGraphURL(benchNames, results);
+            JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(resultUrl))));
+            //TODO nie wyświetla się na panelu..
+            resultsTab.add(label);
+            tabbedPane.setSelectedIndex(1);
+            testingDialog.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(myself, e, "Problem", JOptionPane.ERROR_MESSAGE);
+        } catch (InterruptedException e) {
+            JOptionPane.showMessageDialog(myself, e, "Problem", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
+    public void addConfigurationElement(Runnable element) {
+        listModel.addElement(element.toString());
+        manager.addConfigurationElement(element);
+    }
+
+    public JTextField getSourceFileTextField() {
+        return sourceFileTextField;
+    }
+
+    private void dataCheck() throws Exception {
+        if (sourceFileTextField.getText().isEmpty())
+            throw new Exception("Brak nazwy generowanego pliku");
+        if (listModel.contains("Dodaj algorytmy.") || listModel.isEmpty())
+            throw new Exception("Brak wybranych algorytmów do testu");
+
+
+    }
 
     private void polesInit() {
         noElements = true;
@@ -140,25 +174,24 @@ public class MainWindow extends JFrame {
                 table.remove(i);
         }
         slider.setLabelTable(table);
+        resultsTab = new JPanel();
 
     }
 
-    public void addConfigurationElement(Runnable element) {
-        listModel.addElement(element.toString());
-        manager.addConfigurationElement(element);
-    }
-
-    private void dataCheck() throws Exception {
-        if (sourceFileTextField.getText().isEmpty())
-            throw new Exception("Brak nazwy generowanego pliku");
-        if (listModel.contains("Dodaj algorytmy.") || listModel.isEmpty())
-            throw new Exception("Brak wybranych algorytmów do testu");
-
+    private String getMethodName() {
+        switch (distributionComboBox.getSelectedIndex()) {
+            case 0:
+                return "generateUniform";
+            case 1:
+                return "generateNormal";
+            default:
+                return "generateUniform";
+        }
 
     }
 
-    public JTextField getSourceFileTextField() {
-        return sourceFileTextField;
+    @Override
+    public void update(Observable o, Object arg) {
+        showResults();
     }
-
 }
