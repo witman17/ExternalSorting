@@ -4,7 +4,7 @@ import algorithms.megresort.MergeSort;
 import algorithms.naturaljoin.NaturalJoinSort;
 import algorithms.polyphasesort.PolyphaseSort;
 import algorithms.simplejoin.SimpleJoinSort;
-import configuration.ConfigurationElement;
+import configuration.BenchmarkConfigurationElement;
 import configuration.DebugConfigurationElement;
 import configuration.benchmarks.MergeSortBenchmark;
 import configuration.benchmarks.NaturalJoinBenchmark;
@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Witold on 2015-12-20.
  */
-public class AlgorithmTestDialog extends JDialog {
+public class TestConfigDialog extends JDialog {
 
 
     private final String mergeSortName = "Sortowanie przez scalanie";
@@ -30,7 +30,7 @@ public class AlgorithmTestDialog extends JDialog {
     private final String basicVariant = "Podstawowy";
     private final String mergeSort2WayNFilesVariant = "scalanie dwukierunkowe - N pomocniczych plików";
     private final String mergeSort2Way4FilesVariant = "scalanie dwukierunkowe - 4 pliki pomocnicze";
-    private final String mergeSortKWayVariant = "scalanie k-kierunkowe";
+    //    private final String mergeSortKWayVariant = "scalanie k-kierunkowe";
     private JPanel rootPanel;
     private JComboBox algorithmComboBox;
     private JComboBox variantComboBox;
@@ -58,14 +58,15 @@ public class AlgorithmTestDialog extends JDialog {
     private JSpinner iterationsSpinner;
     private MainWindow mainWindow;
 
-    public AlgorithmTestDialog(String title, MainWindow mainWindow) {
+    public TestConfigDialog(String title, MainWindow mainWindow) {
         setTitle(title);
         this.mainWindow = mainWindow;
+        setModal(true);
         setContentPane(rootPanel);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         polesInit();
         pack();
-        setVisible(true);
+
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -118,7 +119,7 @@ public class AlgorithmTestDialog extends JDialog {
                     } else {
                         int warmUp = (Integer) warmUpSpinner.getValue();
                         int measure = (Integer) iterationsSpinner.getValue();
-                        ConfigurationElement element = new ConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
+                        BenchmarkConfigurationElement element = new BenchmarkConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
                                 sourceFileTextField.getText(), inputBufferSize, outputBufferSize, algorithmParameter, warmUp, measure);
                         mainWindow.addConfigurationElement(element);
                     }
@@ -153,7 +154,7 @@ public class AlgorithmTestDialog extends JDialog {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(mergeSort2Way4FilesVariant);
                     variantComboBox.addItem(mergeSort2WayNFilesVariant);
-                    variantComboBox.addItem(mergeSortKWayVariant);
+//                    variantComboBox.addItem(mergeSortKWayVariant);
                 } else {
                     variantComboBox.removeAllItems();
                     variantComboBox.addItem(basicVariant);
@@ -176,6 +177,7 @@ public class AlgorithmTestDialog extends JDialog {
                 }
             }
         });
+        setVisible(true);
     }
 
     private void polesInit() {

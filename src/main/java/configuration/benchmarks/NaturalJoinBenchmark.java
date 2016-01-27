@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @Fork(1)
 @State(Scope.Thread)
-@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class NaturalJoinBenchmark {
     private final static Logger log = LogManager.getLogger("algorithms");
     private final static String startMessage = NaturalJoinBenchmark.class.getSimpleName() + " - START";

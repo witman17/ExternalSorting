@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @Fork(1)
 @State(Scope.Thread)
-@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class PolyphaseSortBenchmark {
     private final static Logger log = LogManager.getLogger("algorithms");
     private final static String startMessage = PolyphaseSortBenchmark.class.getSimpleName() + " - START";

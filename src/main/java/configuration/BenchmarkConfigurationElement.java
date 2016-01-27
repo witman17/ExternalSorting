@@ -8,13 +8,15 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 /**
  * Created by Witold on 2015-12-20.
  */
 
-public class ConfigurationElement implements Runnable {
+public class BenchmarkConfigurationElement implements Runnable, SourceFileOwner {
     private final static Logger log = LogManager.getLogger("algorithms");
     private static int port = 22015;
     protected String className;
@@ -28,8 +30,8 @@ public class ConfigurationElement implements Runnable {
     protected int measurementIterations;
     Collection<RunResult> results;
 
-    public ConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
-                                Integer outputBufferSize, int sortMethodParameter) {
+    public BenchmarkConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
+                                         Integer outputBufferSize, int sortMethodParameter) {
         this.className = className;
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
@@ -40,8 +42,8 @@ public class ConfigurationElement implements Runnable {
         this.measurementIterations = 5;
     }
 
-    public ConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
-                                Integer outputBufferSize, int sortMethodParameter, int warmUpIterations, int measurementIterations) {
+    public BenchmarkConfigurationElement(String className, String sourceFileName, String resultFileName, Integer inputBufferSize,
+                                         Integer outputBufferSize, int sortMethodParameter, int warmUpIterations, int measurementIterations) {
         this.className = className;
         this.sourceFileName = sourceFileName;
         this.resultFileName = resultFileName;
@@ -114,12 +116,19 @@ public class ConfigurationElement implements Runnable {
 
     @Override
     public String toString() {
-        return className + " : " +
-                "iterations= " + measurementIterations + '[' + warmUpIterations + ']' +
-                " result: " + resultFileName +
-                " inBuffSize=" + inputBufferSize +
-                " outBuffSize=" + outputBufferSize +
-                " methodParam=" + sortMethodParameter;
+        StringBuilder builder = new StringBuilder(50);
+        Path result = Paths.get(resultFileName);
+        builder.append(className)
+                .append(" : ")
+                .append("iteracje=")
+                .append(measurementIterations)
+                .append('[').append(warmUpIterations).append(']')
+                .append(" wynik=").append(result.getFileName())
+                .append(" inBuf=").append(inputBufferSize)
+                .append(" outBuf=").append(outputBufferSize);
+        if (sortMethodParameter > 0)
+            builder.append(" parametr=").append(sortMethodParameter);
+        return builder.toString();
     }
 
     public int getWarmUpIterations() {
@@ -130,4 +139,8 @@ public class ConfigurationElement implements Runnable {
         return measurementIterations;
     }
 
+    @Override
+    public void setSourceFileName(String sourceFileName) {
+        this.sourceFileName = sourceFileName;
+    }
 }

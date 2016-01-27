@@ -1,20 +1,20 @@
 package gui;
 
+import charts.ChartUtil;
+import charts.SwingWrapper;
 import configuration.ConfigurationManager;
 import configuration.GeneratorConfigurationElement;
-import graphs.GraphUtil;
+import org.knowm.xchart.XChartPanel;
 import org.openjdk.jmh.results.Result;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Observable;
@@ -46,10 +46,12 @@ public class MainWindow extends JFrame implements Observer {
     private DefaultListModel<String> listModel;
     private ConfigurationManager manager;
     private TestingDialog testingDialog;
+    private XChartPanel chartPanel;
+    private charts.SwingWrapper chartWrapper;
 
     private boolean noElements;
 
-    public MainWindow(String title) throws HeadlessException {
+    public MainWindow(String title) {
         super(title);
         this.manager = ConfigurationManager.getInstance();
         manager.addObserver(this);
@@ -74,9 +76,9 @@ public class MainWindow extends JFrame implements Observer {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlgorithmTestDialog creator = new AlgorithmTestDialog("Kreator Konfiguracji", myself);
+                TestConfigDialog creator = new TestConfigDialog("Kreator Konfiguracji", myself);
                 if (noElements) {
-                    listModel.removeAllElements();
+                    listModel.remove(0);
                     noElements = false;
                 }
             }
@@ -84,14 +86,16 @@ public class MainWindow extends JFrame implements Observer {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int[] selected = jlist.getSelectedIndices();
-                for (int i = 0; i < selected.length; i++) {
-                    listModel.remove(selected[i] - i);
-                    manager.removeConfigurationElement(selected[i] - i);
-                }
-                if (listModel.isEmpty()) {
-                    listModel.addElement("Dodaj algorytmy.");
-                    noElements = true;
+                if (!noElements) {
+                    int[] selected = jlist.getSelectedIndices();
+                    for (int i = 0; i < selected.length; i++) {
+                        listModel.remove(selected[i] - i);
+                        manager.removeConfigurationElement(selected[i] - i);
+                    }
+                    if (listModel.isEmpty()) {
+                        listModel.addElement("Dodaj algorytmy.");
+                        noElements = true;
+                    }
                 }
 
             }
@@ -121,6 +125,21 @@ public class MainWindow extends JFrame implements Observer {
                 }
             }
         });
+        sourceFileTextField.addInputMethodListener(new InputMethodListener() {
+            @Override
+            public void inputMethodTextChanged(InputMethodEvent event) {
+                manager.updateSourceFileName(sourceFileTextField.getText());
+            }
+
+            @Override
+            public void caretPositionChanged(InputMethodEvent event) {
+
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        new MainWindow("External Sort");
     }
 
     public void showResults() {
@@ -128,14 +147,11 @@ public class MainWindow extends JFrame implements Observer {
         List<Result> results = null;
         try {
             results = manager.getResults();
-            String resultUrl = GraphUtil.generateGraphURL(benchNames, results);
-            JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(resultUrl))));
-            //TODO nie wyświetla się na panelu..
-            resultsTab.add(label);
-            tabbedPane.setSelectedIndex(1);
+            chartWrapper = new SwingWrapper(ChartUtil.getBarChart(benchNames, results));
             testingDialog.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(myself, e, "Problem", JOptionPane.ERROR_MESSAGE);
+            chartWrapper.displayChart();
+
+
         } catch (InterruptedException e) {
             JOptionPane.showMessageDialog(myself, e, "Problem", JOptionPane.ERROR_MESSAGE);
         }

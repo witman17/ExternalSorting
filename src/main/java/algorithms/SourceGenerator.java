@@ -49,7 +49,7 @@ public class SourceGenerator {
         int currentBytesNumber = 0;
         while (currentBytesNumber < bytesNumber) {
             double d = random.nextGaussian();
-            Integer number = (int) Math.round(d * ((double) Integer.MAX_VALUE) / 10.0);
+            Integer number = (int) Math.round(d * 7000000.0);
             writeInt(number);
             currentBytesNumber += number.toString().length() + 2;
         }

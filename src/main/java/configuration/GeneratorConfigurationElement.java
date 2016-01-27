@@ -13,13 +13,13 @@ import java.lang.reflect.Method;
 public class GeneratorConfigurationElement implements Runnable {
     private final static Logger log = LogManager.getLogger("algorithms");
 
-    protected String sourcefileName;
+    protected String sourceFileName;
     protected int outputBufferSize;
     protected String methodName;
     protected int argument;
 
-    public GeneratorConfigurationElement(String sourcefileName, int outputBufferSize, String methodName, int argument) {
-        this.sourcefileName = sourcefileName;
+    public GeneratorConfigurationElement(String sourceFileName, int outputBufferSize, String methodName, int argument) {
+        this.sourceFileName = sourceFileName;
         this.outputBufferSize = outputBufferSize;
         this.methodName = methodName;
         this.argument = argument;
@@ -27,7 +27,7 @@ public class GeneratorConfigurationElement implements Runnable {
 
     @Override
     public void run() {
-        SourceGenerator generator = new SourceGenerator(sourcefileName, outputBufferSize);
+        SourceGenerator generator = new SourceGenerator(sourceFileName, outputBufferSize);
         try {
             Method method = SourceGenerator.class.getMethod(methodName, int.class);
             method.invoke(generator, argument);
