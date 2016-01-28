@@ -5,15 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by Witold on 2015-12-20.
  */
 
-public class DebugConfigurationElement implements Runnable {
+public class DebugConfigurationElement implements Runnable, SourceFileOwner {
 
     private final static String tempName = "_temp";
     private final static Logger log = LogManager.getLogger("algorithms");
@@ -105,6 +104,7 @@ public class DebugConfigurationElement implements Runnable {
         return sourceFileName;
     }
 
+    @Override
     public void setSourceFileName(String sourceFileName) {
         this.sourceFileName = sourceFileName;
     }
@@ -159,15 +159,14 @@ public class DebugConfigurationElement implements Runnable {
 
     @Override
     public String toString() {
-        Pattern pattern = Pattern.compile("[A-Z_]($[A-Z_]|[\\w_])*");
-        Matcher matcher = pattern.matcher(className);
-        String name = " ";
-        if (matcher.find())
-            name = matcher.group(0);
-        return "[ " + name + " ]:" +
-                " inBuffer=" + inputBufferSize +
-                ", outBuffer=" + outputBufferSize +
-                ", methodParameters=" + Arrays.toString(sortMethodParameters) +
-                ", resultFileName='" + resultFileName + '\'';
+        Path result = Paths.get(resultFileName);
+        StringBuilder builder = new StringBuilder(20);
+        builder.append("[D] ").append(className).append(".").append(methodName)
+                .append(" wynik=").append(result.getFileName())
+                .append(" inBuf=").append(inputBufferSize)
+                .append(" outBuf=").append(outputBufferSize);
+        if (sortMethodParameters != null)
+            builder.append(" parametr=").append(sortMethodParameters[0]);
+        return builder.toString();
     }
 }

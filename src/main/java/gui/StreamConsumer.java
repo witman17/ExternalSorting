@@ -47,10 +47,8 @@ public class StreamConsumer {
                     if (matcher.find())
                         builder.append(matcher.group());
                     matcher.usePattern(startPattern);
+                    builder.append("\n");
                     if (matcher.find()) {
-                        builder.append(" - ");
-                        builder.append(matcher.group(0));
-                        builder.append("\n");
                         secondaryTextArea.append(builder.toString());
                         iterationNumber++;
                     } else {
@@ -58,7 +56,6 @@ public class StreamConsumer {
                         if (matcher.find()) {
                             JProgressBar bar = parent.getProgressBar();
                             bar.setValue(bar.getValue() + 1);
-
                         }
                     }
                     secondaryTextArea.append(s);

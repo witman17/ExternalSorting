@@ -6,6 +6,7 @@ import org.knowm.xchart.ChartBuilder;
 import org.knowm.xchart.StyleManager;
 import org.openjdk.jmh.results.Result;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ChartUtil {
             if (maxValue < val)
                 maxValue = val;
         }
-        Chart chart = new ChartBuilder().width(600).height(400).title("Wykres").theme(StyleManager.ChartTheme.XChart).build();
+        Chart chart = new ChartBuilder().width(600).height(400).title("Wynik Testu").theme(StyleManager.ChartTheme.XChart).build();
         setChartStyle(chart.getStyleManager());
         chart.addSeries("Test", benchNames, rawData, stdData);
         chart.setYAxisTitle("(ms)");
@@ -37,8 +38,9 @@ public class ChartUtil {
 
     private static void setChartStyle(StyleManager manager) {
         manager.setChartType(StyleManager.ChartType.Bar);
-
-        manager.setLegendPosition(StyleManager.LegendPosition.OutsideE);
+        manager.setLegendVisible(false);
+        manager.setAxisTickLabelsFont(new Font("New Times Roman", Font.PLAIN, 9));
+//        manager.setLegendPosition(StyleManager.LegendPosition.OutsideE);
         manager.setYAxisTitleVisible(true);
         manager.setBarWidthPercentage(.90);
     }

@@ -11,14 +11,14 @@
             <ThresholdFilter level="DEBUG"/>
             <PatternLayout pattern="${NEW_PATTERN}"/>
         </Console>
-        <File name="InfoWriter"
-              fileName="info.log"
+        <File name="ErrorWriter"
+              fileName="error.log"
               append="false">
             <PatternLayout pattern="${PATTERN}"/>
-            <ThresholdFilter level="INFO"/>
+            <ThresholdFilter level="ERROR"/>
         </File>
         <Async name="Async">
-            <AppenderRef ref="InfoWriter"/>
+            <AppenderRef ref="ErrorWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Async>
     </Appenders>

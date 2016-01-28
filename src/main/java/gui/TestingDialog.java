@@ -62,6 +62,7 @@ public class TestingDialog extends JDialog {
     }
 
     private void polesInit() {
+        debugLogTextArea.append("Generowanie pliku źródłowego...\n");
         progressBar.setStringPainted(true);
         progressBar.setValue(progressBar.getMinimum());
         DefaultCaret dCaret = (DefaultCaret) debugLogTextArea.getCaret();

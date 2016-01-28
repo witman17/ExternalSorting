@@ -66,7 +66,7 @@ public final class ConfigurationManager extends Observable {
                 String name = el.className;
                 if (name.equals(MergeSortBenchmark.class.getSimpleName())) {
                     names.add(name + " (4-Pliki)");
-                    names.add(name + " (N-Plików");
+                    names.add(name + " (N-Plików)");
                 } else
                     names.add(name);
             }
