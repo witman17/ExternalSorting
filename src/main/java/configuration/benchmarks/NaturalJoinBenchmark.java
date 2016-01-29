@@ -1,6 +1,6 @@
 package configuration.benchmarks;
 
-import algorithms.naturaljoin.NaturalJoinSort;
+import algorithms.naturaljoin.NaturalJoinSorter;
 import configuration.TemporaryFileBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,12 +29,12 @@ public class NaturalJoinBenchmark {
     @Param("32768")
     protected int outputBufferSize;
 
-    private NaturalJoinSort sorter;
+    private NaturalJoinSorter sorter;
 
 
     @Setup
     public void setup() {
-        sorter = new NaturalJoinSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
+        sorter = new NaturalJoinSorter(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
         log.info(startMessage);
     }
@@ -44,7 +44,7 @@ public class NaturalJoinBenchmark {
         try {
             sorter.sort();
         } catch (IOException e) {
-            log.error(e);
+            log.error(NaturalJoinSorter.class.getSimpleName(), e);
         }
     }
 

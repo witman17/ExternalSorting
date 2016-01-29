@@ -1,6 +1,6 @@
 package configuration.benchmarks;
 
-import algorithms.simplejoin.SimpleJoinSort;
+import algorithms.simplejoin.SimpleJoinSorter;
 import configuration.TemporaryFileBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,12 +30,12 @@ public class SimpleJoinBenchmark {
     @Param("32768")
     protected int outputBufferSize;
 
-    private SimpleJoinSort sorter;
+    private SimpleJoinSorter sorter;
 
 
     @Setup
     public void setup() {
-        sorter = new SimpleJoinSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
+        sorter = new SimpleJoinSorter(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
         log.info(startMessage);
     }
@@ -45,7 +45,7 @@ public class SimpleJoinBenchmark {
         try {
             sorter.sort();
         } catch (IOException e) {
-            log.error(e);
+            log.error(SimpleJoinSorter.class.getSimpleName(), e);
         }
     }
 

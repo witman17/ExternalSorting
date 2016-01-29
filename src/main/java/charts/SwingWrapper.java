@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class SwingWrapper {
 
-    private String windowTitle = "XChart";
+    private String windowTitle = "Wynik(i) Konfiguracji Testowej";
 
     private List<Chart> charts = new ArrayList<Chart>();
     private int numRows;

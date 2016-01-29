@@ -1,6 +1,6 @@
 package configuration.benchmarks;
 
-import algorithms.polyphasesort.PolyphaseSort;
+import algorithms.polyphasesort.PolyphaseSorter;
 import configuration.TemporaryFileBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,12 +31,12 @@ public class PolyphaseSortBenchmark {
     @Param("32768")
     protected int sortMethodParameter;
 
-    private PolyphaseSort sorter;
+    private PolyphaseSorter sorter;
 
 
     @Setup
     public void setup() {
-        sorter = new PolyphaseSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
+        sorter = new PolyphaseSorter(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
         log.info(startMessage);
     }
@@ -46,7 +46,7 @@ public class PolyphaseSortBenchmark {
         try {
             sorter.sort(sortMethodParameter);
         } catch (IOException e) {
-            log.error(e);
+            log.error(PolyphaseSorter.class.getSimpleName(), e);
         }
     }
 

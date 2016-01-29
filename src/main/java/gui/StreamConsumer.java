@@ -2,6 +2,8 @@ package gui;
 
 
 import javax.swing.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,11 +15,12 @@ public class StreamConsumer {
     protected JTextArea secondaryTextArea;
     protected TestingDialog parent;
     private int iterationNumber;
+    private HashSet<String> errors;
 
     public StreamConsumer(JTextArea primaryTextArea) {
         this.primaryTextArea = primaryTextArea;
         secondaryTextArea = null;
-        parent = null;
+        errors = new HashSet<>();
         iterationNumber = 1;
     }
 
@@ -25,6 +28,7 @@ public class StreamConsumer {
         this.primaryTextArea = primaryTextArea;
         this.secondaryTextArea = secondaryTextArea;
         this.parent = parent;
+        errors = new HashSet<>();
         iterationNumber = 1;
     }
 
@@ -33,7 +37,8 @@ public class StreamConsumer {
         if (secondaryTextArea != null) {
             Pattern patternBenchmark = Pattern.compile("(INFO)[\\w\\n,.\\-_:\\s]*(Benchmark)+[\\w\\n,.\\-_:\\s]*");
             Pattern basicPattern = Pattern.compile("(INFO)[\\w\\n,.\\-_:\\s]*");
-            Pattern sortClassPattern = Pattern.compile("(\\w)*Sort");
+            Pattern errorPattern = Pattern.compile("(ERROR)[\\w\\n,.\\-_:\\s]*");
+            Pattern sortClassPattern = Pattern.compile("(\\w)*Sorter");
             Pattern startPattern = Pattern.compile("START");
             Pattern endPattern = Pattern.compile("END");
             Matcher matcher = basicPattern.matcher(s);
@@ -47,8 +52,8 @@ public class StreamConsumer {
                     if (matcher.find())
                         builder.append(matcher.group());
                     matcher.usePattern(startPattern);
-                    builder.append("\n");
                     if (matcher.find()) {
+                        builder.append("\n");
                         secondaryTextArea.append(builder.toString());
                         iterationNumber++;
                     } else {
@@ -60,7 +65,20 @@ public class StreamConsumer {
                     }
                     secondaryTextArea.append(s);
                 }
+            } else {
+                matcher.usePattern(errorPattern);
+                if (matcher.matches()) {
+                    matcher.usePattern(sortClassPattern);
+                    matcher.matches();
+                    if (matcher.find()) {
+                        errors.add(matcher.group());
+                    }
+                }
             }
         }
+    }
+
+    public Set<String> getErrors() {
+        return errors;
     }
 }

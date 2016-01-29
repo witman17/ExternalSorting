@@ -1,9 +1,9 @@
 package gui;
 
-import algorithms.megresort.MergeSort;
-import algorithms.naturaljoin.NaturalJoinSort;
-import algorithms.polyphasesort.PolyphaseSort;
-import algorithms.simplejoin.SimpleJoinSort;
+import algorithms.megresort.MergeSorter;
+import algorithms.naturaljoin.NaturalJoinSorter;
+import algorithms.polyphasesort.PolyphaseSorter;
+import algorithms.simplejoin.SimpleJoinSorter;
 import configuration.BenchmarkConfigurationElement;
 import configuration.DebugConfigurationElement;
 import configuration.benchmarks.MergeSortBenchmark;
@@ -209,7 +209,7 @@ public class TestConfigDialog extends JDialog {
     }
 
     private String getVariantType(String className) {
-        if (className.compareTo(MergeSort.class.getName()) == 0) {
+        if (className.compareTo(MergeSorter.class.getName()) == 0) {
             switch (variantComboBox.getSelectedIndex()) {
                 case 0:
                     return "twoWayMergeSortFourFiles";
@@ -228,15 +228,15 @@ public class TestConfigDialog extends JDialog {
     private String getDebugClassName() {
         switch (algorithmComboBox.getSelectedIndex()) {
             case 0:
-                return SimpleJoinSort.class.getName();
+                return SimpleJoinSorter.class.getName();
             case 1:
-                return NaturalJoinSort.class.getName();
+                return NaturalJoinSorter.class.getName();
             case 2:
-                return MergeSort.class.getName();
+                return MergeSorter.class.getName();
             case 3:
-                return PolyphaseSort.class.getName();
+                return PolyphaseSorter.class.getName();
             default:
-                return SimpleJoinSort.class.getName();
+                return SimpleJoinSorter.class.getName();
         }
     }
 

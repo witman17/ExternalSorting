@@ -1,6 +1,6 @@
 package configuration.benchmarks;
 
-import algorithms.megresort.MergeSort;
+import algorithms.megresort.MergeSorter;
 import configuration.TemporaryFileBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,12 +31,12 @@ public class MergeSortBenchmark {
     @Param("32768")
     protected int sortMethodParameter;
 
-    private MergeSort sorter;
+    private MergeSorter sorter;
 
 
     @Setup
     public void setup() {
-        sorter = new MergeSort(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
+        sorter = new MergeSorter(sourceFileName, resultFileName, TemporaryFileBuilder.build(resultFileName, "tempA.txt"),
                 TemporaryFileBuilder.build(resultFileName, "tempB.txt"), inputBufferSize, outputBufferSize);
         log.info(startMessage);
     }
@@ -51,7 +51,8 @@ public class MergeSortBenchmark {
         try {
             sorter.twoWayMergeSortNFiles(sortMethodParameter);
         } catch (IOException e) {
-            log.error(e);
+            log.error(MergeSorter.class.getSimpleName(), e);
+
         }
     }
 
@@ -60,7 +61,7 @@ public class MergeSortBenchmark {
         try {
             sorter.twoWayMergeSortFourFiles(sortMethodParameter);
         } catch (IOException e) {
-            log.error(e);
+            log.error(MergeSorter.class.getSimpleName(), e);
         }
 
     }

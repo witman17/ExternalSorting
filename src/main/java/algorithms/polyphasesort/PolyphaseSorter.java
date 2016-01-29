@@ -11,20 +11,20 @@ import java.nio.file.StandardCopyOption;
 /**
  * Created by Witold on 2015-11-02.
  */
-public class PolyphaseSort extends Sorter {
-    private final static String startMessage = PolyphaseSort.class.getSimpleName() + " - START";
-    private final static String endMessage = PolyphaseSort.class.getSimpleName() + " - END";
+public class PolyphaseSorter extends Sorter {
+    private final static String startMessage = PolyphaseSorter.class.getSimpleName() + " - START";
+    private final static String endMessage = PolyphaseSorter.class.getSimpleName() + " - END";
     protected PolyphaseSplitter splitter;
     protected String output;
 
 
-    public PolyphaseSort(String source, String sortedFile, String tempA, String tempB) {
+    public PolyphaseSorter(String source, String sortedFile, String tempA, String tempB) {
         super();
         splitter = new PolyphaseSplitter(source, tempA, tempB);
         output = sortedFile;
     }
 
-    public PolyphaseSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+    public PolyphaseSorter(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
         super(inputBufferSize, outputBufferSize);
         splitter = new PolyphaseSplitter(source, tempA, tempB);
         output = sortedFile;

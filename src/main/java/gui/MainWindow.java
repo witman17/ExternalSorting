@@ -54,7 +54,7 @@ public class MainWindow extends JFrame implements Observer {
     public MainWindow(String title) {
         super(title);
         this.manager = ConfigurationManager.getInstance();
-        manager.addObserver(this);
+//        manager.addObserver(this);
         setContentPane(rootPanel);
         polesInit();
         pack();
@@ -117,8 +117,8 @@ public class MainWindow extends JFrame implements Observer {
                     String methodName = getMethodName();
                     manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
                             outputFileSize));
-                    testingDialog = new TestingDialog(myself, manager.getIterationsNumber());
                     manager.runConfiguration();
+                    testingDialog = new TestingDialog(myself, manager.getIterationsNumber());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPanel.getParent().getComponent(0), ex.getMessage(),
                             ex.getMessage(), JOptionPane.WARNING_MESSAGE);
@@ -145,13 +145,11 @@ public class MainWindow extends JFrame implements Observer {
     public void showResults() {
         List<String> benchNames = manager.getBenchmarksNames();
         List<Result> results = null;
+        testingDialog = null;
         try {
             results = manager.getResults();
             chartWrapper = new SwingWrapper(ChartUtil.getBarChart(benchNames, results));
-            testingDialog.close();
             chartWrapper.displayChart();
-
-
         } catch (InterruptedException e) {
             JOptionPane.showMessageDialog(myself, e, "Problem", JOptionPane.ERROR_MESSAGE);
         }

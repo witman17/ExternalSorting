@@ -13,7 +13,7 @@
 
     <groupId>pl.edu.wat.student.bokun.witold</groupId>
     <artifactId>ExternalSorting</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>

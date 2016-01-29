@@ -12,23 +12,23 @@ import java.util.LinkedList;
  * Created by Witold on 2015-10-31.
  *
  */
-public class MergeSort extends Sorter {
-    private final static String startTwoWayNMessage = MergeSort.class.getSimpleName() + " - START - Two Way N Files";
-    private final static String startTwoWay4Message = MergeSort.class.getSimpleName() + " - START - Two Way 4 Files";
-    private final static String endTwoWayNMessage = MergeSort.class.getSimpleName() + " - END - Two Way N Files";
-    private final static String endTwoWay4Message = MergeSort.class.getSimpleName() + " - END - Two Way 4 Files";
+public class MergeSorter extends Sorter {
+    private final static String startTwoWayNMessage = MergeSorter.class.getSimpleName() + " - START - Two Way N Files";
+    private final static String startTwoWay4Message = MergeSorter.class.getSimpleName() + " - START - Two Way 4 Files";
+    private final static String endTwoWayNMessage = MergeSorter.class.getSimpleName() + " - END - Two Way N Files";
+    private final static String endTwoWay4Message = MergeSorter.class.getSimpleName() + " - END - Two Way 4 Files";
     protected MergeSortSplitter splitter;
     protected String tempA;
     protected String outputFile;
 
-    public MergeSort(String inputFile, String outputFile, String tempA, String tempB) {
+    public MergeSorter(String inputFile, String outputFile, String tempA, String tempB) {
         super();
         splitter = new MergeSortSplitter(inputFile, tempA, tempB);
         this.tempA = tempA;
         this.outputFile = outputFile;
     }
 
-    public MergeSort(String inputFile, String outputFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+    public MergeSorter(String inputFile, String outputFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
         super(inputBufferSize, outputBufferSize);
         splitter = new MergeSortSplitter(inputFile, tempA, tempB, inputBufferSize, outputBufferSize);
         this.tempA = tempA;

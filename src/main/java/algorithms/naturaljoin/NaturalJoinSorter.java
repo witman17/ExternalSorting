@@ -1,24 +1,24 @@
 package algorithms.naturaljoin;
 
-import algorithms.simplejoin.SimpleJoinSort;
+import algorithms.simplejoin.SimpleJoinSorter;
 
 import java.io.IOException;
 
 /**
  * Created by Witold on 2015-10-21.
  */
-public class NaturalJoinSort extends SimpleJoinSort {
-    private final static String startMessage = NaturalJoinSort.class.getSimpleName() + " - START";
-    private final static String endMessage = NaturalJoinSort.class.getSimpleName() + " - END";
+public class NaturalJoinSorter extends SimpleJoinSorter {
+    private final static String startMessage = NaturalJoinSorter.class.getSimpleName() + " - START";
+    private final static String endMessage = NaturalJoinSorter.class.getSimpleName() + " - END";
 
-    public NaturalJoinSort(String source, String sortedFile, String tempA, String tempB) {
+    public NaturalJoinSorter(String source, String sortedFile, String tempA, String tempB) {
         super();
         this.source = source;
         splitter = new NaturalSplitter(source, tempA, tempB);
         combiner = new NaturalCombiner(tempA, tempB, sortedFile);
     }
 
-    public NaturalJoinSort(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
+    public NaturalJoinSorter(String source, String sortedFile, String tempA, String tempB, int inputBufferSize, int outputBufferSize) {
         super();
         this.source = source;
         splitter = new NaturalSplitter(source, tempA, tempB, inputBufferSize, outputBufferSize);
