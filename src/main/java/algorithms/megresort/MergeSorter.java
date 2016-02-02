@@ -67,7 +67,7 @@ public class MergeSorter extends Sorter {
                 fileNames[1] = fileNames[3];
                 fileNames[2] = combiner.getInputs().get(0);
                 fileNames[3] = combiner.getInputs().get(1);
-                combiner = new MergeSortCombiner(fileNames[2], fileNames[0], fileNames[1]);
+                combiner = new MergeSortCombiner(fileNames[2], fileNames[0], fileNames[1], inputBufferSize, outputBufferSize);
             }
             String[] junk = {fileNames[3], fileNames[0], fileNames[1] };
             clean(fileNames[2], junk);

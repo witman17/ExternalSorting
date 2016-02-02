@@ -13,7 +13,7 @@
 
     <groupId>pl.edu.wat.student.bokun.witold</groupId>
     <artifactId>ExternalSorting</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -62,7 +62,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <version>2.7</version>
                 <configuration>
                     <aggregate>true</aggregate>
                     <show>private</show>
@@ -73,10 +73,13 @@
                         <version>5.1</version>
                     </docletArtifact>
                     <additionalparam>
-                        -inferrel -attributes -types -visibility -inferdep -quiet -hide java.* -collpackages java.util.*
+                        -inferrel -attributes -operations -inferreltype
+                        -useimports
+                        -types -visibility -inferdep -hide java.* -collpackages java.util.*
                         -qualify -postfixpackage
                         -nodefontsize 9
                         -nodefontpackagesize 7
+                        -outputencoding UTF-8
                     </additionalparam>
                 </configuration>
             </plugin>

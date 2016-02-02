@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
  * Created by Witold on 2015-12-20.
  */
 public class TestConfigDialog extends JDialog {
-
+    private final boolean DEBUG = true;
 
     private final String mergeSortName = "Sortowanie przez scalanie";
     private final String simpleJoinSortName = "Sortowanie przez lączenie proste";
@@ -60,6 +60,7 @@ public class TestConfigDialog extends JDialog {
 
     public TestConfigDialog(String title, MainWindow mainWindow) {
         setTitle(title);
+        debugModeCheckBox.setVisible(DEBUG);
         this.mainWindow = mainWindow;
         setModal(true);
         setContentPane(rootPanel);

@@ -38,6 +38,7 @@ public class SimpleJoinSorter extends Sorter {
 
     }
 
+    @Override
     public void sort() throws IOException {
         log.info(startMessage);
         int blockSize = 1;

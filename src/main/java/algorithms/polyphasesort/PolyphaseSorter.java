@@ -49,8 +49,7 @@ public class PolyphaseSorter extends Sorter {
                 if (!Fibonacci.isFibonacci(seriesNumberB))
                     seriesNumberB += fakeSeriesNumber;
             }
-
-            // ��czenie serii
+            // łączenie serii
             PolyphaseCombiner combiner = new PolyphaseCombiner(splitter.getOutputA(), splitter.getOutputB(),
                     output, seriesNumberA, seriesNumberB);
             combiner.combine();

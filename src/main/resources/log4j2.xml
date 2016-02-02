@@ -11,14 +11,7 @@
             <ThresholdFilter level="DEBUG"/>
             <PatternLayout pattern="${NEW_PATTERN}"/>
         </Console>
-        <File name="ErrorWriter"
-              fileName="error.log"
-              append="false">
-            <PatternLayout pattern="${PATTERN}"/>
-            <ThresholdFilter level="ERROR"/>
-        </File>
         <Async name="Async">
-            <AppenderRef ref="ErrorWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Async>
     </Appenders>
