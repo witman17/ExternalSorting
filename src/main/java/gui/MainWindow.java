@@ -103,7 +103,7 @@ public class MainWindow extends JFrame implements Observer {
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                sliderSizeLabel.setText("Rozmiar pliku: " + slider.getValue() + "(MB)");
+                sliderSizeLabel.setText("Długość wektora liczb: " + String.format("%,d", slider.getValue()));
             }
         });
         startButton.addActionListener(new ActionListener() {
@@ -112,8 +112,8 @@ public class MainWindow extends JFrame implements Observer {
                 try {
                     dataCheck();
                     String sourceFileName = sourceFileTextField.getText();
-                    int outputFileSize = slider.getValue() * 1000 * 1024;
-                    int outputBufferSize = outputFileSize / 10;
+                    int outputFileSize = slider.getValue();
+                    int outputBufferSize = (outputFileSize / 1000);
                     String methodName = getMethodName();
                     manager.setGeneratorConfigurationElement(new GeneratorConfigurationElement(sourceFileName, outputBufferSize, methodName,
                             outputFileSize));
@@ -179,12 +179,12 @@ public class MainWindow extends JFrame implements Observer {
         distributionComboBox.addItem(new String("normalny"));
         listModel = new DefaultListModel<>();
         listModel.addElement("Dodaj algorytmy.");
-        slider.setMajorTickSpacing(100);
-        slider.setMinorTickSpacing(25);
+        slider.setMajorTickSpacing(100000);
+        slider.setMinorTickSpacing(10000);
         jlist.setModel(listModel);
         Dictionary table = slider.getLabelTable();
-        for (int i = 50; i < 1000; i += 25) {
-            if (!(i % 200 == 0))
+        for (int i = 40000; i < 10000000; i += 10000) {
+            if (!(i % 10000 == 0))
                 table.remove(i);
         }
         slider.setLabelTable(table);

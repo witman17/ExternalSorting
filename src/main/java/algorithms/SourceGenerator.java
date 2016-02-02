@@ -28,30 +28,26 @@ public class SourceGenerator {
 
     }
 
-    public void generateUniform(int bytesNumber) throws IOException {
+    public void generateUniform(int vectorSize) throws IOException {
         log.info(SourceGenerator.class.toString() + " START");
         init();
         Random random = new Random();
-        int currentBytesNumber = 0;
-        while (currentBytesNumber < bytesNumber) {
+        for (int i = vectorSize; i > 0; i--) {
             Integer number = random.nextInt();
             writeInt(number);
-            currentBytesNumber += number.toString().length() + 2;
         }
         close();
         log.info(SourceGenerator.class.toString() + " END");
     }
 
-    public void generateNormal(int bytesNumber) throws IOException {
+    public void generateNormal(int vectorSize) throws IOException {
         log.info(SourceGenerator.class.toString() + " START");
         init();
         Random random = new Random();
-        int currentBytesNumber = 0;
-        while (currentBytesNumber < bytesNumber) {
+        for (int i = vectorSize; i > 0; i--) {
             double d = random.nextGaussian();
             Integer number = (int) Math.round(d * 7000000.0);
             writeInt(number);
-            currentBytesNumber += number.toString().length() + 2;
         }
         close();
         log.info(SourceGenerator.class.toString() + " END");

@@ -199,20 +199,20 @@
                         </constraints>
                         <properties>
                           <doubleBuffered value="false"/>
-                          <inheritsPopupMenu value="false"/>
+                          <inheritsPopupMenu value="true"/>
                           <inverted value="false"/>
-                          <majorTickSpacing value="25"/>
-                          <maximum value="1000"/>
-                          <minimum value="25"/>
+                          <majorTickSpacing value="100000"/>
+                          <maximum value="10000000"/>
+                          <minimum value="100000"/>
                           <minimumSize width="200" height="45"/>
                           <opaque value="false"/>
-                          <paintLabels value="true"/>
-                          <paintTicks value="true"/>
+                          <paintLabels value="false"/>
+                          <paintTicks value="false"/>
                           <paintTrack value="true"/>
                           <preferredSize width="250" height="25"/>
                           <requestFocusEnabled value="false"/>
                           <snapToTicks value="true"/>
-                          <value value="100"/>
+                          <value value="100000"/>
                           <valueIsAdjusting value="false"/>
                         </properties>
                       </component>
@@ -256,7 +256,7 @@
                           <forms defaultalign-horz="false"/>
                         </constraints>
                         <properties>
-                          <text value="Rozmiar pliku: 100 (MB)"/>
+                          <text value="Długość wektora liczb: 100 000"/>
                         </properties>
                       </component>
                     </children>
