@@ -86,28 +86,10 @@ public class TestConfigDialog extends JDialog {
                     int outputBufferSize = (Integer) outputBufferSizeSpinner.getValue() * 1024;
                     int algorithmParameter = 0;
                     if (memorySpinner.isEnabled()) {
-                        algorithmParameter = (Integer) memorySpinner.getValue() * 1000 * 1024 / 4;
-                    }
-                    String className;
-                    switch (algorithmComboBox.getSelectedIndex()) {
-                        case 0:
-                            className = SimpleJoinBenchmark.class.getSimpleName();
-                            break;
-                        case 1:
-                            className = NaturalJoinBenchmark.class.getSimpleName();
-                            break;
-                        case 2:
-                            className = MergeSortBenchmark.class.getSimpleName();
-                            break;
-                        case 3:
-                            className = PolyphaseSortBenchmark.class.getSimpleName();
-                            break;
-                        default:
-                            className = SimpleJoinBenchmark.class.getSimpleName();
-                            break;
+                        algorithmParameter = (Integer) memorySpinner.getValue();
                     }
                     if (debugModeCheckBox.isSelected()) {
-                        className = getDebugClassName();
+                        String className = getDebugClassName();
                         String methodName = getVariantType(className);
                         int[] algorithmParameters = null;
                         if (algorithmParameter != 0) {
@@ -118,6 +100,7 @@ public class TestConfigDialog extends JDialog {
                                 resultFile, inputBufferSize, outputBufferSize, className, methodName, algorithmParameters);
                         mainWindow.addConfigurationElement(element);
                     } else {
+                        String className = getBenchmarkClassName();
                         int warmUp = (Integer) warmUpSpinner.getValue();
                         int measure = (Integer) iterationsSpinner.getValue();
                         BenchmarkConfigurationElement element = new BenchmarkConfigurationElement(className, mainWindow.getSourceFileTextField().getText(),
@@ -196,7 +179,7 @@ public class TestConfigDialog extends JDialog {
         warmUpSpinner.setPreferredSize(spinnerDim);
         inputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
         outputBufferSizeSpinner.setModel(new SpinnerNumberModel(8, 8, Integer.MAX_VALUE / 1024, 1));
-        memorySpinner.setModel(new SpinnerNumberModel(1, 1, 1000, 1));
+        memorySpinner.setModel(new SpinnerNumberModel(10000, 10000, 10000000, 10000));
         warmUpSpinner.setModel(new SpinnerNumberModel(3, 0, 200, 1));
         iterationsSpinner.setModel(new SpinnerNumberModel(5, 1, 200, 1));
         memorySpinner.setEnabled(false);
@@ -239,6 +222,23 @@ public class TestConfigDialog extends JDialog {
             default:
                 return SimpleJoinSorter.class.getName();
         }
+    }
+
+    private String getBenchmarkClassName() {
+        switch (algorithmComboBox.getSelectedIndex()) {
+            case 0:
+                return SimpleJoinBenchmark.class.getSimpleName();
+            case 1:
+                return NaturalJoinBenchmark.class.getSimpleName();
+            case 2:
+                return MergeSortBenchmark.class.getSimpleName();
+            case 3:
+                return PolyphaseSortBenchmark.class.getSimpleName();
+            default:
+                return SimpleJoinBenchmark.class.getSimpleName();
+        }
+
+
     }
 
 

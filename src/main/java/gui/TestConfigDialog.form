@@ -11,7 +11,7 @@
     <properties>
       <minimumSize width="600" height="301"/>
       <opaque value="true"/>
-      <preferredSize width="600" height="301"/>
+      <preferredSize width="600" height="400"/>
       <requestFocusEnabled value="false"/>
       <verifyInputWhenFocusTarget value="true"/>
     </properties>
@@ -38,7 +38,7 @@
         </constraints>
         <properties>
           <opaque value="true"/>
-          <preferredSize width="600" height="330"/>
+          <preferredSize width="600" height="400"/>
           <requestFocusEnabled value="false"/>
         </properties>
         <border type="none"/>
@@ -94,7 +94,9 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <preferredSize width="430" height="77"/>
+            </properties>
             <border type="none"/>
             <children>
               <grid id="9a4cc" binding="algorithm" layout-manager="FormLayout">
@@ -108,7 +110,10 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                   <forms defaultalign-horz="false" defaultalign-vert="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <minimumSize width="400" height="26"/>
+                  <preferredSize width="430" height="26"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="1a779" class="javax.swing.JComboBox" binding="algorithmComboBox">
@@ -150,7 +155,7 @@
                   <forms defaultalign-horz="false" defaultalign-vert="false"/>
                 </constraints>
                 <properties>
-                  <visible value="true"/>
+                  <visible value="false"/>
                 </properties>
                 <border type="none"/>
                 <children>
@@ -186,7 +191,7 @@
             </constraints>
             <properties>
               <minimumSize width="400" height="59"/>
-              <preferredSize width="400" height="59"/>
+              <preferredSize width="420" height="59"/>
             </properties>
             <border type="none"/>
             <children>
@@ -196,21 +201,23 @@
                 <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:d:grow"/>
                 <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:d:grow"/>
+                <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:max(d;4px):noGrow"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <forms/>
+                  <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
                   <minimumSize width="400" height="26"/>
-                  <preferredSize width="400" height="26"/>
+                  <preferredSize width="430" height="26"/>
                 </properties>
                 <border type="none"/>
                 <children>
                   <component id="e72f8" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <forms/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
                     </constraints>
                     <properties>
                       <text value="Rozmiar bufora wejściowego: "/>
@@ -218,20 +225,26 @@
                   </component>
                   <component id="1b821" class="javax.swing.JSpinner" binding="inputBufferSizeSpinner">
                     <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
                     </constraints>
                     <properties/>
                   </component>
                   <component id="c76aa" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <forms/>
+                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
                     </constraints>
                     <properties>
                       <text value="kB"/>
                     </properties>
                   </component>
+                  <hspacer id="4624e">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
               <grid id="1cde8" binding="out" layout-manager="FormLayout">
@@ -240,13 +253,15 @@
                 <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:d:grow"/>
                 <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:d:grow"/>
+                <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:max(d;4px):noGrow"/>
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <forms/>
+                  <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties>
-                  <preferredSize width="400" height="26"/>
+                  <preferredSize width="430" height="26"/>
                 </properties>
                 <border type="none"/>
                 <children>
@@ -261,20 +276,38 @@
                   </component>
                   <component id="7bce6" class="javax.swing.JSpinner" binding="outputBufferSizeSpinner">
                     <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="7abcc" class="javax.swing.JLabel">
+                  <hspacer id="c5b3c">
                     <constraints>
-                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                  </hspacer>
+                  <grid id="f9ffe" layout-manager="FormLayout">
+                    <rowspec value="center:d:noGrow"/>
+                    <colspec value="fill:d:noGrow"/>
+                    <constraints>
+                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
-                    <properties>
-                      <text value="kB"/>
-                    </properties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="7abcc" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                          <forms defaultalign-horz="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="kB"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
             </children>
@@ -286,13 +319,13 @@
             <colspec value="fill:d:grow"/>
             <colspec value="left:4dlu:noGrow"/>
             <colspec value="fill:d:grow"/>
-            <colspec value="left:4dlu:noGrow"/>
-            <colspec value="fill:max(d;4px):noGrow"/>
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <preferredSize width="400" height="26"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="7b475" class="javax.swing.JLabel">
@@ -301,7 +334,7 @@
                   <forms/>
                 </constraints>
                 <properties>
-                  <text value="Dostępna pamięć w czasie sortowania: "/>
+                  <text value="Dostępna wielkość wektora wewnętrznego: "/>
                 </properties>
               </component>
               <component id="25b36" class="javax.swing.JSpinner" binding="memorySpinner">
@@ -310,15 +343,6 @@
                   <forms defaultalign-horz="false"/>
                 </constraints>
                 <properties/>
-              </component>
-              <component id="a5c5a" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <forms/>
-                </constraints>
-                <properties>
-                  <text value="MB"/>
-                </properties>
               </component>
               <hspacer id="479dd">
                 <constraints>
@@ -339,7 +363,9 @@
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <preferredSize width="400" height="32"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="3d7d" class="javax.swing.JTextField" binding="sourceFileTextField" default-binding="true">
@@ -388,6 +414,7 @@
               <forms defaultalign-horz="false"/>
             </constraints>
             <properties>
+              <preferredSize width="400" height="59"/>
               <visible value="true"/>
             </properties>
             <border type="none"/>
@@ -395,6 +422,8 @@
               <grid id="64ec3" binding="WarmUp" layout-manager="FormLayout">
                 <rowspec value="center:d:noGrow"/>
                 <colspec value="fill:d:noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:d:grow"/>
                 <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:d:grow"/>
                 <constraints>
@@ -415,16 +444,26 @@
                   </component>
                   <component id="47803" class="javax.swing.JSpinner" binding="warmUpSpinner">
                     <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <maximumSize width="60" height="32767"/>
+                    </properties>
                   </component>
+                  <hspacer id="ce22e">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
               <grid id="d64c5" binding="It" layout-manager="FormLayout">
                 <rowspec value="center:d:noGrow"/>
                 <colspec value="fill:d:noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:d:grow"/>
                 <colspec value="left:4dlu:noGrow"/>
                 <colspec value="fill:d:grow"/>
                 <constraints>
@@ -445,11 +484,19 @@
                   </component>
                   <component id="3a2e8" class="javax.swing.JSpinner" binding="iterationsSpinner">
                     <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <maximumSize width="60" height="32767"/>
+                    </properties>
                   </component>
+                  <hspacer id="de0e9">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
             </children>
